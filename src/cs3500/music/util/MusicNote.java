@@ -20,7 +20,7 @@ public class MusicNote {
      * @param sharp if the note is sharp
      * @param flat if the note is flat
      */
-    MusicNote(Notes note, int startBeat, int beats, int octave, boolean sharp, boolean flat) {
+    public MusicNote(Notes note, int startBeat, int beats, int octave, boolean sharp, boolean flat) {
         this.note = note;
         if (startBeat < 0) {
             throw new IllegalArgumentException("startBeat must be >= 0.");

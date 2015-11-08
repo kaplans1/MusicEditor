@@ -48,7 +48,7 @@ public class MusicPiece {
         //this.notes = new ArrayList<MusicNote>();
     }
 
-    MusicPiece() {
+    public MusicPiece() {
         this(4, 100); // default to 4 beats per measure
     }
 
