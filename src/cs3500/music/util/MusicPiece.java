@@ -3,7 +3,9 @@ package cs3500.music.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 
 /**
@@ -13,16 +15,18 @@ import java.util.TreeMap;
 public class MusicPiece {
     //ArrayList<MusicNote> notes;
 
-    ArrayList<Integer> pitchIds;
+    //ArrayList<Integer> pitchIds;
+    TreeSet<Integer> pitchIds;
     // mapping start time to length
     TreeMap<Integer, ArrayList<MusicNote>> notes;
     int beatsPerMeasure;
+    int tempo;
 
     /**
      * represents a piece of music with a collection of notes
      * @param beatsPerMeasure number of beats in a measure for this piece of music
      */
-    MusicPiece(int beatsPerMeasure) {
+    MusicPiece(int beatsPerMeasure, int tempo) {
 
         if (beatsPerMeasure > 0) {
             this.beatsPerMeasure = beatsPerMeasure;
@@ -30,11 +34,22 @@ public class MusicPiece {
             throw new IllegalArgumentException("beatsPerMeasure must be > 0.");
         }
 
-        this.notes = new ArrayList<MusicNote>();
+        if (tempo > 0) {
+            this.tempo = tempo;
+        } else {
+            throw new IllegalArgumentException("tempo must be > 0.");
+        }
+
+        //this.pitchIds = new ArrayList<>();
+        // TODO: add comparator to make this work better
+        this.pitchIds = new TreeSet<>();
+        this.notes = new TreeMap<>();
+
+        //this.notes = new ArrayList<MusicNote>();
     }
 
     MusicPiece() {
-        this(4); // default to 4 beats per measure
+        this(4, 100); // default to 4 beats per measure
     }
 
     /**
@@ -42,7 +57,15 @@ public class MusicPiece {
      * @param note note to be added to the music
      */
     public void addNote(MusicNote note) {
-        this.notes.add(note);
+        // usersByCountry.computeIfAbsent(user.getCountry(), v -> new ArrayList<>()).add(user);
+        ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
+        if (startNotes == null) {
+            startNotes = new ArrayList<>();
+        }
+        // TODO: deduplicate list of notes
+        startNotes.add(note);
+        this.pitchIds.add(note.getNumericNote());
+        this.notes.put(note.getStartBeat(), startNotes);
     }
 
     /**

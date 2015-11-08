@@ -63,6 +63,10 @@ public class MusicNote {
         return this.startBeat + this.beats - 1;
     }
 
+    public int getStartBeat() {
+        return this.startBeat;
+    }
+
     /**
      * gets the true number representing the note across scales octaves, handling sharps flats etc.
      * @return int value of the note from 0 to 256
