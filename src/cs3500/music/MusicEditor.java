@@ -8,7 +8,7 @@ import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
 
-public class MusicEditor
+public class MusicEditor {
 
   private MusicPiece musicPiece;
 

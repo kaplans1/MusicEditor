@@ -3,6 +3,7 @@ package cs3500.music.util;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.TreeMap;
 
 
 /**
@@ -10,7 +11,11 @@ import java.util.HashSet;
  */
 
 public class MusicPiece {
-    ArrayList<MusicNote> notes;
+    //ArrayList<MusicNote> notes;
+
+    ArrayList<Integer> pitchIds;
+    // mapping start time to length
+    TreeMap<Integer, ArrayList<MusicNote>> notes;
     int beatsPerMeasure;
 
     /**
