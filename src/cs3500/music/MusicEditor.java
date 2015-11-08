@@ -2,12 +2,16 @@ package cs3500.music;
 
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
+import cs3500.music.util.MusicPiece;
 
 import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
 
-public class MusicEditor {
+public class MusicEditor
+
+  private MusicPiece musicPiece;
+
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     GuiViewFrame view = new GuiViewFrame();
     MidiView midiView = new MidiViewImpl();
