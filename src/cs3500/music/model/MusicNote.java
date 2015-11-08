@@ -1,7 +1,5 @@
-package cs3500.music.util;
+package cs3500.music.model;
 
-
-import java.util.Comparator;
 
 public class MusicNote {
     Notes note;
@@ -10,6 +8,8 @@ public class MusicNote {
     int octave;
     boolean sharp;
     boolean flat;
+    int instrument;
+    int volume;
 
     /**
      * Represents a musical note in a piece of music
@@ -20,7 +20,8 @@ public class MusicNote {
      * @param sharp if the note is sharp
      * @param flat if the note is flat
      */
-    public MusicNote(Notes note, int startBeat, int beats, int octave, boolean sharp, boolean flat) {
+    public MusicNote(Notes note, int startBeat, int beats, int octave, boolean sharp, boolean flat,
+                     int instrument, int volume) {
         this.note = note;
         if (startBeat < 0) {
             throw new IllegalArgumentException("startBeat must be >= 0.");
@@ -32,6 +33,16 @@ public class MusicNote {
             throw new IllegalArgumentException("beats must be > 0.");
         }
         this.beats = beats;
+
+        if (instrument < 0) {
+            throw new IllegalArgumentException("instrument must be >= 0.");
+        }
+        this.instrument = instrument;
+
+        if (volume < 0 || volume >= 128) {
+            throw new IllegalArgumentException("volume must be between 0 and 127.");
+        }
+        this.volume = volume;
 
 
         if (octave < -1 || octave > 9) {

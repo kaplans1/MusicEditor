@@ -6,8 +6,8 @@ import javax.sound.midi.*;
  * A skeleton for MIDI playback
  */
 public class MidiViewImpl implements  ViewInterface  {
-  private final Synthesizer synth;
-  private final Receiver receiver;
+  private Synthesizer synth;
+  private Receiver receiver;
 
   public MidiViewImpl() {
     try {
@@ -55,5 +55,10 @@ public class MidiViewImpl implements  ViewInterface  {
     this.receiver.send(start, -1);
     this.receiver.send(stop, this.synth.getMicrosecondPosition() + 200000);
     this.receiver.close(); // Only call this once you're done playing *all* notes
+  }
+
+  @Override
+  public void initialize() {
+
   }
 }

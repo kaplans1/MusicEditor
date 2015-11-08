@@ -1,9 +1,8 @@
-package cs3500.music.util;
+package cs3500.music.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
@@ -48,6 +47,10 @@ public class MusicPiece {
         //this.notes = new ArrayList<MusicNote>();
     }
 
+    public ArrayList<MusicNote> getNotesStartingOnBeat(Integer beat) {
+        return this.notes.get(beat);
+    }
+
     public MusicPiece() {
         this(4, 100); // default to 4 beats per measure
     }
@@ -57,6 +60,10 @@ public class MusicPiece {
      * @param note note to be added to the music
      */
     public void addNote(MusicNote note) {
+
+        if (note.getNumericNote() > 127) {
+            throw new IllegalArgumentException("Note must have a lower pitch between 0 and 127");
+        }
         // usersByCountry.computeIfAbsent(user.getCountry(), v -> new ArrayList<>()).add(user);
         ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
         if (startNotes == null) {
@@ -68,10 +75,18 @@ public class MusicPiece {
         this.notes.put(note.getStartBeat(), startNotes);
     }
 
+    public void deleteNote(MusicNote note) {
+        ArrayList<MusicNote> startNotes = this.notes.get(note.startBeat);
+        if (startNotes != null) {
+            startNotes.remove(note);
+        }
+    }
+
     /**
      * renders the musical piece as text, also outputs the render it to the console
      * @return String representation of the musical piece
      */
+    /*
     public String render() {
         String header = "";
         String lines = "";
@@ -122,4 +137,5 @@ public class MusicPiece {
         System.out.print(header + lines);
         return header + lines;
     }
+    */
 }
