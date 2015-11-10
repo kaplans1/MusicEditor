@@ -11,7 +11,7 @@ import java.util.TreeSet;
  * Created by natdempk on 11/3/15.
  */
 
-public class MusicPiece {
+public class MusicPiece implements MusicPieceInterface {
     //ArrayList<MusicNote> notes;
 
     //ArrayList<Integer> pitchIds;
