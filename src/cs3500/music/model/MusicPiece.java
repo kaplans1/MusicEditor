@@ -12,80 +12,87 @@ import java.util.TreeSet;
  */
 
 public class MusicPiece implements MusicPieceInterface {
-    //ArrayList<MusicNote> notes;
+  //ArrayList<MusicNote> notes;
 
-    //ArrayList<Integer> pitchIds;
-    TreeSet<Integer> pitchIds;
-    // mapping start time to length
-    TreeMap<Integer, ArrayList<MusicNote>> notes;
-    int beatsPerMeasure;
-    int tempo;
+  //ArrayList<Integer> pitchIds;
+  TreeSet<Integer> pitchIds;
+  // mapping start time to length
+  TreeMap<Integer, ArrayList<MusicNote>> notes;
+  int beatsPerMeasure;
+  int tempo;
 
-    /**
-     * represents a piece of music with a collection of notes
-     * @param beatsPerMeasure number of beats in a measure for this piece of music
-     */
-    MusicPiece(int beatsPerMeasure, int tempo) {
+  /**
+   * represents a piece of music with a collection of notes
+   *
+   * @param beatsPerMeasure number of beats in a measure for this piece of music
+   */
+  MusicPiece(int beatsPerMeasure, int tempo) {
 
-        if (beatsPerMeasure > 0) {
-            this.beatsPerMeasure = beatsPerMeasure;
-        } else {
-            throw new IllegalArgumentException("beatsPerMeasure must be > 0.");
-        }
-
-        if (tempo > 0) {
-            this.tempo = tempo;
-        } else {
-            throw new IllegalArgumentException("tempo must be > 0.");
-        }
-
-        //this.pitchIds = new ArrayList<>();
-        // TODO: add comparator to make this work better
-        this.pitchIds = new TreeSet<>();
-        this.notes = new TreeMap<>();
-
-        //this.notes = new ArrayList<MusicNote>();
+    if (beatsPerMeasure > 0) {
+      this.beatsPerMeasure = beatsPerMeasure;
+    } else {
+      throw new IllegalArgumentException("beatsPerMeasure must be > 0.");
     }
 
-    public ArrayList<MusicNote> getNotesStartingOnBeat(Integer beat) {
-        return this.notes.get(beat);
+    if (tempo > 0) {
+      this.tempo = tempo;
+    } else {
+      throw new IllegalArgumentException("tempo must be > 0.");
     }
 
-    public MusicPiece() {
-        this(4, 100); // default to 4 beats per measure
+    //this.pitchIds = new ArrayList<>();
+    // TODO: add comparator to make this work better
+    this.pitchIds = new TreeSet<>();
+    this.notes = new TreeMap<>();
+
+    //this.notes = new ArrayList<MusicNote>();
+  }
+
+  public MusicPiece() {
+    this(4, 100); // default to 4 beats per measure
+  }
+
+  public ArrayList<MusicNote> getNotesStartingOnBeat(Integer beat) {
+    return this.notes.get(beat);
+  }
+
+  @Override
+  public TreeMap<Integer, ArrayList<MusicNote>> getAllNotes() {
+    return (TreeMap<Integer, ArrayList<MusicNote>>) notes.clone();
+  }
+
+  /**
+   * adds a note to the piece of music
+   *
+   * @param note note to be added to the music
+   */
+  public void addNote(MusicNote note) {
+
+    if (note.getNumericNote() > 127) {
+      throw new IllegalArgumentException("Note must have a lower pitch between 0 and 127");
     }
-
-    /**
-     * adds a note to the piece of music
-     * @param note note to be added to the music
-     */
-    public void addNote(MusicNote note) {
-
-        if (note.getNumericNote() > 127) {
-            throw new IllegalArgumentException("Note must have a lower pitch between 0 and 127");
-        }
-        // usersByCountry.computeIfAbsent(user.getCountry(), v -> new ArrayList<>()).add(user);
-        ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
-        if (startNotes == null) {
-            startNotes = new ArrayList<>();
-        }
-        // TODO: deduplicate list of notes
-        startNotes.add(note);
-        this.pitchIds.add(note.getNumericNote());
-        this.notes.put(note.getStartBeat(), startNotes);
+    // usersByCountry.computeIfAbsent(user.getCountry(), v -> new ArrayList<>()).add(user);
+    ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
+    if (startNotes == null) {
+      startNotes = new ArrayList<>();
     }
+    // TODO: deduplicate list of notes
+    startNotes.add(note);
+    this.pitchIds.add(note.getNumericNote());
+    this.notes.put(note.getStartBeat(), startNotes);
+  }
 
-    public void deleteNote(MusicNote note) {
-        ArrayList<MusicNote> startNotes = this.notes.get(note.startBeat);
-        if (startNotes != null) {
-            startNotes.remove(note);
-        }
+  public void deleteNote(MusicNote note) {
+    ArrayList<MusicNote> startNotes = this.notes.get(note.startBeat);
+    if (startNotes != null) {
+      startNotes.remove(note);
     }
+  }
 
-    /**
-     * renders the musical piece as text, also outputs the render it to the console
-     * @return String representation of the musical piece
-     */
+  /**
+   * renders the musical piece as text, also outputs the render it to the console
+   * @return String representation of the musical piece
+   */
     /*
     public String render() {
         String header = "";
