@@ -54,4 +54,11 @@ public class MusicPieceTest {
     currPiece.put(g2.getStartBeat(), startNotes);
     assertEquals(mp.getAllNotes(), currPiece);
   }
+
+  @Test
+  public void getLastBeat(){
+    //what's the last beat
+    mp.addNote(g2);
+    assertEquals(13, mp.getlastBeat());
+  }
 }

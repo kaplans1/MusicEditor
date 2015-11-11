@@ -61,6 +61,10 @@ public class MusicPiece implements MusicPieceInterface {
     return (TreeMap<Integer, ArrayList<MusicNote>>) notes.clone();
   }
 
+  public TreeSet<Integer> getAllPitchIds() {
+    return this.pitchIds;
+  }
+
   /**
    * adds a note to the piece of music
    *
@@ -89,6 +93,22 @@ public class MusicPiece implements MusicPieceInterface {
     }
   }
 
+  //gets last beat of piece
+  public int getlastBeat() {
+    int last = 0;
+    int y = notes.lastKey();
+    for (int i = 0; i <= y; i++) {
+      ArrayList<MusicNote> currNotes = notes.get(i);
+      if (currNotes != null) {
+        for (MusicNote x : currNotes) {
+          if (x.endBeat() > last) {
+            last = x.endBeat();
+          }
+        }
+      }
+    }
+    return last+1;
+  }
   /**
    * renders the musical piece as text, also outputs the render it to the console
    * @return String representation of the musical piece

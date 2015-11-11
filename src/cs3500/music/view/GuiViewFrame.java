@@ -2,8 +2,13 @@ package cs3500.music.view;
 
 import java.awt.*;
 import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
+import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.swing.*;
+
+import cs3500.music.model.MusicNote;
+import cs3500.music.model.MusicPiece;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
@@ -12,6 +17,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements  ViewInterface  
 
   private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
 
+  private MusicPiece piece;
   /**
    * Creates new GuiView
    */
@@ -20,16 +26,26 @@ public class GuiViewFrame extends javax.swing.JFrame implements  ViewInterface  
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
     this.pack();
+    this.piece = null;
+  }
+
+  public GuiViewFrame(MusicPiece n) {
+    this.piece = n;
+    this.displayPanel = new ConcreteGuiViewPanel(piece);
+    this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+    this.getContentPane().add(displayPanel);
+    this.pack();
   }
 
   @Override
   public void initialize(){
     this.setVisible(true);
+
   }
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(100, 100);
+    return new Dimension(500, 500);
   }
 
 }
