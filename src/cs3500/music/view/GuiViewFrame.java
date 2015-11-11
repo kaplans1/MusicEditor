@@ -45,7 +45,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements  ViewInterface  
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(500, 500);
+    return new Dimension(piece.getlastBeat()*22, piece.getAllPitches().size()*22+100);
   }
 
 }

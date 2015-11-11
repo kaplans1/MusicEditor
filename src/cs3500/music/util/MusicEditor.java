@@ -18,16 +18,21 @@ public class MusicEditor {
 
   public static void main(String[] args) throws IOException, InvalidMidiDataException {
     MusicPiece mp = new MusicPiece();
-    MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 1, 1);
-    MusicNote a = new MusicNote(Notes.A, 4, 2, 2, true, false, 1, 1);
-    MusicNote b = new MusicNote(Notes.B, 6, 2, 2, true, false, 1, 1);
-    MusicNote g = new MusicNote(Notes.G, 8, 4, 3, false, false, 1, 1);
-    MusicNote g2 = new MusicNote(Notes.G, 30, 4, 3, false, false, 1, 1);
+    MusicNote f = new MusicNote(Notes.F, 1, 2, 2, true, false, 1, 1);
+    MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 1, 1);
+    MusicNote b = new MusicNote(Notes.B, 3, 2, 2, true, false, 1, 1);
+    MusicNote c = new MusicNote(Notes.C, 3, 7, 2, true, false, 1, 1);
+    MusicNote d = new MusicNote(Notes.D, 3, 12, 2, true, false, 1, 1);
+
+    MusicNote g = new MusicNote(Notes.G, 4, 4, 3, false, false, 1, 1);
+    MusicNote g2 = new MusicNote(Notes.G, 50, 4, 3, false, false, 1, 1);
     mp.addNote(g);
     mp.addNote(g2);
     mp.addNote(f);
     mp.addNote(a);
     mp.addNote(b);
+    mp.addNote(c);
+    mp.addNote(d);
 
 
     GuiViewFrame view = new GuiViewFrame(mp);
