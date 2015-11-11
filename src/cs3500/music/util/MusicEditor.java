@@ -23,9 +23,9 @@ public class MusicEditor {
     MusicNote b = new MusicNote(Notes.B, 3, 2, 2, true, false, 1, 1);
     MusicNote c = new MusicNote(Notes.C, 3, 7, 2, true, false, 1, 1);
     MusicNote d = new MusicNote(Notes.D, 3, 12, 2, true, false, 1, 1);
-
     MusicNote g = new MusicNote(Notes.G, 4, 4, 3, false, false, 1, 1);
     MusicNote g2 = new MusicNote(Notes.G, 50, 4, 3, false, false, 1, 1);
+    MusicNote c2 = new MusicNote(Notes.C, 1, 2, 0, true, false, 1, 1);
     mp.addNote(g);
     mp.addNote(g2);
     mp.addNote(f);
@@ -33,6 +33,7 @@ public class MusicEditor {
     mp.addNote(b);
     mp.addNote(c);
     mp.addNote(d);
+    mp.addNote(c2);
 
 
     GuiViewFrame view = new GuiViewFrame(mp);

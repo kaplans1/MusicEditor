@@ -36,13 +36,13 @@ public class ConcreteGuiViewPanel extends JPanel {
     int height = notes.getAllPitchIds().size();
     //draws all necessary rows
     for (int i = 0; i <= height; i++) {
-      g.drawLine(gridAllign, gridAllign + i * beatCubeSize, width * beatCubeSize, gridAllign + i * beatCubeSize);
+      g.drawLine(gridAllign, gridAllign + i * beatCubeSize, width * (beatCubeSize + 1), gridAllign + i * beatCubeSize);
     }
 
     //draws all pitch names
     //TODO: have the list be sorted by pitchID
     for (int i = 0; i < notes.getAllPitches().size(); i++) {
-      g.drawString(notes.getAllPitches().get(i), gridAllign - beatCubeSize, gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
+      g.drawString(notes.getAllPitches().get(i), gridAllign - 2*beatCubeSize, gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
     }
     //draws all columns based on tempo and adds beat labels
     for (int i = 0; i <= width / 4; i++) {
@@ -60,12 +60,12 @@ public class ConcreteGuiViewPanel extends JPanel {
           for (int j = 0; j <= noteSize; j++) {
             if(j == 0) {
               g.setColor(Color.RED);
-              g.fillRect(n.getStartBeat()*beatCubeSize + gridAllign + j * beatCubeSize, gridAllign+ row*beatCubeSize,
-                      beatCubeSize - 1, beatCubeSize - 1);
+              g.fillRect(n.getStartBeat()*beatCubeSize + gridAllign + j * beatCubeSize + 1, gridAllign+ row*beatCubeSize + 1,
+                      beatCubeSize - 2, beatCubeSize - 2);
             } else {
               g.setColor(Color.BLACK);
-              g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize, gridAllign+ row*beatCubeSize,
-                      beatCubeSize - 1, beatCubeSize - 1);
+              g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1, gridAllign+ row*beatCubeSize + 1,
+                      beatCubeSize - 2, beatCubeSize - 2);
             }
           }
         }

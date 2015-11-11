@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
+import cs3500.music.util.CompositionBuilder;
+
 
 /**
  * Created by natdempk on 11/3/15.
@@ -21,7 +23,7 @@ public class MusicPiece implements MusicPieceInterface {
   ArrayList<String> pitches;
 
   // mapping start time to length
-  TreeMap<Integer, ArrayList<MusicNote>> notes;
+  static TreeMap<Integer, ArrayList<MusicNote>> notes;
   int beatsPerMeasure;
   int tempo;
 
@@ -74,14 +76,12 @@ public class MusicPiece implements MusicPieceInterface {
     return this.pitches;
   }
 
-
   /**
    * adds a note to the piece of music
    *
    * @param note note to be added to the music
    */
   public void addNote(MusicNote note) {
-
     if (note.getNumericNote() > 127) {
       throw new IllegalArgumentException("Note must have a lower pitch between 0 and 127");
     }
@@ -127,6 +127,37 @@ public class MusicPiece implements MusicPieceInterface {
     }
     return last+1;
   }
+
+  public static final class Builder implements CompositionBuilder<MusicPiece> {
+    @Override
+    public MusicPiece build() {
+      MusicPiece mp = new MusicPiece();
+      return mp;
+    }
+
+    @Override
+    public CompositionBuilder<MusicPiece> setTempo(int tempo) {
+      this.setTempo(tempo);
+      return null;
+    }
+
+    @Override
+    public CompositionBuilder<MusicPiece> addNote(int start, int end, int instrument, int pitch, int volume) {
+      //Need to get the following from the given pitch:
+      //  note
+      //  octave
+      //  sharp/flat
+      //not sure how to convert pitch to a MusicNote with current implementation
+      Notes n = Notes.F;
+      int octave = 2;
+      boolean sharp = false;
+      boolean flat = false;
+      MusicNote toAdd = new MusicNote(n, start, start-end, octave, sharp, flat, instrument, volume);
+      return null;
+    }
+
+  }
+
   /**
    * renders the musical piece as text, also outputs the render it to the console
    * @return String representation of the musical piece
