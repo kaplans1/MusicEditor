@@ -22,7 +22,7 @@ public class MusicEditor {
     MusicNote a = new MusicNote(Notes.A, 4, 2, 2, true, false, 1, 1);
     MusicNote b = new MusicNote(Notes.B, 6, 2, 2, true, false, 1, 1);
     MusicNote g = new MusicNote(Notes.G, 8, 4, 3, false, false, 1, 1);
-    MusicNote g2 = new MusicNote(Notes.G, 10, 4, 3, false, false, 1, 1);
+    MusicNote g2 = new MusicNote(Notes.G, 30, 4, 3, false, false, 1, 1);
     mp.addNote(g);
     mp.addNote(g2);
     mp.addNote(f);

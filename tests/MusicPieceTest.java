@@ -61,4 +61,18 @@ public class MusicPieceTest {
     mp.addNote(g2);
     assertEquals(13, mp.getlastBeat());
   }
+
+  @Test
+  public void getPitchID(){
+    //what's the last beat
+    mp.addNote(g2);
+    assertEquals(1, mp.getAllPitchIds().size());
+    mp.addNote(g2);
+    mp.addNote(g2);
+    assertEquals(1, mp.getAllPitchIds().size());
+    mp.addNote(a);
+    mp.addNote(b);
+    assertEquals(3, mp.getAllPitchIds().size());
+
+  }
 }

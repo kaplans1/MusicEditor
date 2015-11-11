@@ -24,13 +24,36 @@ public class ConcreteGuiViewPanel extends JPanel {
   public ConcreteGuiViewPanel(){
     this.notes=null;
   }
+
+  public static final int gridAllign = 50;
+  public static final int beatCubeSize = 20;
+
   @Override
   public void paint(Graphics g){
   //TODO: Check if notes are not null
     //each beat 20 px wide
     //code to check that width of board is correct
-    g.drawLine(5, 5, notes.getlastBeat() * 20, 5);
-    g.drawLine(5, 10, 14 * 20, 10);
+    int width = notes.getlastBeat();
+    int height = notes.getAllPitchIds().size();
+    //draws all necessary rows
+    for(int i = 0; i<=height; i++){
+      g.drawLine(gridAllign, gridAllign+i*beatCubeSize, width * beatCubeSize, gridAllign+i*beatCubeSize);
+    }
+
+    //draws all pitch names\
+    //TODO: have the list be sorted by pitchID
+    for(int i = 0; i<notes.getAllPitches().size(); i++){
+      g.drawString(notes.getAllPitches().get(i), gridAllign - beatCubeSize, gridAllign + i * beatCubeSize + 2*beatCubeSize/3);
+    }
+    //draws all columns based on tempo and adds beat labels
+    for(int i=0; i<=width/4; i++){
+      g.drawLine(gridAllign+i*beatCubeSize*notes.getBPM(), gridAllign, gridAllign+i*beatCubeSize*notes.getBPM(), gridAllign+height*beatCubeSize);
+      g.drawString((i*4)+"", gridAllign+i*beatCubeSize*notes.getBPM(), gridAllign-beatCubeSize/2);
+    }
+
+    //adds pitch ID to beginning of each row
+
+
   }
 
 

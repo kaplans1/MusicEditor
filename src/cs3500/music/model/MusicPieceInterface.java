@@ -17,9 +17,15 @@ public interface MusicPieceInterface {
 
   //gets all PitchIDs
   TreeSet<Integer> getAllPitchIds();
+  //gets all pitches
+  ArrayList<String> getAllPitches();
+
 
 
   //gets size of largest note at the end of the piece
   int getlastBeat();
+
+  //gets tempo
+  int getBPM();
   //void Render();
 }

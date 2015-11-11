@@ -16,6 +16,10 @@ public class MusicPiece implements MusicPieceInterface {
 
   //ArrayList<Integer> pitchIds;
   TreeSet<Integer> pitchIds;
+
+  //all pitches in string format
+  ArrayList<String> pitches;
+
   // mapping start time to length
   TreeMap<Integer, ArrayList<MusicNote>> notes;
   int beatsPerMeasure;
@@ -43,6 +47,7 @@ public class MusicPiece implements MusicPieceInterface {
     //this.pitchIds = new ArrayList<>();
     // TODO: add comparator to make this work better
     this.pitchIds = new TreeSet<>();
+    this.pitches = new ArrayList<String>();
     this.notes = new TreeMap<>();
 
     //this.notes = new ArrayList<MusicNote>();
@@ -65,6 +70,11 @@ public class MusicPiece implements MusicPieceInterface {
     return this.pitchIds;
   }
 
+  public ArrayList<String> getAllPitches() {
+    return this.pitches;
+  }
+
+
   /**
    * adds a note to the piece of music
    *
@@ -83,6 +93,9 @@ public class MusicPiece implements MusicPieceInterface {
     // TODO: deduplicate list of notes
     startNotes.add(note);
     this.pitchIds.add(note.getNumericNote());
+    if (!pitches.contains(note.noteName())) {
+      this.pitches.add(note.noteName());
+    }
     this.notes.put(note.getStartBeat(), startNotes);
   }
 
@@ -92,6 +105,11 @@ public class MusicPiece implements MusicPieceInterface {
       startNotes.remove(note);
     }
   }
+
+  public int getBPM(){
+    return this.beatsPerMeasure;
+  }
+
 
   //gets last beat of piece
   public int getlastBeat() {
