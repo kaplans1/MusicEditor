@@ -129,6 +129,11 @@ public class MusicPiece implements MusicPieceInterface {
   }
 
   public static final class Builder implements CompositionBuilder<MusicPiece> {
+
+    public Builder(){
+
+    }
+
     @Override
     public MusicPiece build() {
       MusicPiece mp = new MusicPiece();

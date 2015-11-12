@@ -8,6 +8,7 @@ import cs3500.music.view.MidiViewImpl;
 import cs3500.music.model.MusicPiece;
 
 import java.awt.*;
+import java.io.FileReader;
 import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
@@ -34,6 +35,9 @@ public class MusicEditor {
     mp.addNote(c);
     mp.addNote(d);
     mp.addNote(c2);
+
+  CompositionBuilder<MusicPiece> x = new MusicPiece.Builder();
+    FileReader in = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mary-little-lamb.txt");
 
 
     GuiViewFrame view = new GuiViewFrame(mp);
