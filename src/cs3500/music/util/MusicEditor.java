@@ -2,10 +2,12 @@ package cs3500.music.util;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.Notes;
+import cs3500.music.view.AbstractViewInterface;
 import cs3500.music.view.ConcreteGuiViewPanel;
 import cs3500.music.view.GuiViewFrame;
 import cs3500.music.view.MidiViewImpl;
 import cs3500.music.model.MusicPiece;
+import cs3500.music.view.ViewInterface;
 
 import java.awt.*;
 import java.io.FileReader;
@@ -40,10 +42,11 @@ public class MusicEditor {
     FileReader in = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mary-little-lamb.txt");
 
 
-    GuiViewFrame view = new GuiViewFrame(mp);
 
-    view.initialize();
-    //MidiViewImpl midiView = new MidiViewImpl();
+    AbstractViewInterface view = new AbstractViewInterface("visual", mp);
+
+
+    //
     // You probably need to connect these views to your model, too...
   }
 }

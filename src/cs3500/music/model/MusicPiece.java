@@ -73,8 +73,11 @@ public class MusicPiece implements MusicPieceInterface {
   }
 
   public ArrayList<String> getAllPitches() {
+    //need a way to sort before returning
     return this.pitches;
   }
+
+
 
   /**
    * adds a note to the piece of music
@@ -162,6 +165,15 @@ public class MusicPiece implements MusicPieceInterface {
     }
 
   }
+
+
+  //temp code for compiling
+  @Override
+  public void render() {
+    System.out.println("Console rendering.");
+  }
+
+
 
   /**
    * renders the musical piece as text, also outputs the render it to the console

@@ -20,7 +20,8 @@ public interface MusicPieceInterface {
   //gets all pitches
   ArrayList<String> getAllPitches();
 
-
+  //renders piece of music in console
+  void render();
 
   //gets size of largest note at the end of the piece
   int getlastBeat();
