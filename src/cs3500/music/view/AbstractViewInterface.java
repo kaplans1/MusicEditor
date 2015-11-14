@@ -1,5 +1,8 @@
 package cs3500.music.view;
 
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
+
 import cs3500.music.model.MusicPiece;
 
 /**
@@ -11,9 +14,9 @@ public class AbstractViewInterface {
 
   //will implement viewinterface
   //guiviewframe and midiviewimpl will extend this, I think
-  public AbstractViewInterface(String viewType, MusicPiece mp){
+  public AbstractViewInterface(String viewType, MusicPiece mp) throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
     if(viewType.equals("midi")){
-      MidiViewImpl midiView = new MidiViewImpl();
+      MidiViewImpl midiView = new MidiViewImpl(mp);
       midiView.initialize();
     } else  if(viewType.equals("visual")){
       GuiViewFrame view = new GuiViewFrame(mp);

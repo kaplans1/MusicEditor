@@ -169,5 +169,14 @@ public class MusicNote {
     return o instanceof MusicNote && this.getNumericNote() == ((MusicNote) o).getNumericNote();
   }
 
+  public int getInstrument(){
+    int x =  this.instrument;
+    return x;
+  }
+
+  public int getVolume(){
+    int x =  this.volume;
+    return x;
+  }
 
 }

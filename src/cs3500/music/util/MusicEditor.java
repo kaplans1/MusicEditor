@@ -13,37 +13,46 @@ import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiUnavailableException;
 
 
 public class MusicEditor {
 
   private MusicPiece musicPiece;
 
-  public static void main(String[] args) throws IOException, InvalidMidiDataException {
+  public static void main(String[] args) throws IOException, InvalidMidiDataException, MidiUnavailableException, InterruptedException {
     MusicPiece mp = new MusicPiece();
-    MusicNote f = new MusicNote(Notes.F, 1, 2, 2, true, false, 1, 1);
-    MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 1, 1);
-    MusicNote b = new MusicNote(Notes.B, 3, 2, 2, true, false, 1, 1);
-    MusicNote c = new MusicNote(Notes.C, 3, 7, 2, true, false, 1, 1);
-    MusicNote d = new MusicNote(Notes.D, 3, 12, 2, true, false, 1, 1);
-    MusicNote g = new MusicNote(Notes.G, 4, 4, 3, false, false, 1, 1);
-    MusicNote g2 = new MusicNote(Notes.G, 50, 4, 3, false, false, 1, 1);
-    MusicNote c2 = new MusicNote(Notes.C, 1, 2, 0, true, false, 1, 1);
-    mp.addNote(g);
-    mp.addNote(g2);
-    mp.addNote(f);
-    mp.addNote(a);
-    mp.addNote(b);
+//    MusicNote f = new MusicNote(Notes.F, 1, 2, 2, true, false, 0, 50);
+//    mp.addNote(f);
+//    MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 0, 50);
+//    mp.addNote(a);
+//    MusicNote b = new MusicNote(Notes.B, 3, 2, 2, true, false, 0, 50);
+//    mp.addNote(b);
+//    MusicNote c = new MusicNote(Notes.C, 3, 7, 2, true, false, 0, 50);
+//    mp.addNote(c);
+    MusicNote c = new MusicNote(Notes.C, 4, 15, 5, false, false, 0, 80);
     mp.addNote(c);
+    MusicNote d = new MusicNote(Notes.D, 4, 4, 2, true, false, 0, 80);
     mp.addNote(d);
+
+    MusicNote c2 = new MusicNote(Notes.C, 50, 8, 3, false, false, 0, 80);
     mp.addNote(c2);
+//    MusicNote c2 = new MusicNote(Notes.C, 1, 2, 0, true, false, 0, 50);
+//    mp.addNote(c2);
+
+
+
+
+
+
+
 
   CompositionBuilder<MusicPiece> x = new MusicPiece.Builder();
     FileReader in = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mary-little-lamb.txt");
 
 
 
-    AbstractViewInterface view = new AbstractViewInterface("visual", mp);
+    AbstractViewInterface view = new AbstractViewInterface("midi", mp);
 
 
     //

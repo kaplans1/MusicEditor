@@ -1,15 +1,21 @@
 package cs3500.music.view;
 
+import java.util.ArrayList;
+
 import javax.sound.midi.*;
+
+import cs3500.music.model.MusicNote;
+import cs3500.music.model.MusicPiece;
 
 /**
  * A skeleton for MIDI playback
  */
-public class MidiViewImpl implements  ViewInterface  {
+public class MidiViewImpl implements ViewInterface {
+  MusicPiece mp;
   private Synthesizer synth;
   private Receiver receiver;
 
-  public MidiViewImpl() {
+  public MidiViewImpl(MusicPiece mp) {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();
@@ -17,36 +23,21 @@ public class MidiViewImpl implements  ViewInterface  {
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
+    this.mp = mp;
   }
+
   /**
-   * Relevant classes and methods from the javax.sound.midi library:
-   * <ul>
-   *  <li>{@link MidiSystem#getSynthesizer()}</li>
-   *  <li>{@link Synthesizer}
-   *    <ul>
-   *      <li>{@link Synthesizer#open()}</li>
-   *      <li>{@link Synthesizer#getReceiver()}</li>
-   *      <li>{@link Synthesizer#getChannels()}</li>
-   *    </ul>
-   *  </li>
-   *  <li>{@link Receiver}
-   *    <ul>
-   *      <li>{@link Receiver#send(MidiMessage, long)}</li>
-   *      <li>{@link Receiver#close()}</li>
-   *    </ul>
-   *  </li>
-   *  <li>{@link MidiMessage}</li>
-   *  <li>{@link ShortMessage}</li>
-   *  <li>{@link MidiChannel}
-   *    <ul>
-   *      <li>{@link MidiChannel#getProgram()}</li>
-   *      <li>{@link MidiChannel#programChange(int)}</li>
-   *    </ul>
-   *  </li>
+   * Relevant classes and methods from the javax.sound.midi library: <ul> <li>{@link
+   * MidiSystem#getSynthesizer()}</li> <li>{@link Synthesizer} <ul> <li>{@link
+   * Synthesizer#open()}</li> <li>{@link Synthesizer#getReceiver()}</li> <li>{@link
+   * Synthesizer#getChannels()}</li> </ul> </li> <li>{@link Receiver} <ul> <li>{@link
+   * Receiver#send(MidiMessage, long)}</li> <li>{@link Receiver#close()}</li> </ul> </li> <li>{@link
+   * MidiMessage}</li> <li>{@link ShortMessage}</li> <li>{@link MidiChannel} <ul> <li>{@link
+   * MidiChannel#getProgram()}</li> <li>{@link MidiChannel#programChange(int)}</li> </ul> </li>
    * </ul>
-   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI">
-   *   https://en.wikipedia.org/wiki/General_MIDI
-   *   </a>
+   *
+   * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
+   * </a>
    */
 
   public void playNote() throws InvalidMidiDataException {
@@ -57,8 +48,38 @@ public class MidiViewImpl implements  ViewInterface  {
     this.receiver.close(); // Only call this once you're done playing *all* notes
   }
 
+  //doesn't play concurrent notes - only sequential notes
   @Override
-  public void initialize() {
+  public void initialize() throws MidiUnavailableException, InterruptedException {
 
+    Synthesizer synth = MidiSystem.getSynthesizer();
+    synth.open();
+    for (int i = 0; i <= mp.getAllNotes().lastKey(); i++) {
+      ArrayList<MusicNote> curr = mp.getAllNotes().get(i);
+      if (curr != null) {
+        try {
+          int channel = 0;
+          int volume = 0;
+          int duration = 0;
+          for (MusicNote n : curr) {
+            MidiChannel[] channels = synth.getChannels();
+            channel = n.getInstrument(); // 0 is a piano, 9 is percussion, other channels are for other instruments
+            volume = n.getVolume(); // between 0 et 127
+            duration = (n.endBeat()-n.getStartBeat()) * 1000 * this.mp.getBPM()/60; // in milliseconds
+
+
+              channels[channel].noteOn(n.getNumericNote(), volume);
+              Thread.sleep(duration);
+              channels[channel].noteOff(n.getNumericNote(), volume);
+          }
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+      } else {
+        //sleeps until next note
+        Thread.sleep(1000 * this.mp.getBPM()/60);
+      }
+    }
+    synth.close();
   }
 }
