@@ -34,10 +34,10 @@ public class AbstractViewInterface {
 //      MidiViewImpl midiView = new MidiViewImpl();
 //      midiView.initialize();
 //    } else  if(viewType.equals("visual")){
-//      GuiViewFrame view = new GuiViewFrame(mp);
+//      GuiViewFrame view = new GuiViewFrame(musicPiece);
 //      view.initialize();
 //    } else if (viewType.equals("console")){
-//      mp.render();
+//      musicPiece.render();
 //    }
   }
 

@@ -20,7 +20,7 @@ public class MusicPiece implements MusicPieceInterface {
     // mapping starting beat -> List of MusicNote starting on that beat
     TreeMap<Integer, ArrayList<MusicNote>> notes;
     int beatsPerMeasure;
-    int tempo;
+    int tempo; // microseconds per beat
 
     /**
      * represents a piece of music with a collection of notes
@@ -48,7 +48,7 @@ public class MusicPiece implements MusicPieceInterface {
     }
 
     public MusicPiece() {
-        this(4, 100); // default to 4 beats per measure
+        this(4, 200000); // default to 4 beats per measure
     }
 
     public ArrayList<MusicNote> getNotesStartingOnBeat(Integer beat) {

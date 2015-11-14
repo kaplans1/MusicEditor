@@ -56,8 +56,17 @@ public interface MusicPieceInterface {
      */
     int getLastBeat();
 
-    // gets tempo
+    /** gets number of beats per measure
+     *
+     * @return beats per measure of piece of music
+     */
     int getBPM();
+
+    /** gets the tempo of the piece in microseconds per beat
+     *
+     * @return numeric tempo of the piece (microseconds per beat)
+     */
+    int getTempo();
 
     /** sets the tempo of the piece of music
      *
