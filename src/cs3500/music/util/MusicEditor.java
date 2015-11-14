@@ -53,8 +53,8 @@ public class MusicEditor {
         //InputStreamReader r = new InputStreamReader(input);
         MusicPieceInterface r = MusicReader.<MusicPieceInterface>parseFile(in, builder);
 
-
-        AbstractViewInterface view = new AbstractViewInterface("visual", r);
+        // visual, midi, or console
+        AbstractViewInterface view = new AbstractViewInterface("midi", r);
 
 
         //

@@ -41,6 +41,8 @@ public class ConcreteGuiViewPanel extends JPanel {
       g.drawLine(gridAllign, gridAllign + i * beatCubeSize, gridAllign + width * (beatCubeSize + 1), gridAllign + i * beatCubeSize);
     }
 
+    // TODO: I'm guessing extra shit is being rendered here somewhere because of getAllNotes vs getAllPitches
+
     //draws all pitch names
     //TODO: have the list be sorted by pitchID
     for (int i = 0; i < notes.getAllPitches().size(); i++) {
@@ -72,9 +74,6 @@ public class ConcreteGuiViewPanel extends JPanel {
         }
       }
     }
-    //adds pitch ID to beginning of each row
-
-
   }
 
 

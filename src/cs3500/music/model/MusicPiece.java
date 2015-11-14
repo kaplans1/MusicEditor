@@ -11,14 +11,14 @@ import cs3500.music.util.CompositionBuilder;
 public class MusicPiece implements MusicPieceInterface {
     //ArrayList<MusicNote> notes;
 
-    //ArrayList<Integer> pitchIds;
+    // Sorted set of pitchIds
     TreeSet<Integer> pitchIds;
 
     //all pitches in string format
     ArrayList<String> pitches;
 
-    // mapping start time to length
-    static TreeMap<Integer, ArrayList<MusicNote>> notes;
+    // mapping starting beat -> List of MusicNote starting on that beat
+    TreeMap<Integer, ArrayList<MusicNote>> notes;
     int beatsPerMeasure;
     int tempo;
 
@@ -41,13 +41,10 @@ public class MusicPiece implements MusicPieceInterface {
             throw new IllegalArgumentException("tempo must be > 0.");
         }
 
-        //this.pitchIds = new ArrayList<>();
         // TODO: add comparator to make this work better
         this.pitchIds = new TreeSet<>();
-        this.pitches = new ArrayList<String>();
+        this.pitches = new ArrayList<>();
         this.notes = new TreeMap<>();
-
-        //this.notes = new ArrayList<MusicNote>();
     }
 
     public MusicPiece() {
@@ -60,7 +57,9 @@ public class MusicPiece implements MusicPieceInterface {
 
     @Override
     public TreeMap<Integer, ArrayList<MusicNote>> getAllNotes() {
-        return (TreeMap<Integer, ArrayList<MusicNote>>) notes.clone();
+        return this.notes;
+        //return (TreeMap<Integer, ArrayList<MusicNote>>) notes.clone();
+
     }
 
     public TreeSet<Integer> getAllPitchIds() {
@@ -151,6 +150,7 @@ public class MusicPiece implements MusicPieceInterface {
      *
      * @return String representation of the musical piece
      */
+    // TODO: fix this up, use a stringbuilder
     /*
     public String render() {
         String header = "";
