@@ -212,18 +212,15 @@ public class MusicPiece implements MusicPieceInterface {
             this.musicPiece = new MusicPiece();
         }
 
-        //@Override
         public MusicPieceInterface build() {
             return this.musicPiece;
         }
 
-        //@Override
         public CompositionBuilder<MusicPieceInterface> setTempo(int tempo) {
             this.musicPiece.setTempo(tempo);
             return this;
         }
 
-        //@Override
         public CompositionBuilder<MusicPieceInterface> addNote(int start, int end, int instrument, int pitch, int volume) {
             this.musicPiece.addNote(new MusicNote(pitch, start, end - start, instrument - 1, volume));
             return this;

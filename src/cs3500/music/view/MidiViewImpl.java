@@ -6,16 +6,17 @@ import javax.sound.midi.*;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece;
+import cs3500.music.model.MusicPieceInterface;
 
 /**
  * A skeleton for MIDI playback
  */
 public class MidiViewImpl implements ViewInterface {
-  MusicPiece mp;
+  MusicPieceInterface mp;
   private Synthesizer synth;
   private Receiver receiver;
 
-  public MidiViewImpl(MusicPiece mp) {
+  public MidiViewImpl(MusicPieceInterface mp) {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.receiver = synth.getReceiver();

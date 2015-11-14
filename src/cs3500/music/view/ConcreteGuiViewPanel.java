@@ -11,6 +11,7 @@ import javax.swing.*;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece;
+import cs3500.music.model.MusicPieceInterface;
 
 /**
  * A dummy view that simply draws a string
@@ -18,9 +19,9 @@ import cs3500.music.model.MusicPiece;
 public class ConcreteGuiViewPanel extends JPanel {
   public static final int gridAllign = 50;
   public static final int beatCubeSize = 20;
-  MusicPiece notes;
+  MusicPieceInterface notes;
 
-  public ConcreteGuiViewPanel(MusicPiece notes) {
+  public ConcreteGuiViewPanel(MusicPieceInterface notes) {
     this.notes = notes;
   }
   public ConcreteGuiViewPanel() {

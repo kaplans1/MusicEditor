@@ -54,7 +54,7 @@ public class MusicEditor {
         MusicPieceInterface r = MusicReader.<MusicPieceInterface>parseFile(in, builder);
 
 
-        AbstractViewInterface view = new AbstractViewInterface("visual", mp);
+        AbstractViewInterface view = new AbstractViewInterface("visual", r);
 
 
         //

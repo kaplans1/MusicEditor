@@ -4,6 +4,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicPiece;
+import cs3500.music.model.MusicPieceInterface;
 
 /**
  * Created by AviSion on 11/11/2015.
@@ -14,7 +15,7 @@ public class AbstractViewInterface {
 
   //will implement viewinterface
   //guiviewframe and midiviewimpl will extend this, I think
-  public AbstractViewInterface(String viewType, MusicPiece mp) throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+  public AbstractViewInterface(String viewType, MusicPieceInterface mp) throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
     if(viewType.equals("midi")){
       MidiViewImpl midiView = new MidiViewImpl(mp);
       midiView.initialize();
