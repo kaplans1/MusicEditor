@@ -45,13 +45,13 @@ public class MusicEditor {
 //    mp.addNote(c2);
 
 
-        CompositionBuilder<MusicPieceInterface> builder = new Builder();
+        Builder builder = new Builder();
         FileReader in = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
         MusicPiece mary = new MusicPiece();
         //FileReader in = new FileReader();
         //InputStream input = MusicEditor.class.getResourceAsStream("mary-little-lamb.txt");
         //InputStreamReader r = new InputStreamReader(input);
-        MusicReader r = MusicReader.parseFile(in, builder);
+        MusicPieceInterface r = MusicReader.<MusicPieceInterface>parseFile(in, builder);
 
 
         AbstractViewInterface view = new AbstractViewInterface("visual", mp);
