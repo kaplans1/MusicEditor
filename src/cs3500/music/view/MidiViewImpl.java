@@ -65,12 +65,12 @@ public class MidiViewImpl implements ViewInterface {
             MidiChannel[] channels = synth.getChannels();
             channel = n.getInstrument(); // 0 is a piano, 9 is percussion, other channels are for other instruments
             volume = n.getVolume(); // between 0 et 127
-            duration = (n.endBeat()-n.getStartBeat()) * 1000 * this.mp.getBPM()/60; // in milliseconds
+            duration = (n.getEndBeat()-n.getStartBeat()) * 1000 * this.mp.getBPM()/60; // in milliseconds
 
 
-              channels[channel].noteOn(n.getNumericNote(), volume);
+              channels[channel].noteOn(n.getPitchID(), volume);
               Thread.sleep(duration);
-              channels[channel].noteOff(n.getNumericNote(), volume);
+              channels[channel].noteOff(n.getPitchID(), volume);
           }
         } catch (Exception e) {
           e.printStackTrace();

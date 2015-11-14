@@ -13,7 +13,7 @@ import cs3500.music.model.MusicPiece;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends javax.swing.JFrame implements  ViewInterface  {
+public class GuiViewFrame extends javax.swing.JFrame implements ViewInterface  {
 
   private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
 
@@ -45,7 +45,8 @@ public class GuiViewFrame extends javax.swing.JFrame implements  ViewInterface  
 
   @Override
   public Dimension getPreferredSize(){
-    return new Dimension(piece.getlastBeat()*22, piece.getAllPitches().size()*22+100);
+    return new Dimension(piece.getLastBeat() * 22 + ConcreteGuiViewPanel.gridAllign,
+            piece.getAllPitches().size() * 22 + 100);
   }
 
 }

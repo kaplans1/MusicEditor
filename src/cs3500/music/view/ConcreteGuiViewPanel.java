@@ -32,11 +32,12 @@ public class ConcreteGuiViewPanel extends JPanel {
     //TODO: Check if notes are not null
     //each beat 20 px wide
     //code to check that width of board is correct
-    int width = notes.getlastBeat();
+    int width = notes.getLastBeat();
+    System.out.println(width);
     int height = notes.getAllPitchIds().size();
     //draws all necessary rows
     for (int i = 0; i <= height; i++) {
-      g.drawLine(gridAllign, gridAllign + i * beatCubeSize, width * (beatCubeSize + 1), gridAllign + i * beatCubeSize);
+      g.drawLine(gridAllign, gridAllign + i * beatCubeSize, gridAllign + width * (beatCubeSize + 1), gridAllign + i * beatCubeSize);
     }
 
     //draws all pitch names
@@ -55,18 +56,17 @@ public class ConcreteGuiViewPanel extends JPanel {
       if (notes.getAllNotes().get(i) != null) {
         ArrayList<MusicNote> curr = notes.getAllNotes().get(i);
         for (MusicNote n : curr) {
-          int noteSize = n.endBeat() - n.startBeat;
+          int noteLength = n.getEndBeat() - n.getStartBeat();
           int row = notes.getAllPitches().indexOf(n.noteName());
-          for (int j = 0; j <= noteSize; j++) {
+          for (int j = 0; j <=  noteLength; j++) {
             if(j == 0) {
-              g.setColor(Color.RED);
-              g.fillRect(n.getStartBeat()*beatCubeSize + gridAllign + j * beatCubeSize + 1, gridAllign+ row*beatCubeSize + 1,
-                      beatCubeSize - 2, beatCubeSize - 2);
-            } else {
               g.setColor(Color.BLACK);
-              g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1, gridAllign+ row*beatCubeSize + 1,
-                      beatCubeSize - 2, beatCubeSize - 2);
+            } else {
+              g.setColor(Color.RED);
             }
+
+            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1, gridAllign+ row*beatCubeSize + 1,
+                    beatCubeSize - 2, beatCubeSize - 2);
           }
         }
       }

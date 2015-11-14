@@ -10,6 +10,6 @@ public class CompEndBeat implements Comparator<MusicNote> {
      * @return comparison integer of a's ending beat compared to b's
      */
     public int compare(MusicNote a, MusicNote b) {
-        return a.endBeat() - b.endBeat();
+        return a.getEndBeat() - b.getEndBeat();
     }
 }

@@ -10,6 +10,6 @@ public class CompStartBeat implements Comparator<MusicNote> {
      * @return comparison integer of a's first beat compared to b's
      */
     public int compare(MusicNote a, MusicNote b) {
-        return a.startBeat - b.startBeat;
+        return a.getStartBeat() - b.getStartBeat();
     }
 }

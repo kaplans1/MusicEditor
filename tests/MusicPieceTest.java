@@ -59,7 +59,7 @@ public class MusicPieceTest {
   public void getLastBeat(){
     //what's the last beat
     mp.addNote(g2);
-    assertEquals(13, mp.getlastBeat());
+    assertEquals(13, mp.getLastBeat());
   }
 
   @Test
