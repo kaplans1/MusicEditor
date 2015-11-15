@@ -1,21 +1,10 @@
 package cs3500.music.util;
 
-import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece.Builder;
 import cs3500.music.model.MusicPieceInterface;
-import cs3500.music.model.Notes;
 import cs3500.music.view.AbstractViewInterface;
-import cs3500.music.view.ConcreteGuiViewPanel;
-import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
-import cs3500.music.model.MusicPiece;
-import cs3500.music.view.ViewInterface;
-
-import java.awt.*;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;

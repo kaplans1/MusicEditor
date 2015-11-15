@@ -7,8 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,10 +18,8 @@ import cs3500.music.mocks.MockLogger;
 import cs3500.music.mocks.MockMidiSynthesizer;
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece;
-import cs3500.music.model.MusicPieceInterface;
 import cs3500.music.model.Notes;
 import cs3500.music.view.MidiViewImpl;
-import cs3500.music.util.MusicReader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
