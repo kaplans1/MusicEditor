@@ -108,7 +108,11 @@ public class MusicPiece implements MusicPieceInterface {
     public void deleteNote(MusicNote note) {
         ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
         if (startNotes != null) {
+          if(startNotes.contains(note)) {
             startNotes.remove(note);
+          } else {
+            throw new IllegalArgumentException("Note to delete isn't there");
+          }
         }
     }
 
@@ -123,23 +127,35 @@ public class MusicPiece implements MusicPieceInterface {
 
     //gets last beat of piece
     public int getLastBeat() {
+      if(!this.notes.isEmpty()) {
         int last = 0;
         int y = notes.lastKey();
         for (int i = 0; i <= y; i++) {
-            ArrayList<MusicNote> currNotes = notes.get(i);
-            if (currNotes != null) {
-                for (MusicNote x : currNotes) {
-                    if (x.getEndBeat() > last) {
-                        last = x.getEndBeat();
-                    }
+          ArrayList<MusicNote> currNotes = notes.get(i);
+          if (currNotes != null) {
+            if (!currNotes.isEmpty()) {
+              for (MusicNote x : currNotes) {
+                if (x.getEndBeat() > last) {
+                  last = x.getEndBeat();
                 }
+              }
+            } else {
+              throw new IllegalArgumentException("Notes were deleted, no last key!");
             }
+          }
         }
         return last + 1;
+      }else {
+        throw new IllegalArgumentException("Empty piece, no last beat!");
+      }
     }
 
     public void setTempo(int tempo) {
-        this.tempo = tempo;
+        if (tempo > 0) {
+            this.tempo = tempo;
+        } else {
+            throw new IllegalArgumentException("tempo must be > 0.");
+        }
     }
 
     /**
