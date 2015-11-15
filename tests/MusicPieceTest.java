@@ -2,15 +2,23 @@
  * Created by natdempk on 11/3/15.
  */
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeMap;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece;
+import cs3500.music.model.MusicPieceInterface;
 import cs3500.music.model.Notes;
+import cs3500.music.util.MusicReader;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -19,6 +27,17 @@ import static org.junit.Assert.assertFalse;
 
 public class MusicPieceTest {
 
+  //Testing console output - stackoverflow 1119559
+  private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+  @Before
+  public void setUpStreams() {
+    System.setOut(new PrintStream(outContent));
+  }
+  @After
+  public void cleanUpStreams() {
+    System.setOut(null);
+  }
+
   MusicPiece mp = new MusicPiece();
   MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 1, 1);
   MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 1, 1);
@@ -26,6 +45,7 @@ public class MusicPieceTest {
   MusicNote b = new MusicNote(Notes.B, 2, 2, 2, true, false, 1, 1);
   MusicNote g = new MusicNote(Notes.G, 4, 4, 3, false, false, 1, 1);
   MusicNote g2 = new MusicNote(Notes.G, 9, 4, 3, false, false, 1, 1);
+  MusicNote d = new MusicNote(Notes.D, 32, 4, 2, true, false, 0, 80);
   TreeMap currPiece = new TreeMap<>();
   ArrayList<MusicNote> startNotes = new ArrayList<MusicNote>();
 
@@ -171,6 +191,71 @@ public class MusicPieceTest {
     mp.deleteNote(f);
     mp.getLastBeat();
   }
+
+  @Test
+  public void render1(){
+    assertEquals("", mp.render());
+  }
+
+  @Test
+  public void render2(){
+    mp.addNote(g);
+    mp.addNote(g2);
+    mp.addNote(f);
+    mp.addNote(a);
+    mp.addNote(b);
+    mp.addNote(d);
+    assertEquals("   D#3  F#3  A#3  C4   G4   \n" +
+            "0                           \n" +
+            "1                           \n" +
+            "2       X    X    X         \n" +
+            "3       |    |    |         \n" +
+            "4                      X    \n" +
+            "5                      |    \n" +
+            "6                      |    \n" +
+            "7                      |    \n" +
+            "8                           \n" +
+            "9                      X    \n" +
+            "10                     |    \n" +
+            "11                     |    \n" +
+            "12                     |    \n" +
+            "13                          \n" +
+            "14                          \n" +
+            "15                          \n" +
+            "16                          \n" +
+            "17                          \n" +
+            "18                          \n" +
+            "19                          \n" +
+            "20                          \n" +
+            "21                          \n" +
+            "22                          \n" +
+            "23                          \n" +
+            "24                          \n" +
+            "25                          \n" +
+            "26                          \n" +
+            "27                          \n" +
+            "28                          \n" +
+            "29                          \n" +
+            "30                          \n" +
+            "31                          \n" +
+            "32 X                        \n" +
+            "33 |                        \n" +
+            "34 |                        \n" +
+            "35 |                        \n", mp.render());
+  }
+
+  @Test ()
+  public void render3(){
+    mp.addNote(f);
+    mp.addNote(a);
+    mp.addNote(c);
+    mp.deleteNote(f);
+    mp.deleteNote(a);
+    mp.deleteNote(c);
+    assertEquals("", mp.render());
+  }
+
+
 
   @Test
   public void testMusicPiece() {
