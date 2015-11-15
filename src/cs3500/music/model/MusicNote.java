@@ -120,12 +120,22 @@ public class MusicNote {
         return this.pitchID;
     }
 
-    /**
+    /** gets the note name and octave
+     *
      * @return the string name of the note and octave eg. "C#3"
      */
     public String noteName() {
+        return this.pitchToString(this.pitchID);
+    }
+
+    /** Generates the note name and octave of a certain pitch
+     *
+     * @param pitchID integer ID of pitch to convert to name of note and octave
+     * @return string name of note and octave eg. "C#3"
+     */
+    public static String pitchToString(int pitchID) {
         String name = "";
-        int value = this.pitchID;
+        int value = pitchID;
 
         value %= 12;
 
@@ -168,7 +178,7 @@ public class MusicNote {
                 break;
         }
 
-        name += String.valueOf(this.octave);
+        name += String.valueOf(Math.floorDiv(pitchID, 12));
 
         return name;
     }

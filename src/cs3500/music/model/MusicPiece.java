@@ -1,7 +1,9 @@
 package cs3500.music.model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -67,8 +69,13 @@ public class MusicPiece implements MusicPieceInterface {
     }
 
     public ArrayList<String> getAllPitches() {
-        //need a way to sort before returning
-        return this.pitches;
+        ArrayList<String> pitches = new ArrayList<>();
+        for (int pitchID : this.pitchIds) {
+            pitches.add(MusicNote.pitchToString(pitchID));
+        }
+
+        //System.out.println(pitches);
+        return pitches;
     }
 
 
@@ -82,17 +89,20 @@ public class MusicPiece implements MusicPieceInterface {
             throw new IllegalArgumentException("Note must have a lower pitch between 0 and 127");
         }
         // usersByCountry.computeIfAbsent(user.getCountry(), v -> new ArrayList<>()).add(user);
-        ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
+        /*ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
         if (startNotes == null) {
             startNotes = new ArrayList<>();
         }
         // TODO: deduplicate list of notes
-        startNotes.add(note);
+        startNotes.add(note);*/
+
+        this.notes.computeIfAbsent(note.getStartBeat(), v -> new ArrayList<>()).add(note);
+
         this.pitchIds.add(note.getPitchID());
         if (!pitches.contains(note.noteName())) {
             this.pitches.add(note.noteName());
         }
-        this.notes.put(note.getStartBeat(), startNotes);
+        //this.notes.put(note.getStartBeat(), startNotes);
     }
 
     public void deleteNote(MusicNote note) {
@@ -132,77 +142,99 @@ public class MusicPiece implements MusicPieceInterface {
         this.tempo = tempo;
     }
 
-
-
-/*
-  public static final class Builder
-*/
-
-    //temp code for compiling
-    @Override
-    public void render() {
-        System.out.println("Console rendering.");
-    }
-
-
     /**
      * renders the musical piece as text, also outputs the render it to the console
      *
      * @return String representation of the musical piece
      */
-    // TODO: fix this up, use a stringbuilder
-    /*
     public String render() {
-        String header = "";
-        String lines = "";
-        Collections.sort(this.notes, new CompStartBeat());
-        int lastBeat = Collections.max(this.notes, new CompEndBeat()).endBeat();
+        StringBuilder output = new StringBuilder();
+        int lastBeat = this.getLastBeat();
         int numDisplayWidth = String.valueOf(lastBeat).length();
 
-        header += String.format("%" + (numDisplayWidth + 1) + "s", "");
-
-        // fixed number of displayable notes
-        HashSet<MusicNote> displayNotes = new HashSet<MusicNote>(231);
-
-        // add notes to set to see what notes we actually need to display
-        for (MusicNote note : this.notes) {
-            displayNotes.add(note);
+        // get sorted sets of pitch IDs and Names
+        TreeSet<Integer> pitchIDs = this.getAllPitchIds();
+        ArrayList<String> pitchNames = this.getAllPitches();
+        HashMap<Integer, Integer> pitchIDIndices = new HashMap<>();
+        // construct dumb mapping from IDs to indices because TreeSet doesn't provide this
+        int i = 0;
+        for (Integer pitch : pitchIDs) {
+            pitchIDIndices.put(pitch, i);
+            i++;
         }
+        // make a dumb char array to keep track of output strings
+        // this gets converted to a better string representation later
+        char[][] beatChars = new char[pitchNames.size()][this.getLastBeat()];
 
-        for (MusicNote note : displayNotes) {
-            header += String.format("%-4s ", note.noteName());
+        // construct header of sorted pitches
+        // padding for numbers on first line
+        output.append(String.format("%" + (numDisplayWidth + 1) + "s", ""));
+        // pitch names in header
+        for (String pitch : pitchNames) {
+            output.append(String.format("%-4s ", pitch));
         }
-        header += "\n";
+        output.append("\n");
 
-        int curBeat = 0;
-        while (curBeat <= lastBeat) {
-            lines += String.format("%-" + numDisplayWidth + "d ", curBeat);
-            for (MusicNote displayNote : displayNotes) {
-                boolean found = false;
-                for (MusicNote note : this.notes) {
-                    if (note.getNumericNote() == displayNote.getNumericNote()
-                            && note.activeOnBeat(curBeat)) {
-                        if (note.startBeat == curBeat) {
-                            lines += "X    ";
-                        } else {
-                            lines += "|    ";
-                        }
-                        found = true;
-                        break;
+        /*
+        System.out.println(pitchIDs);
+        System.out.println(pitchNames);
+        System.out.println(pitchIDIndices);
+
+        for (char[] row : beatChars)
+        {
+            //Arrays.fill(row, 0);
+            System.out.println(Arrays.toString(row));
+        }
+        */
+
+        int currentBeat = 0;
+        while (currentBeat < lastBeat) {
+            // for each beat get notes that start on the beat and fill in their spa
+            ArrayList<MusicNote> notesOnBeat = this.getNotesStartingOnBeat(currentBeat);
+            if (notesOnBeat != null) {
+                for (MusicNote note : notesOnBeat) {
+                    int pitch = pitchIDIndices.get(note.getPitchID());
+                    beatChars[pitch][currentBeat] = 'X';
+
+                    for (int beat = currentBeat + 1; beat <= note.getEndBeat(); beat++) {
+                        beatChars[pitch][beat] = '|';
                     }
                 }
-                if (!found) {
-                    lines += "     ";
-                }
             }
-            lines += "\n";
-            curBeat++;
+            currentBeat++;
         }
 
-        System.out.print(header + lines);
-        return header + lines;
+        /*
+        System.out.println("FILLED");
+        for (char[] row : beatChars)
+        {
+            System.out.println(Arrays.toString(row));
+        }
+        System.out.println(lastBeat);
+        */
+
+        currentBeat = 0;
+        while (currentBeat < lastBeat) {
+            // add beat number to side
+            output.append(String.format("%-" + numDisplayWidth + "d ", currentBeat));
+            // add appropriate beat characters or empty space
+            for (i = 0; i < beatChars.length; i++) {
+                char pitchBeatChar = beatChars[i][currentBeat];
+                if (pitchBeatChar != 0) {
+                    output.append(pitchBeatChar + "    ");
+                } else {
+                    output.append("     ");
+                }
+            }
+
+            output.append("\n");
+            currentBeat++;
+        }
+
+        System.out.print(output.toString());
+        return output.toString();
     }
-    */
+
 
     public static final class Builder implements CompositionBuilder<MusicPieceInterface> {
 
@@ -221,7 +253,8 @@ public class MusicPiece implements MusicPieceInterface {
             return this;
         }
 
-        public CompositionBuilder<MusicPieceInterface> addNote(int start, int end, int instrument, int pitch, int volume) {
+        public CompositionBuilder<MusicPieceInterface> addNote(int start, int end, int instrument,
+                                                               int pitch, int volume) {
             this.musicPiece.addNote(new MusicNote(pitch, start, end - start, instrument - 1, volume));
             return this;
         }

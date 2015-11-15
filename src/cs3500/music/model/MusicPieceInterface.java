@@ -46,8 +46,10 @@ public interface MusicPieceInterface {
 
     /**
      * outputs a the piece of music's textual representation to the console
+     *
+     * @return textual representation of a piece of music
      */
-    void render();
+    String render();
 
     /**
      * gets the last numeric beat a note is being played on in the piece of music
