@@ -41,10 +41,12 @@ public class MusicEditor {
         }
 
         Builder builder = new Builder();
-        FileReader in = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
+      //  FileReader in = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
+      FileReader in = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mystery-1.txt");
+
         MusicPieceInterface r = MusicReader.parseFile(in, builder);
 
         // visual, midi, or console
-        AbstractViewInterface view = new AbstractViewInterface("midi", r);
+        AbstractViewInterface view = new AbstractViewInterface("console", r);
     }
 }

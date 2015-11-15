@@ -53,7 +53,7 @@ public class MidiViewImpl implements ViewInterface {
 
         int lastBeat = this.musicPiece.getLastBeat();
 
-        // map beat to channels to turn off on beat to keep track of when to stop playing notes
+        // map  beat to channels to turn off on beat to keep track of when to stop playing notes
         TreeMap<Integer, ArrayList<MusicNote>> turnOffOnBeats = new TreeMap<>();
 
 
