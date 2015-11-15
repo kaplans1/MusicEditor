@@ -18,24 +18,15 @@ public class MusicEditor {
             String argView = args[1];
 
             Builder b = new Builder();
+            //FileReader argFile = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
             FileReader argFile = new FileReader(fileName);
             MusicPieceInterface r = MusicReader.parseFile(argFile, b);
 
             // visual, midi, or console
             AbstractViewInterface concreteView = new AbstractViewInterface(argView, r);
         } else {
-
             // error out or something
             System.out.println("Wrong number command line arguments");
         }
-
-        Builder builder = new Builder();
-      //  FileReader in = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
-      FileReader in = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mystery-1.txt");
-
-        MusicPieceInterface r = MusicReader.parseFile(in, builder);
-
-        // visual, midi, or console
-        AbstractViewInterface view = new AbstractViewInterface("console", r);
     }
 }
