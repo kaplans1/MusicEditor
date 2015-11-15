@@ -24,31 +24,27 @@ import javax.sound.midi.MidiUnavailableException;
 public class MusicEditor {
 
     public static void main(String[] args) throws IOException, InvalidMidiDataException, MidiUnavailableException, InterruptedException {
-        // for testing
-        MusicPiece mp = new MusicPiece();
-        //MusicNote f = new MusicNote(Notes.F, 1, 2, 2, true, false, 0, 50);
-        //mp.addNote(f);
-        //MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 0, 50);
-        //mp.addNote(a);
-        //MusicNote b = new MusicNote(Notes.B, 3, 2, 2, true, false, 0, 50);
-        //mp.addNote(b);
-        MusicNote c = new MusicNote(Notes.C, 3, 7, 2, true, false, 0, 50);
-        mp.addNote(c);
-        //MusicNote c = new MusicNote(Notes.C, 4, 15, 5, false, false, 0, 80);
-        //mp.addNote(c);
-        MusicNote d = new MusicNote(Notes.D, 4, 4, 2, true, false, 0, 80);
-        mp.addNote(d);
-        //MusicNote c2 = new MusicNote(Notes.C, 50, 8, 3, false, false, 0, 80);
-        //mp.addNote(c2);
-        //MusicNote c2 = new MusicNote(Notes.C, 1, 2, 0, true, false, 0, 50);
-        //mp.addNote(c2);
+        if (args.length == 2) {
+            String fileName = args[0];
+            String argView = args[1];
 
+            Builder b = new Builder();
+            FileReader argFile = new FileReader(fileName);
+            MusicPieceInterface r = MusicReader.parseFile(argFile, b);
+
+            // visual, midi, or console
+            AbstractViewInterface concreteView = new AbstractViewInterface(argView, r);
+        } else {
+
+            // error out or something
+            System.out.println("Wrong number command line arguments");
+        }
 
         Builder builder = new Builder();
         FileReader in = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
         MusicPieceInterface r = MusicReader.parseFile(in, builder);
 
         // visual, midi, or console
-        AbstractViewInterface view = new AbstractViewInterface("console", r);
+        AbstractViewInterface view = new AbstractViewInterface("midi", r);
     }
 }

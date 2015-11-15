@@ -9,17 +9,20 @@ import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPieceInterface;
 
 /**
- * A skeleton for MIDI playback
+ * To play a music piece as MIDI
  */
 public class MidiViewImpl implements ViewInterface {
     MusicPieceInterface musicPiece;
     private Synthesizer synth;
-    private Receiver receiver;
 
+    /**
+     * legitmate constructor to play a piece of music as midi
+     *
+     * @param musicPiece piece of music to be played as midi
+     */
     public MidiViewImpl(MusicPieceInterface musicPiece) {
         try {
             this.synth = MidiSystem.getSynthesizer();
-            this.receiver = synth.getReceiver();
             this.synth.open();
         } catch (MidiUnavailableException e) {
             e.printStackTrace();
@@ -28,18 +31,21 @@ public class MidiViewImpl implements ViewInterface {
     }
 
     /**
-     * Relevant classes and methods from the javax.sound.midi library: <ul> <li>{@link
-     * MidiSystem#getSynthesizer()}</li> <li>{@link Synthesizer} <ul> <li>{@link
-     * Synthesizer#open()}</li> <li>{@link Synthesizer#getReceiver()}</li> <li>{@link
-     * Synthesizer#getChannels()}</li> </ul> </li> <li>{@link Receiver} <ul> <li>{@link
-     * Receiver#send(MidiMessage, long)}</li> <li>{@link Receiver#close()}</li> </ul> </li>
-     * <li>{@link MidiMessage}</li> <li>{@link ShortMessage}</li> <li>{@link MidiChannel} <ul>
-     * <li>{@link MidiChannel#getProgram()}</li> <li>{@link MidiChannel#programChange(int)}</li>
-     * </ul> </li> </ul>
+     * Constructor for providing a specific synth mock for testing
      *
-     * @see <a href="https://en.wikipedia.org/wiki/General_MIDI"> https://en.wikipedia.org/wiki/General_MIDI
-     * </a>
+     * @param musicPiece piece of music to be "played" as midi
+     * @param synth synthesizer to use to "play" the piece of music
      */
+
+    public MidiViewImpl(MusicPieceInterface musicPiece, Synthesizer synth) {
+        this.musicPiece = musicPiece;
+        this.synth = synth;
+        try {
+            this.synth.open();
+        } catch (MidiUnavailableException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void initialize() throws MidiUnavailableException, InterruptedException {
         this.synth.open();

@@ -3,6 +3,8 @@ package cs3500.music.view;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
+import cs3500.music.mocks.MockLogger;
+import cs3500.music.mocks.MockMidiSynthesizer;
 import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
 
@@ -19,6 +21,14 @@ public class AbstractViewInterface {
     if(viewType.equals("midi")){
       MidiViewImpl midiView = new MidiViewImpl(mp);
       midiView.initialize();
+      /*
+      / used to print output of playing mary file for testing
+      MidiViewImpl impl = new MidiViewImpl(mp, new MockMidiSynthesizer());
+      MockLogger logger = MockLogger.getInstance();
+      impl.initialize();
+      String log = logger.getLog();
+      System.out.println(log);
+      */
     } else  if(viewType.equals("visual")){
       GuiViewFrame view = new GuiViewFrame(mp);
       view.initialize();
@@ -26,21 +36,4 @@ public class AbstractViewInterface {
       mp.render();
     }
   }
-
-  //this one is for making things from music pieces from text files
-  public AbstractViewInterface(String viewType, Readable r){
-
-//    if(viewType.equals("midi")){
-//      MidiViewImpl midiView = new MidiViewImpl();
-//      midiView.initialize();
-//    } else  if(viewType.equals("visual")){
-//      GuiViewFrame view = new GuiViewFrame(musicPiece);
-//      view.initialize();
-//    } else if (viewType.equals("console")){
-//      musicPiece.render();
-//    }
-  }
-
-
-
 }

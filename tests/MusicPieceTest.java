@@ -8,9 +8,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeMap;
 
+import javax.sound.midi.MidiUnavailableException;
+
+import cs3500.music.mocks.MockLogger;
+import cs3500.music.mocks.MockMidiSynthesizer;
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece;
 import cs3500.music.model.Notes;
+import cs3500.music.view.MidiViewImpl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -74,5 +79,35 @@ public class MusicPieceTest {
     mp.addNote(b);
     assertEquals(3, mp.getAllPitchIds().size());
 
+  }
+
+  @Test
+  public void testMockMIDI() {
+    mp.addNote(g2);
+    MidiViewImpl impl = new MidiViewImpl(this.mp, new MockMidiSynthesizer());
+    MockLogger logger = MockLogger.getInstance();
+    try {
+      impl.initialize();
+    } catch (MidiUnavailableException e) {
+      e.printStackTrace();
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    assertEquals("Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiChannel\n" +
+            "Created MockMidiSynthesizer\n" +
+            "Opened MockMidiSynthesizer\n" +
+            "Opened MockMidiSynthesizer\n" +
+            "Channel received noteOn: 55 1\n" +
+            "Channel received noteOff: 55 1\n" +
+            "Closed MockMidiSynthesizer\n", logger.getLog());
   }
 }

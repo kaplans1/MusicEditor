@@ -124,9 +124,9 @@ public class MusicPiece implements MusicPieceInterface {
     //gets last beat of piece
     public int getLastBeat() {
         int last = 0;
-        int y = notes.lastKey();
+        int y = this.notes.lastKey();
         for (int i = 0; i <= y; i++) {
-            ArrayList<MusicNote> currNotes = notes.get(i);
+            ArrayList<MusicNote> currNotes = this.notes.get(i);
             if (currNotes != null) {
                 for (MusicNote x : currNotes) {
                     if (x.getEndBeat() > last) {

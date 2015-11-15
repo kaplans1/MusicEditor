@@ -1,0 +1,82 @@
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiChannel
+Created MockMidiSynthesizer
+Opened MockMidiSynthesizer
+Opened MockMidiSynthesizer
+Channel received noteOn: 64 72
+Channel received noteOn: 55 70
+Channel received noteOff: 64 72
+Channel received noteOn: 62 72
+Channel received noteOff: 62 72
+Channel received noteOn: 60 71
+Channel received noteOff: 60 71
+Channel received noteOff: 55 70
+Channel received noteOn: 62 79
+Channel received noteOff: 62 79
+Channel received noteOn: 55 79
+Channel received noteOn: 64 85
+Channel received noteOff: 64 85
+Channel received noteOn: 64 78
+Channel received noteOff: 64 78
+Channel received noteOn: 64 74
+Channel received noteOff: 55 79
+Channel received noteOff: 64 74
+Channel received noteOn: 55 77
+Channel received noteOn: 62 75
+Channel received noteOff: 62 75
+Channel received noteOn: 62 77
+Channel received noteOff: 62 77
+Channel received noteOn: 62 75
+Channel received noteOff: 55 77
+Channel received noteOff: 62 75
+Channel received noteOn: 55 79
+Channel received noteOn: 64 82
+Channel received noteOff: 55 79
+Channel received noteOff: 64 82
+Channel received noteOn: 67 84
+Channel received noteOff: 67 84
+Channel received noteOn: 67 75
+Channel received noteOff: 67 75
+Channel received noteOn: 55 78
+Channel received noteOn: 64 73
+Channel received noteOff: 64 73
+Channel received noteOn: 62 69
+Channel received noteOff: 62 69
+Channel received noteOn: 60 71
+Channel received noteOff: 60 71
+Channel received noteOn: 62 80
+Channel received noteOff: 55 78
+Channel received noteOff: 62 80
+Channel received noteOn: 55 79
+Channel received noteOn: 64 84
+Channel received noteOff: 64 84
+Channel received noteOn: 64 76
+Channel received noteOff: 64 76
+Channel received noteOn: 64 74
+Channel received noteOff: 64 74
+Channel received noteOn: 64 77
+Channel received noteOff: 55 79
+Channel received noteOff: 64 77
+Channel received noteOn: 55 78
+Channel received noteOn: 62 75
+Channel received noteOff: 62 75
+Channel received noteOn: 62 74
+Channel received noteOff: 62 74
+Channel received noteOn: 64 81
+Channel received noteOff: 64 81
+Channel received noteOn: 62 70
+Channel received noteOff: 55 78
+Channel received noteOff: 62 70
+Channel received noteOn: 52 72
+Channel received noteOn: 60 73
+Channel received noteOff: 52 72
+Channel received noteOff: 60 73
+Closed MockMidiSynthesizer
