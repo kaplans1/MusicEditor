@@ -26,6 +26,98 @@ public class MusicPieceTest {
   MusicNote g2 = new MusicNote(Notes.G, 9, 4, 3, false, false, 1, 1);
   TreeMap currPiece = new TreeMap<>();
   ArrayList<MusicNote> startNotes = new ArrayList<MusicNote>();
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testStartBeat(){
+    MusicNote f = new MusicNote(Notes.F, -2, 2, 2, true, false, 1, 1);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testBeats(){
+    MusicNote f = new MusicNote(Notes.F, 2, -2, 2, true, false, 1, 1);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testInstrument(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, -1, 1);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testVolume(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, -1, 1);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testVolume2(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 3, 128);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testOctave(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, -2, true, false, 2, 1);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void testOctave2(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 10, true, false, 2, 1);
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+  public void sharpAndFlat(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 10, true, true, 2, 1);
+  }
+
+  @Test
+  public void absolutePitch(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, false, 2, 1);
+    assertEquals(125, f.getPitchID());
+  }
+
+  @Test
+  public void absolutePitch1(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, true, false, 2, 1);
+    assertEquals(126, f.getPitchID());
+  }
+
+  @Test
+  public void absolutePitch2(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    assertEquals(124, f.getPitchID());
+  }
+
+  @Test
+  public void pitchToString(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    assertEquals("D1", f.pitchToString(14));
+  }
+
+  @Test
+  public void pitchToString1(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    assertEquals("C0", f.pitchToString(0));
+  }
+
+  @Test (expected = IllegalArgumentException.class)
+     public void pitchToString2(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    assertEquals("C0", f.pitchToString(-1));
+  }
+
+  @Test
+  public void noteEquals(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    MusicNote f1 = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    assertTrue(f.equals(f1));
+  }
+
+  @Test
+  public void noteEquals2(){
+    MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
+    MusicNote f1 = new MusicNote(Notes.G, 2, 2, 9, false, true, 2, 1);
+    assertFalse(f.equals(f1));
+  }
+
+
   @Test
   public void testMusicPiece() {
     // tests that a basic music piece will be able to add notes
