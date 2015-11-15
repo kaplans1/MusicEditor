@@ -10,4 +10,10 @@ than iterating over an array looking at all notes.
 
 Separate representations of pitches and pitch identifications were added to facilitate viewing.
 
-Main method can use a builder to make
+Main method can use a builder to make a music piece from a text file of 'notes' in the format:
+note start beat end beat instrument pitch volume
+
+User can choose among different views using 3 unique strings:
+"visual" - returns a gui view
+"console" - prints out a console view, returns string copy of view
+"midi" - plays music of music piece
