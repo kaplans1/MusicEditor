@@ -38,20 +38,26 @@ public class ConcreteGuiViewPanel extends JPanel {
     int height = notes.getAllPitchIds().size();
     //draws all necessary rows
     for (int i = 0; i <= height; i++) {
-      g.drawLine(gridAllign, gridAllign + i * beatCubeSize, gridAllign + width * (beatCubeSize + 1), gridAllign + i * beatCubeSize);
+      g.drawLine(gridAllign, gridAllign + i * beatCubeSize,
+              gridAllign + width * (beatCubeSize + 1),
+              gridAllign + i * beatCubeSize);
     }
 
-    // TODO: I'm guessing extra shit is being rendered here somewhere because of getAllNotes vs getAllPitches
+    // TODO: I'm guessing extra stuff is being rendered here somewhere because of getAllNotes
+    // vs getAllPitches
 
     //draws all pitch names
     //TODO: have the list be sorted by pitchID
     for (int i = 0; i < notes.getAllPitches().size(); i++) {
-      g.drawString(notes.getAllPitches().get(i), gridAllign - 2*beatCubeSize, gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
+      g.drawString(notes.getAllPitches().get(i), gridAllign - 2*beatCubeSize,
+              gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
     }
     //draws all columns based on tempo and adds beat labels
     for (int i = 0; i <= width / 4; i++) {
-      g.drawLine(gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign, gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign + height * beatCubeSize);
-      g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign - beatCubeSize / 2);
+      g.drawLine(gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign,
+              gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign + height * beatCubeSize);
+      g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * notes.getBPM(),
+              gridAllign - beatCubeSize / 2);
     }
 
     //draws notes!
@@ -68,7 +74,8 @@ public class ConcreteGuiViewPanel extends JPanel {
               g.setColor(Color.RED);
             }
 
-            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1, gridAllign+ row*beatCubeSize + 1,
+            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1,
+                    gridAllign+ row*beatCubeSize + 1,
                     beatCubeSize - 2, beatCubeSize - 2);
           }
         }

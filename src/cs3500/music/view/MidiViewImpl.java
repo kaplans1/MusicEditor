@@ -11,7 +11,7 @@ import cs3500.music.model.MusicPieceInterface;
 /**
  * To play a music piece as MIDI
  */
-public class MidiViewImpl implements ViewInterface {
+public class MidiViewImpl implements GuiView {
     MusicPieceInterface musicPiece;
     private Synthesizer synth;
 

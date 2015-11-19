@@ -14,7 +14,7 @@ import cs3500.music.model.MusicPieceInterface;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends javax.swing.JFrame implements ViewInterface {
+public class GuiViewFrame extends javax.swing.JFrame implements GuiView {
 
     private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
 

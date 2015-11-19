@@ -9,7 +9,8 @@ import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
 
 public class AbstractViewInterface {
-  public AbstractViewInterface(String viewType, MusicPieceInterface mp) throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+  public AbstractViewInterface(String viewType, MusicPieceInterface mp)
+          throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
     if(viewType.equals("midi")){
       MidiViewImpl midiView = new MidiViewImpl(mp);
       midiView.initialize();
