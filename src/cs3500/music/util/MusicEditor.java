@@ -14,20 +14,20 @@ public class MusicEditor {
 
     public static void main(String[] args) throws IOException, InvalidMidiDataException,
             MidiUnavailableException, InterruptedException {
-        if (args.length == 2) {
-            String fileName = args[0];
-            String argView = args[1];
+    //    if (args.length == 2) {
+      //      String fileName = args[0];
+       //     String argView = args[1];
 
             Builder b = new Builder();
-          //  FileReader argFile = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mystery-2.txt");
-            FileReader argFile = new FileReader(fileName);
+          FileReader argFile = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mystery-2.txt");
+          //  FileReader argFile = new FileReader(fileName);
             MusicPieceInterface r = MusicReader.parseFile(argFile, b);
 
             // visual, midi, or console
-            AbstractViewInterface concreteView = new AbstractViewInterface(argView, r);
-        } else {
-            // error out or something
-            System.out.println("Wrong number command line arguments");
-        }
+            AbstractViewInterface concreteView = new AbstractViewInterface("visual", r);
+//        } else {
+//            // error out or something
+//            System.out.println("Wrong number command line arguments");
+//        }
     }
 }

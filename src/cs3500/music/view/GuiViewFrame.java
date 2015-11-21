@@ -29,6 +29,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements GuiView {
         this.getContentPane().add(displayPanel);
         this.pack();
         this.piece = null;
+
     }
 
     public GuiViewFrame(MusicPieceInterface n) {
@@ -47,8 +48,10 @@ public class GuiViewFrame extends javax.swing.JFrame implements GuiView {
 
     @Override
     public Dimension getPreferredSize() {
+
         return new Dimension(piece.getLastBeat() * 22 + ConcreteGuiViewPanel.gridAllign,
                 piece.getAllPitches().size() * 22 + 100);
+
     }
 
 }

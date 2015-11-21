@@ -15,21 +15,22 @@ public class KeyboardHandler extends JFrame implements KeyListener {
   Map<Integer, Runnable> pressed;
   Map<Integer, Runnable> released;
 
-  KeyboardHandler(){
+  KeyboardHandler() {
     this.typed = new TreeMap<Integer, Runnable>();
     this.pressed = new TreeMap<Integer, Runnable>();
     this.released = new TreeMap<Integer, Runnable>();
   }
+
   @Override
   public void keyTyped(KeyEvent e) {
-    if(typed.containsKey(e.getKeyCode())){
+    if (typed.containsKey(e.getKeyCode())) {
       typed.get(e.getKeyCode()).run();
     }
   }
 
   @Override
   public void keyPressed(KeyEvent e) {
-    if(pressed.containsKey(e.getKeyCode())){
+    if (pressed.containsKey(e.getKeyCode())) {
       pressed.get(e.getKeyCode()).run();
     }
 
@@ -37,14 +38,23 @@ public class KeyboardHandler extends JFrame implements KeyListener {
 
   @Override
   public void keyReleased(KeyEvent e) {
-    if(released.containsKey(e.getKeyCode())){
+    if (released.containsKey(e.getKeyCode())) {
       released.get(e.getKeyCode()).run();
     }
 
   }
 
   //adds to maps
-  protected void addAction(int x, String type){
+  protected void addAction(int x, Runnable r, String type) {
+    //TODO: Need to figure out which type of runnable is passed in
+    if (type.equals("typed")) {
+      typed.put(x, r);
+    } else if (type.equals("pressed")) {
 
+    } else if (type.equals("released")) {
+
+    } else {
+      throw new IllegalArgumentException("Should be unreachable");
+    }
   }
 }
