@@ -3,6 +3,8 @@ package cs3500.music.view;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
+import cs3500.music.controller.KeyboardHandler;
+import cs3500.music.controller.MusicController;
 import cs3500.music.mocks.MockLogger;
 import cs3500.music.mocks.MockMidiSynthesizer;
 import cs3500.music.model.MusicPiece;
@@ -23,9 +25,11 @@ public class AbstractViewInterface {
       String log = logger.getLog();
       System.out.println(log);
       */
-    } else  if(viewType.equals("visual")){
-      GuiViewFrame view = new GuiViewFrame(mp);
-      view.initialize();
+    } else if(viewType.equals("visual")){
+      //GuiViewFrame view = new GuiViewFrame(mp);
+      //view.addKeyListener(new KeyboardHandler());
+      //view.initialize();
+      MusicController controller = new MusicController(mp);
     } else if (viewType.equals("console")){
       mp.render();
     } else if (viewType.equals("combo")){
