@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicPieceInterface;
-import cs3500.music.view.GuiViewFrame;
-import cs3500.music.view.MidiViewImpl;
+import cs3500.music.view.ComboView;
 
 public class MusicController  {
 
-    GuiViewFrame guiView; // TODO: I think this should be an interface instead
-    MidiViewImpl midiView;
+    //GuiViewFrame guiView; // TODO: I think this should be an interface instead
+    //MidiViewImpl midiView;
+    ComboView comboView;
     KeyboardHandler keyListener;
     ArrayList<Integer> keySequence;
 
@@ -38,10 +38,9 @@ public class MusicController  {
     };
 
     public MusicController(MusicPieceInterface musicPiece) throws InterruptedException, MidiUnavailableException {
-        this.guiView = new GuiViewFrame(musicPiece);
+        this.comboView = new ComboView(musicPiece);
         this.keyListener = new KeyboardHandler();
         this.keySequence = new ArrayList<>();
-        this.midiView = new MidiViewImpl(musicPiece);
 
 
         // add callbacks to keyboard handler
@@ -57,9 +56,9 @@ public class MusicController  {
         this.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnable(this));
         this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new LeftKeyRunnable(this));
 
-        this.guiView.addKeyListener(keyListener);
-        this.guiView.initialize();
-        this.midiView.initialize();
+
+        this.comboView.addGUIKeyListener(this.keyListener);
+        this.comboView.initialize();
 
     }
 

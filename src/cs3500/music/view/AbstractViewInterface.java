@@ -25,7 +25,7 @@ public class AbstractViewInterface {
       String log = logger.getLog();
       System.out.println(log);
       */
-    } else  if(viewType.equals("visual")){
+    } else if(viewType.equals("visual")){
       //GuiViewFrame view = new GuiViewFrame(mp);
       //view.addKeyListener(new KeyboardHandler());
       //view.initialize();
