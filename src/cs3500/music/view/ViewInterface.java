@@ -1,5 +1,6 @@
 package cs3500.music.view;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicPiece;
@@ -10,5 +11,5 @@ import cs3500.music.model.MusicPiece;
 public interface ViewInterface  {
 
     public void initialize() throws MidiUnavailableException,
-            InterruptedException;
+            InterruptedException, InvalidMidiDataException;
 }

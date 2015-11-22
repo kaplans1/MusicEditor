@@ -28,6 +28,13 @@ public class AbstractViewInterface {
       view.initialize();
     } else if (viewType.equals("console")){
       mp.render();
+    } else if (viewType.equals("combo")){
+      ComboView view = new ComboView(mp);
+      view.initialize();
     }
+  }
+
+  public void playPause(Boolean b, int x) {
+
   }
 }

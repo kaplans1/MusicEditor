@@ -85,6 +85,11 @@ public class ConcreteGuiViewPanel extends JPanel {
   //  this.redLine(g, 0);
   }
 
+
+  public void drawGraphic() {
+    repaint();
+  }
+
 //  public void redLine(Graphics g, int time){
 //    this.getGraphics().setColor(Color.RED);
 //    this.getGraphics().drawLine(gridAllign + time, gridAllign,
