@@ -14,6 +14,8 @@ import cs3500.music.model.MusicPieceInterface;
 public class MidiViewImpl implements GuiView {
     MusicPieceInterface musicPiece;
     private Synthesizer synth;
+    boolean playing;
+    int currentBeat;
 
     /**
      * legitmate constructor to play a piece of music as midi
@@ -40,6 +42,8 @@ public class MidiViewImpl implements GuiView {
     public MidiViewImpl(MusicPieceInterface musicPiece, Synthesizer synth) {
         this.musicPiece = musicPiece;
         this.synth = synth;
+        this.playing = false;
+        this.currentBeat = 0;
         try {
             this.synth.open();
         } catch (MidiUnavailableException e) {
@@ -48,7 +52,24 @@ public class MidiViewImpl implements GuiView {
     }
 
     public void initialize() throws MidiUnavailableException, InterruptedException {
+        this.playFromBeat(0);
+    }
+
+    public void playPause() throws InterruptedException, MidiUnavailableException {
+        if (this.playing) {
+            this.stopPlaying();
+        } else {
+            this.playFromBeat(this.currentBeat);
+        }
+    }
+
+    public void stopPlaying() {
+        this.synth.close();
+    }
+
+    public void playFromBeat(int beat) throws MidiUnavailableException, InterruptedException {
         this.synth.open();
+        this.playing = true;
         MidiChannel[] channels = this.synth.getChannels();
 
         int lastBeat = this.musicPiece.getLastBeat();
@@ -57,7 +78,8 @@ public class MidiViewImpl implements GuiView {
         TreeMap<Integer, ArrayList<MusicNote>> turnOffOnBeats = new TreeMap<>();
 
 
-        for (int i = 0; i <= lastBeat; i++) {
+        for (int i = beat; i <= lastBeat; i++) {
+            this.currentBeat = i;
             // get notes to play on this beat
             ArrayList<MusicNote> currentBeatNotes = this.musicPiece.getNotesStartingOnBeat(i);
             // get notes to turn off on this beat
@@ -89,5 +111,6 @@ public class MidiViewImpl implements GuiView {
         }
 
         this.synth.close();
+        this.playing = false;
     }
 }

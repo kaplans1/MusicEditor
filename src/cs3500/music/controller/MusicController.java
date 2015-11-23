@@ -9,9 +9,6 @@ import cs3500.music.model.MusicPieceInterface;
 import cs3500.music.view.ComboView;
 
 public class MusicController  {
-
-    //GuiViewFrame guiView; // TODO: I think this should be an interface instead
-    //MidiViewImpl midiView;
     ComboView comboView;
     KeyboardHandler keyListener;
     ArrayList<Integer> keySequence;
@@ -37,8 +34,8 @@ public class MusicController  {
             KeyEvent.VK_NUMBER_SIGN,
     };
 
-    public MusicController(MusicPieceInterface musicPiece) throws InterruptedException, MidiUnavailableException {
-        this.comboView = new ComboView(musicPiece);
+    public MusicController(MusicPieceInterface musicPiece, ComboView comboView) throws InterruptedException, MidiUnavailableException {
+        this.comboView = comboView;
         this.keyListener = new KeyboardHandler();
         this.keySequence = new ArrayList<>();
 
@@ -58,7 +55,7 @@ public class MusicController  {
 
 
         this.comboView.addGUIKeyListener(this.keyListener);
-        this.comboView.initialize();
+        //this.comboView.initialize();
 
     }
 
@@ -84,8 +81,8 @@ public class MusicController  {
 
     }
 
-    public void pausePlayback() {
-        // TODO: perform actions on music piece based on parsed key sequence
+    public void pausePlayback() throws InterruptedException, MidiUnavailableException {
+        this.comboView.playPause();
     }
 
     public void moveToStart() {
@@ -156,7 +153,13 @@ public class MusicController  {
 
         @Override
         public void run() {
-            this.musicController.pausePlayback();
+            try {
+                this.musicController.pausePlayback();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (MidiUnavailableException e) {
+                e.printStackTrace();
+            }
         }
     }
 

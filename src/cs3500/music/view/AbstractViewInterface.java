@@ -26,14 +26,15 @@ public class AbstractViewInterface {
       System.out.println(log);
       */
     } else if(viewType.equals("visual")){
-      //GuiViewFrame view = new GuiViewFrame(mp);
+      GuiViewImpl view = new GuiViewImpl(mp);
       //view.addKeyListener(new KeyboardHandler());
-      //view.initialize();
-      MusicController controller = new MusicController(mp);
+      view.initialize();
+      //MusicController controller = new MusicController(mp);
     } else if (viewType.equals("console")){
       mp.render();
     } else if (viewType.equals("combo")){
-      ComboView view = new ComboView(mp);
+      ComboView view = new ComboView(new GuiViewImpl(mp), new MidiViewImpl(mp));
+      MusicController musicController = new MusicController(mp, view);
       view.initialize();
     }
   }

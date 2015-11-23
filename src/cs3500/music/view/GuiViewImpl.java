@@ -14,7 +14,7 @@ import cs3500.music.model.MusicPieceInterface;
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewFrame extends javax.swing.JFrame implements GuiView {
+public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
 
   private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
   JFrame frame = new JFrame();
@@ -23,7 +23,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements GuiView {
   /**
    * Creates new GuiView
    */
-  public GuiViewFrame() {
+  public GuiViewImpl() {
     this.displayPanel = new ConcreteGuiViewPanel();
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
@@ -31,7 +31,7 @@ public class GuiViewFrame extends javax.swing.JFrame implements GuiView {
     this.piece = null;
   }
 
-  public GuiViewFrame(MusicPieceInterface n) {
+  public GuiViewImpl(MusicPieceInterface n) {
     this.piece = n;
     this.displayPanel = new ConcreteGuiViewPanel(piece);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
