@@ -139,13 +139,10 @@ public class MidiViewImpl implements GuiView {
       }
 
       Thread.sleep(this.musicPiece.getTempo() / 1000); // convert beat length to milliseconds
-
-      this.synth.close();
-      this.currentBeat = 0;
-      this.playing = false;
     }
 
     this.synth.close();
+    this.currentBeat = 0;
     this.playing = false;
   }
 }
