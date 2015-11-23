@@ -16,18 +16,7 @@ public class KeyboardHandler extends JFrame implements KeyListener {
   Map<Integer, Runnable> pressed;
   Map<Integer, Runnable> released;
 
-  /**
-    * TODO:
-    * delete a note c5 starting on beat 64
-    * c5 d 64
-    * add a note in c5 on beat 64 lasting 5 beats
-    * c5 a 64 5
-    * move a note in c5 on beat c4 to d3 on beat 75 maintaining length
-    * c5 m 64 d3 75
-    * arrow keys to scroll through composition based on offset
-    * space bar to play/pause/restart composition
-    * home/end keys to move to the beginning/end of composition
-    */
+
 
   public KeyboardHandler() {
     this.typed = new TreeMap<Integer, Runnable>();
