@@ -3,6 +3,7 @@ package cs3500.music.controller;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicPieceInterface;
@@ -56,7 +57,6 @@ public class MusicController  {
 
         this.comboView.addGUIKeyListener(this.keyListener);
         //this.comboView.initialize();
-
     }
 
     /**
@@ -93,12 +93,12 @@ public class MusicController  {
         // TODO: move red line + position to end of music piece
     }
 
-    public void moveLeft() {
-        // TODO: move red line + position to left of current pos in music piece
+    public void moveLeft() throws InterruptedException, MidiUnavailableException {
+        this.comboView.scroll(false);
     }
 
-    public void moveRight() {
-        // TODO: move red line + position to left of current pos in music piece
+    public void moveRight() throws InterruptedException, MidiUnavailableException {
+        this.comboView.scroll(true);
     }
 
 
@@ -198,7 +198,13 @@ public class MusicController  {
 
         @Override
         public void run() {
-            this.musicController.moveLeft();
+            try {
+                this.musicController.moveLeft();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (MidiUnavailableException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -211,7 +217,13 @@ public class MusicController  {
 
         @Override
         public void run() {
-            this.musicController.moveRight();
+            try {
+                this.musicController.moveRight();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (MidiUnavailableException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

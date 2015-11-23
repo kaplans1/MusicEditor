@@ -27,6 +27,10 @@ public class ComboView implements ViewInterface{
     this.midi.playPause();
   }
 
+  public void scroll(boolean b) throws MidiUnavailableException, InterruptedException {
+    this.midi.scroll(b);
+  }
+
   public void addGUIKeyListener(KeyboardHandler keyboardHandler) {
     this.gui.addKeyListener(keyboardHandler);
   }
