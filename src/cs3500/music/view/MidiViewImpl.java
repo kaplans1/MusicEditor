@@ -67,17 +67,17 @@ public class MidiViewImpl implements GuiView {
 
   public void scroll(boolean b) throws InterruptedException, MidiUnavailableException {
     if ((currentBeat + SCROLL_SPEED > musicPiece.getLastBeat()) ||
-            (currentBeat - SCROLL_SPEED < 0)){
+        (currentBeat - SCROLL_SPEED < 0)) {
       //do nothing
     } else {
-      if (b){
+      if (b) {
         currentBeat = currentBeat + SCROLL_SPEED;
-        if(playing) {
+        if (playing) {
           this.playFromBeat(currentBeat);
         }
       } else {
         currentBeat = currentBeat - SCROLL_SPEED;
-        if(playing) {
+        if (playing) {
           this.playFromBeat(currentBeat);
         }
       }
@@ -85,13 +85,15 @@ public class MidiViewImpl implements GuiView {
   }
 
 
-
   public void stopPlaying() {
     this.synth.close();
+    System.out.println("STOPPED PLAYING");
+    this.playing = false;
   }
 
   public void playFromBeat(int beat) throws MidiUnavailableException, InterruptedException {
     this.synth.open();
+    System.out.println("STARTED PLAYING");
     this.playing = true;
     MidiChannel[] channels = this.synth.getChannels();
 
@@ -103,6 +105,12 @@ public class MidiViewImpl implements GuiView {
 
     for (int i = beat; i <= lastBeat; i++) {
       this.currentBeat = i;
+      System.out.print("current beat :");
+      System.out.print(i);
+      System.out.print("\n");
+      if (!this.playing) {
+        return;
+      }
       // get notes to play on this beat
       ArrayList<MusicNote> currentBeatNotes = this.musicPiece.getNotesStartingOnBeat(i);
       // get notes to turn off on this beat
@@ -123,7 +131,7 @@ public class MidiViewImpl implements GuiView {
             channels[n.getInstrument()].noteOn(n.getPitchID(), n.getVolume());
             // record beats to turn off notes on
             turnOffOnBeats.computeIfAbsent(n.getEndBeat(),
-                    v -> new ArrayList<>()).add(n);
+                v -> new ArrayList<>()).add(n);
           }
         } catch (Exception e) {
           e.printStackTrace();
@@ -131,6 +139,10 @@ public class MidiViewImpl implements GuiView {
       }
 
       Thread.sleep(this.musicPiece.getTempo() / 1000); // convert beat length to milliseconds
+
+      this.synth.close();
+      this.currentBeat = 0;
+      this.playing = false;
     }
 
     this.synth.close();
