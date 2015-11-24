@@ -56,4 +56,8 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
 
   }
 
+  public void reDraw() {
+    this.displayPanel.revalidate();
+    this.displayPanel.repaint();
+  }
 }

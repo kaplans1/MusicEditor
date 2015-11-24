@@ -1,10 +1,12 @@
 package cs3500.music.controller;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicNote;
@@ -17,6 +19,8 @@ public class MusicController {
   KeyboardHandler keyListener;
   ArrayList<Integer> keySequence;
 
+  int x;
+  MouseHandler mouseHandler;
   protected static int[] addKeys = {
       KeyEvent.VK_0,
       KeyEvent.VK_1,
@@ -60,6 +64,10 @@ public class MusicController {
 
 
     this.comboView.addGUIKeyListener(this.keyListener);
+
+  //  this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED, new MouseClickRunnable(this));
+    this.comboView.addGUIMouseListener(this.mouseHandler);
+
     //this.comboView.initialize();
   }
 
@@ -92,7 +100,7 @@ public class MusicController {
    */
 
   public void processKeySequence() {
-    // parse sequence of keys to either add, delete, or move a no
+    // parse sequence of keys to either add, delete, or move a note
 
     // build string sequence from arraylist
     String keySequence = "";
@@ -162,11 +170,13 @@ public class MusicController {
     this.comboView.playPause();
   }
 
-  public void moveToStart() {
+  public void moveToStart() throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+    this.comboView.goTo("start");
     // TODO: move red line + position to start of music piece
   }
 
   public void moveToEnd() {
+    this.comboView.goTo("end");
     // TODO: move red line + position to end of music piece
   }
 
@@ -249,7 +259,15 @@ public class MusicController {
 
     @Override
     public void run() {
-      this.musicController.moveToStart();
+      try {
+        this.musicController.moveToStart();
+      } catch (MidiUnavailableException e) {
+        e.printStackTrace();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (InvalidMidiDataException e) {
+        e.printStackTrace();
+      }
     }
   }
 
@@ -302,5 +320,29 @@ public class MusicController {
         e.printStackTrace();
       }
     }
+  }
+
+  public class MouseClickRunnable implements Runnable {
+    MusicController musicController;
+    MouseClickRunnable(MouseHandler mouseHandler){
+      this.musicController = musicController;
+    }
+
+
+    @Override
+    public void run(){
+      try {
+        this.musicController.clicked();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (MidiUnavailableException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void clicked() throws InterruptedException, MidiUnavailableException {
+    //scroll to e.x();
+    this.comboView.scrollTo(0);
   }
 }

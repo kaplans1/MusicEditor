@@ -17,7 +17,7 @@ public class RedLine extends JLabel {
   @Override
   public void paint(Graphics g){
     g.setColor(Color.RED);
-    g.drawLine(50, 50, 50, 400);
+    g.drawLine(50+time, 50, 50+time, 400);
   }
 
 }
