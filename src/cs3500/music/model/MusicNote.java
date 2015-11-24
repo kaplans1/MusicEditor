@@ -81,7 +81,12 @@ public class MusicNote {
     this.volume = volume;
   }
 
-  public static int pitchIDfromString(String note, String octave) {
+  public static int pitchIDFromString(String note, String octave) {
+    System.out.println("NOTE");
+    System.out.println(note);
+    System.out.println("OCTAVE");
+    System.out.println(octave);
+    System.out.println("------");
     String noteString = note.toUpperCase();
     int octaveNum = Integer.parseInt(octave);
     int noteValue = 0; // temp value
@@ -221,7 +226,7 @@ public class MusicNote {
     return this.volume;
   }
 
-  public int getLength() { return this.getEndBeat() - this.getStartBeat(); }
+  public int getLength() { return this.beats; }
 
   /**
    * gets the true number representing the note across scales octaves, handling sharps flats etc.

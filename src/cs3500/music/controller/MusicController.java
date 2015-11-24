@@ -35,6 +35,11 @@ public class MusicController {
       KeyEvent.VK_E,
       KeyEvent.VK_F,
       KeyEvent.VK_G,
+      KeyEvent.VK_X,
+      KeyEvent.VK_N,
+      KeyEvent.VK_M,
+      KeyEvent.VK_L,
+      KeyEvent.VK_O,
       KeyEvent.VK_NUMBER_SIGN,
   };
 
@@ -69,6 +74,8 @@ public class MusicController {
    * @param keyCode keycode to add to the sequence
    */
   public void addKey(int keyCode) {
+    System.out.println("added key");
+    System.out.println(keyCode);
     this.keySequence.add(keyCode);
   }
 
@@ -101,6 +108,8 @@ public class MusicController {
       keySequence += (char)keyCode;
     }
 
+    keySequence = keySequence.toLowerCase();
+
     System.out.println(keySequence);
 
 
@@ -116,38 +125,48 @@ public class MusicController {
     boolean deleteMatch = deleteMatcher.matches();
     boolean moveMatch = moveMatcher.matches();
 
+    System.out.println(addMatch);
+    System.out.println(deleteMatch);
+    System.out.println(moveMatch);
+
     if (addMatch) {
       System.out.println("add match");
-      String addNote = addMatcher.group(0);
-      String addOctave = addMatcher.group(1);
-      int addBeat = Integer.parseInt(addMatcher.group(2));
-      int addLength = Integer.parseInt(addMatcher.group(3));
-      int addNoteID = MusicNote.pitchIDfromString(addNote, addOctave);
+      String addNote = addMatcher.group(1);
+      String addOctave = addMatcher.group(2);
+      int addBeat = Integer.parseInt(addMatcher.group(3));
+      int addLength = Integer.parseInt(addMatcher.group(4));
+
+      System.out.println(addNote);
+      System.out.println(addOctave);
+      System.out.println(addBeat);
+      System.out.println(addLength);
+
+      int addNoteID = MusicNote.pitchIDFromString(addNote, addOctave);
 
       // TODO: volume and instrument?
       this.musicPiece.addNote(new MusicNote(addNoteID, addBeat, addLength, 0, 100));
     } else if (deleteMatch) {
       System.out.println("delete match");
-      String deleteNote = addMatcher.group(0);
-      String deleteOctave = addMatcher.group(1);
-      int deleteBeat = Integer.parseInt(addMatcher.group(2));
-      int deleteNoteID = MusicNote.pitchIDfromString(deleteNote, deleteOctave);
+      String deleteNote = deleteMatcher.group(1);
+      String deleteOctave = deleteMatcher.group(2);
+      int deleteBeat = Integer.parseInt(deleteMatcher.group(3));
+      int deleteNoteID = MusicNote.pitchIDFromString(deleteNote, deleteOctave);
 
       this.musicPiece.deleteNote(deleteNoteID, deleteBeat);
     } else if (moveMatch) {
       System.out.println("move match");
-      String moveFromNote = moveMatcher.group(0);
-      String moveFromOctave = moveMatcher.group(1);
-      int moveFromBeat = Integer.parseInt(moveMatcher.group(2));
-      int moveFromNoteID = MusicNote.pitchIDfromString(moveFromNote, moveFromOctave);
+      String moveFromNote = moveMatcher.group(1);
+      String moveFromOctave = moveMatcher.group(2);
+      int moveFromBeat = Integer.parseInt(moveMatcher.group(3));
+      int moveFromNoteID = MusicNote.pitchIDFromString(moveFromNote, moveFromOctave);
       MusicNote note = this.musicPiece.getNote(moveFromNoteID, moveFromBeat);
       int moveFromLength = note.getLength();
       int moveFromInstrument = note.getInstrument();
       int moveFromVolume = note.getVolume();
-      String moveToNote = moveMatcher.group(3);
-      String moveToOctave = moveMatcher.group(4);
-      int moveToNoteID = MusicNote.pitchIDfromString(moveToNote, moveToOctave);
-      int moveToBeat = Integer.parseInt(moveMatcher.group(5));
+      String moveToNote = moveMatcher.group(4);
+      String moveToOctave = moveMatcher.group(5);
+      int moveToNoteID = MusicNote.pitchIDFromString(moveToNote, moveToOctave);
+      int moveToBeat = Integer.parseInt(moveMatcher.group(6));
 
       this.musicPiece.deleteNote(moveFromNoteID, moveFromBeat);
       this.musicPiece.addNote(new MusicNote(moveToNoteID, moveToBeat, moveFromLength,
@@ -156,6 +175,7 @@ public class MusicController {
 
 
     this.clearKeys();
+    this.comboView.repaint();
   }
 
   public void pausePlayback() throws InterruptedException, MidiUnavailableException {

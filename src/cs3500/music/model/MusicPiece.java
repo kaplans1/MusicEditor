@@ -140,7 +140,11 @@ public class MusicPiece implements MusicPieceInterface {
     if (startNotes != null) {
       for (MusicNote note : startNotes) {
         if (note.getPitchID() == deleteNotePitchID) {
+          System.out.println("Removed");
+          System.out.println(deleteNotePitchID);
+          System.out.println(deleteBeat);
           startNotes.remove(note);
+          this.notes.put(deleteBeat, startNotes);
           break;
         }
       }

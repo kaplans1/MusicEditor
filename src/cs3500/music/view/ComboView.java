@@ -34,4 +34,8 @@ public class ComboView implements ViewInterface{
   public void addGUIKeyListener(KeyboardHandler keyboardHandler) {
     this.gui.addKeyListener(keyboardHandler);
   }
+
+  public void repaint() {
+    this.gui.repaint();
+  }
 }
