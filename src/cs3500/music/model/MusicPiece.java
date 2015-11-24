@@ -105,6 +105,25 @@ public class MusicPiece implements MusicPieceInterface {
     //this.notes.put(note.getStartBeat(), startNotes);
   }
 
+  public MusicNote getNote(int pitchID, int beat) {
+    ArrayList<MusicNote> startNotes = this.notes.get(beat);
+    MusicNote foundNote = null;
+    if (startNotes != null) {
+      for (MusicNote note : startNotes) {
+        if (note.getPitchID() == pitchID) {
+          foundNote = note;
+          break;
+        }
+      }
+    }
+
+    if (foundNote == null) {
+      throw new IllegalArgumentException("Couldn't find note with given pitchID and beat");
+    }
+
+    return foundNote;
+  }
+
   public void deleteNote(MusicNote note) {
     ArrayList<MusicNote> startNotes = this.notes.get(note.getStartBeat());
     if (startNotes != null) {
@@ -112,6 +131,18 @@ public class MusicPiece implements MusicPieceInterface {
         startNotes.remove(note);
       } else {
         throw new IllegalArgumentException("Note to delete isn't there");
+      }
+    }
+  }
+
+  public void deleteNote(int deleteNotePitchID, int deleteBeat) {
+    ArrayList<MusicNote> startNotes = this.notes.get(deleteBeat);
+    if (startNotes != null) {
+      for (MusicNote note : startNotes) {
+        if (note.getPitchID() == deleteNotePitchID) {
+          startNotes.remove(note);
+          break;
+        }
       }
     }
   }

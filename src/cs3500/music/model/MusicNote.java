@@ -1,6 +1,8 @@
 package cs3500.music.model;
 
 
+import com.sun.javaws.exceptions.InvalidArgumentException;
+
 public class MusicNote {
   private int startBeat;
   private int pitchID;
@@ -77,6 +79,55 @@ public class MusicNote {
     this.beats = beats;
     this.instrument = instrument;
     this.volume = volume;
+  }
+
+  public static int pitchIDfromString(String note, String octave) {
+    String noteString = note.toUpperCase();
+    int octaveNum = Integer.parseInt(octave);
+    int noteValue = 0; // temp value
+
+    switch (noteString) {
+      case "C":
+        noteValue = 0;
+        break;
+      case "C#":
+        noteValue = 1;
+        break;
+      case "D":
+        noteValue = 2;
+        break;
+      case "D#":
+        noteValue = 3;
+        break;
+      case "E":
+        noteValue = 4;
+        break;
+      case "F":
+        noteValue = 5;
+        break;
+      case "F#":
+        noteValue = 6;
+        break;
+      case "G":
+        noteValue = 7;
+        break;
+      case "G#":
+        noteValue = 8;
+        break;
+      case "A":
+        noteValue = 9;
+        break;
+      case "A#":
+        noteValue = 10;
+        break;
+      case "B":
+        noteValue = 11;
+        break;
+      default:
+        throw new IllegalArgumentException("Note string did not match any known note.");
+    }
+
+    return (octaveNum * 12) + noteValue;
   }
 
   /**
@@ -169,6 +220,8 @@ public class MusicNote {
   public int getVolume() {
     return this.volume;
   }
+
+  public int getLength() { return this.getEndBeat() - this.getStartBeat(); }
 
   /**
    * gets the true number representing the note across scales octaves, handling sharps flats etc.
