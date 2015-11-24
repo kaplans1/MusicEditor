@@ -19,6 +19,7 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
   private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
   JFrame frame = new JFrame();
   private MusicPieceInterface piece;
+  private int startBeat;
 
   /**
    * Creates new GuiView
@@ -33,15 +34,13 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
 
   public GuiViewImpl(MusicPieceInterface n) {
     this.piece = n;
-    this.displayPanel = new ConcreteGuiViewPanel(piece);
+    this.startBeat = 0;
+    this.displayPanel = new ConcreteGuiViewPanel(piece, startBeat);
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
     this.pack();
 
   }
-
-
-
 
   @Override
   public void initialize() {

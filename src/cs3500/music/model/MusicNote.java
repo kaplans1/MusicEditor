@@ -251,4 +251,6 @@ public class MusicNote {
   public boolean equals(Object o) {
     return o instanceof MusicNote && this.getPitchID() == ((MusicNote) o).getPitchID();
   }
+
+
 }

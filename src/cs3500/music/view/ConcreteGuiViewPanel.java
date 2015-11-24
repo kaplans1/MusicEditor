@@ -17,12 +17,15 @@ import cs3500.music.model.MusicPieceInterface;
  * A dummy view that simply draws a string
  */
 public class ConcreteGuiViewPanel extends JPanel {
-  public static final int gridAllign = 50;
-  public static final int beatCubeSize = 20;
-  MusicPieceInterface notes;
 
-  public ConcreteGuiViewPanel(MusicPieceInterface notes) {
+  public static final int beatCubeSize = 20;
+  public static final int gridAllign = beatCubeSize*2;
+  MusicPieceInterface notes;
+  int startBeat;
+
+  public ConcreteGuiViewPanel(MusicPieceInterface notes, int startBeat) {
     this.notes = notes;
+    this.startBeat = startBeat;
   }
   public ConcreteGuiViewPanel() {
     this.notes = null;
@@ -33,7 +36,8 @@ public class ConcreteGuiViewPanel extends JPanel {
     //TODO: Check if notes are not null
     //each beat 20 px wide
     //code to check that width of board is correct
-    int width = notes.getLastBeat();
+    int width = 80;
+            //notes.getLastBeat();
     System.out.println(width);
     int height = notes.getAllPitchIds().size();
     //draws all necessary rows
@@ -43,11 +47,6 @@ public class ConcreteGuiViewPanel extends JPanel {
               gridAllign + i * beatCubeSize);
     }
 
-    // TODO: I'm guessing extra stuff is being rendered here somewhere because of getAllNotes
-    // vs getAllPitches
-
-    //draws all pitch names
-    //TODO: have the list be sorted by pitchID
     for (int i = 0; i < notes.getAllPitches().size(); i++) {
       g.drawString(notes.getAllPitches().get(i), gridAllign - 2*beatCubeSize,
               gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
@@ -60,8 +59,8 @@ public class ConcreteGuiViewPanel extends JPanel {
               gridAllign - beatCubeSize / 2);
     }
 
-    //draws notes!
-    for (int i = 0; i <= width; i++) {
+    //draws notes from start beat to selected width
+    for (int i = startBeat; i <= startBeat+ width; i++) {
       if (notes.getAllNotes().get(i) != null) {
         ArrayList<MusicNote> curr = notes.getAllNotes().get(i);
         for (MusicNote n : curr) {
@@ -74,7 +73,7 @@ public class ConcreteGuiViewPanel extends JPanel {
               g.setColor(Color.RED);
             }
 
-            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1,
+            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1 - startBeat * beatCubeSize,
                     gridAllign+ row*beatCubeSize + 1,
                     beatCubeSize - 2, beatCubeSize - 2);
           }
