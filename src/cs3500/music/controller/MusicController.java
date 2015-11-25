@@ -14,38 +14,37 @@ import cs3500.music.model.MusicPieceInterface;
 import cs3500.music.view.ComboView;
 
 public class MusicController {
+  protected static int[] addKeys = {
+          KeyEvent.VK_0,
+          KeyEvent.VK_1,
+          KeyEvent.VK_2,
+          KeyEvent.VK_3,
+          KeyEvent.VK_4,
+          KeyEvent.VK_5,
+          KeyEvent.VK_6,
+          KeyEvent.VK_7,
+          KeyEvent.VK_8,
+          KeyEvent.VK_9,
+          KeyEvent.VK_A,
+          KeyEvent.VK_B,
+          KeyEvent.VK_C,
+          KeyEvent.VK_D,
+          KeyEvent.VK_E,
+          KeyEvent.VK_F,
+          KeyEvent.VK_G,
+          KeyEvent.VK_X,
+          KeyEvent.VK_N,
+          KeyEvent.VK_M,
+          KeyEvent.VK_L,
+          KeyEvent.VK_O,
+          KeyEvent.VK_NUMBER_SIGN,
+  };
   MusicPieceInterface musicPiece;
   ComboView comboView;
   KeyboardHandler keyListener;
   ArrayList<Integer> keySequence;
-
   int x;
   MouseHandler mouseHandler;
-  protected static int[] addKeys = {
-      KeyEvent.VK_0,
-      KeyEvent.VK_1,
-      KeyEvent.VK_2,
-      KeyEvent.VK_3,
-      KeyEvent.VK_4,
-      KeyEvent.VK_5,
-      KeyEvent.VK_6,
-      KeyEvent.VK_7,
-      KeyEvent.VK_8,
-      KeyEvent.VK_9,
-      KeyEvent.VK_A,
-      KeyEvent.VK_B,
-      KeyEvent.VK_C,
-      KeyEvent.VK_D,
-      KeyEvent.VK_E,
-      KeyEvent.VK_F,
-      KeyEvent.VK_G,
-      KeyEvent.VK_X,
-      KeyEvent.VK_N,
-      KeyEvent.VK_M,
-      KeyEvent.VK_L,
-      KeyEvent.VK_O,
-      KeyEvent.VK_NUMBER_SIGN,
-  };
 
   public MusicController(MusicPieceInterface musicPiece, ComboView comboView) throws InterruptedException, MidiUnavailableException {
     this.musicPiece = musicPiece;
@@ -65,13 +64,23 @@ public class MusicController {
     this.keyListener.addRunnable(KeyEvent.VK_HOME, new HomeKeyRunnable(this));
     this.keyListener.addRunnable(KeyEvent.VK_END, new EndKeyRunnable(this));
     this.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnable(this));
-    this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new LeftKeyRunnable(this));
+    this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnable(this));
+
+    //mocks
+//    this.keyListener.addRunnable(KeyEvent.VK_ESCAPE, new ClearKeyRunnableTest(this));
+//    this.keyListener.addRunnable(KeyEvent.VK_ENTER, new EnterKeyRunnableTest(this));
+//    this.keyListener.addRunnable(KeyEvent.VK_SPACE, new PauseKeyRunnableTest(this));
+//    this.keyListener.addRunnable(KeyEvent.VK_HOME, new HomeKeyRunnableTest(this));
+//    this.keyListener.addRunnable(KeyEvent.VK_END, new EndKeyRunnableTest(this));
+//    this.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnableTest(this));
+//    this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnableTest(this));
 
 
     this.comboView.addGUIKeyListener(this.keyListener);
 
-  //  this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED, new MouseClickRunnable(this));
+
     this.comboView.addGUIMouseListener(this.mouseHandler);
+//    this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED, new MouseClickRunnable(this));
 
     //this.comboView.initialize();
   }
@@ -95,15 +104,10 @@ public class MusicController {
   }
 
   /**
-   * TODO:
-   * delete a note c5 starting on beat 64
-   * c5 x 64
-   * add a note in c5 on beat 64 lasting 5 beats
-   * c5 n 64 l 5
-   * move a note in c5 on beat c4 to d3 on beat 75 maintaining length
-   * c5 m 64 d3 o 75
-   * arrow keys to scroll through composition based on offset space bar to play/pause/restart composition
-   * home/end keys to move to the beginning/end of composition
+   * TODO: delete a note c5 starting on beat 64 c5 x 64 add a note in c5 on beat 64 lasting 5 beats
+   * c5 n 64 l 5 move a note in c5 on beat c4 to d3 on beat 75 maintaining length c5 m 64 d3 o 75
+   * arrow keys to scroll through composition based on offset space bar to play/pause/restart
+   * composition home/end keys to move to the beginning/end of composition
    */
 
   public void processKeySequence() {
@@ -113,7 +117,7 @@ public class MusicController {
     String keySequence = "";
 
     for (int keyCode : this.keySequence) {
-      keySequence += (char)keyCode;
+      keySequence += (char) keyCode;
     }
 
     keySequence = keySequence.toLowerCase();
@@ -125,17 +129,26 @@ public class MusicController {
     Pattern deleteNotePattern = Pattern.compile("([abcdefg]#?)([0-9])x([0-9]+)");
     Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
 
+    Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])p([0-9]+)");
+
+
     Matcher addMatcher = addNotePattern.matcher(keySequence);
     Matcher deleteMatcher = deleteNotePattern.matcher(keySequence);
     Matcher moveMatcher = moveNotePattern.matcher(keySequence);
+
+    Matcher thirdMatcher = addThirdPattern.matcher(keySequence);
 
     boolean addMatch = addMatcher.matches();
     boolean deleteMatch = deleteMatcher.matches();
     boolean moveMatch = moveMatcher.matches();
 
+    boolean thirdMatch = thirdMatcher.matches();
+
     System.out.println(addMatch);
     System.out.println(deleteMatch);
     System.out.println(moveMatch);
+
+    System.out.println(thirdMatch);
 
     if (addMatch) {
       System.out.println("add match");
@@ -178,7 +191,27 @@ public class MusicController {
 
       this.musicPiece.deleteNote(moveFromNoteID, moveFromBeat);
       this.musicPiece.addNote(new MusicNote(moveToNoteID, moveToBeat, moveFromLength,
-          moveFromInstrument, moveFromVolume));
+              moveFromInstrument, moveFromVolume));
+    } else if (thirdMatch) {
+      System.out.println("third match");
+      String addNote = thirdMatcher.group(1);
+      String addOctave = thirdMatcher.group(2);
+      int addBeat = Integer.parseInt(thirdMatcher.group(3));
+
+      int moveFromBeat = Integer.parseInt(thirdMatcher.group(3));
+      int moveFromNoteID = MusicNote.pitchIDFromString(addNote, addOctave);
+      MusicNote note = this.musicPiece.getNote(moveFromNoteID, moveFromBeat);
+      int addLength = note.getLength();
+
+      System.out.println(addNote);
+      System.out.println(addOctave);
+      System.out.println(addBeat);
+      System.out.println(addLength);
+
+      int addNoteID = MusicNote.pitchIDFromString(addNote, addOctave) + 2;
+
+      // TODO: volume and instrument?
+      this.musicPiece.addNote(new MusicNote(addNoteID, addBeat, addLength, 0, 100));
     }
 
 
@@ -208,8 +241,12 @@ public class MusicController {
     this.comboView.scroll(true);
   }
 
+  public void clicked() throws InterruptedException, MidiUnavailableException {
+    //scroll to e.x();
+    this.comboView.scrollTo(0);
+  }
 
-  // like a billion runnables
+  // like two billion runnables
   public class AddKeyRunnable implements Runnable {
     MusicController musicController;
     int keyCode;
@@ -344,13 +381,14 @@ public class MusicController {
 
   public class MouseClickRunnable implements Runnable {
     MusicController musicController;
-    MouseClickRunnable(MouseHandler mouseHandler){
+
+    MouseClickRunnable(MouseHandler mouseHandler) {
       this.musicController = musicController;
     }
 
 
     @Override
-    public void run(){
+    public void run() {
       try {
         this.musicController.clicked();
       } catch (InterruptedException e) {
@@ -361,8 +399,130 @@ public class MusicController {
     }
   }
 
-  public void clicked() throws InterruptedException, MidiUnavailableException {
-    //scroll to e.x();
-    this.comboView.scrollTo(0);
+  //mock runnables
+  public class AddKeyRunnableTest implements Runnable {
+    MusicController musicController;
+    int keyCode;
+
+    AddKeyRunnableTest(MusicController musicController, int keyCode) {
+      this.musicController = musicController;
+      this.keyCode = keyCode;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Key added:" + this.keyCode);
+    }
   }
+
+  public class ClearKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    ClearKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Input cleared.");
+    }
+  }
+
+  public class EnterKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    EnterKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Run!");
+    }
+  }
+
+  public class PauseKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    PauseKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Paused or played.");
+    }
+  }
+
+  public class HomeKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    HomeKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Moved to beginning.");
+    }
+  }
+
+  public class EndKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    EndKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Moved to end.");
+    }
+  }
+
+  public class LeftKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    LeftKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Skipped left.");
+    }
+  }
+
+  public class RightKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    RightKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Skipped right.");
+    }
+  }
+//
+//  public class MouseClickRunnableTest implements Runnable {
+//    MusicController musicController;
+//
+//    MouseClickRunnableTest(MouseHandler mouseHandler) {
+//      this.musicController = musicController;
+//    }
+//
+//
+//    @Override
+//    public void run() {
+//      try {
+//        this.musicController.clicked();
+//      } catch (InterruptedException e) {
+//        e.printStackTrace();
+//      } catch (MidiUnavailableException e) {
+//        e.printStackTrace();
+//      }
+//    }
+//  }
 }

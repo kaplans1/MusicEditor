@@ -18,7 +18,7 @@ public class KeyboardHandler extends JFrame implements KeyListener {
     this.released = new TreeMap<Integer, Runnable>();
   }
 
-  // not really used
+
   @Override
   public void keyTyped(KeyEvent e) {
   }
