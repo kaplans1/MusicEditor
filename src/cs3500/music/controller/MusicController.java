@@ -216,7 +216,7 @@ public class MusicController {
 
 
     this.clearKeys();
-    this.comboView.repaint();
+    this.comboView.redraw();
   }
 
   public void pausePlayback() throws InterruptedException, MidiUnavailableException {

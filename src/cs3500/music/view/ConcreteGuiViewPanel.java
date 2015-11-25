@@ -19,18 +19,24 @@ import cs3500.music.model.MusicPieceInterface;
 public class ConcreteGuiViewPanel extends JPanel {
 
   public static final int beatCubeSize = 20;
-  public static final int gridAllign = beatCubeSize*2;
+  public static final int gridAllign = beatCubeSize * 2;
   MusicPieceInterface notes;
   int startBeat;
+  int currentBeat;
 
   public ConcreteGuiViewPanel(MusicPieceInterface notes, int startBeat) {
     this.notes = notes;
     this.startBeat = startBeat;
+    this.currentBeat = startBeat;
   }
+
   public ConcreteGuiViewPanel() {
     this.notes = null;
   }
 
+  public void setCurrentBeat(int currentBeat) {
+    this.currentBeat = currentBeat;
+  }
 
   @Override
   public void paint(Graphics g) {
@@ -38,57 +44,57 @@ public class ConcreteGuiViewPanel extends JPanel {
     //each beat 20 px wide
     //code to check that width of board is correct
     int width = 80;
-            //notes.getLastBeat();
+    //this.notes.getLastBeat();
     System.out.println(width);
-    int height = notes.getAllPitchIds().size();
+    int height = this.notes.getAllPitchIds().size();
     //draws all necessary rows
     for (int i = 0; i <= height; i++) {
       g.drawLine(gridAllign, gridAllign + i * beatCubeSize,
-              gridAllign + width * (beatCubeSize + 1),
-              gridAllign + i * beatCubeSize);
+          gridAllign + width * (beatCubeSize + 1),
+          gridAllign + i * beatCubeSize);
     }
 
-    for (int i = 0; i < notes.getAllPitches().size(); i++) {
-      g.drawString(notes.getAllPitches().get(i), gridAllign - 2*beatCubeSize,
-              gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
+    for (int i = 0; i < this.notes.getAllPitches().size(); i++) {
+      g.drawString(this.notes.getAllPitches().get(i), gridAllign - 2 * beatCubeSize,
+          gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
     }
     //draws all columns based on tempo and adds beat labels
     for (int i = 0; i <= width / 4; i++) {
-      g.drawLine(gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign,
-              gridAllign + i * beatCubeSize * notes.getBPM(), gridAllign + height * beatCubeSize);
-      g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * notes.getBPM(),
-              gridAllign - beatCubeSize / 2);
+      g.drawLine(gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign,
+          gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
+      g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * this.notes.getBPM(),
+          gridAllign - beatCubeSize / 2);
     }
 
     //draws notes from start beat to selected width
-    for (int i = startBeat; i <= startBeat+ width; i++) {
-      if (notes.getAllNotes().get(i) != null) {
-        ArrayList<MusicNote> curr = notes.getAllNotes().get(i);
+    for (int i = startBeat; i <= startBeat + width; i++) {
+      if (this.notes.getAllNotes().get(i) != null) {
+        ArrayList<MusicNote> curr = this.notes.getAllNotes().get(i);
         for (MusicNote n : curr) {
           int noteLength = n.getEndBeat() - n.getStartBeat();
-          int row = notes.getAllPitches().indexOf(n.noteName());
-          for (int j = 0; j <=  noteLength; j++) {
-            if(j == 0) {
+          int row = this.notes.getAllPitches().indexOf(n.noteName());
+          for (int j = 0; j <= noteLength; j++) {
+            if (j == 0) {
               g.setColor(Color.BLACK);
             } else {
               g.setColor(Color.RED);
             }
 
             g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1 - startBeat * beatCubeSize,
-                    gridAllign+ row*beatCubeSize + 1,
-                    beatCubeSize - 2, beatCubeSize - 2);
+                gridAllign + row * beatCubeSize + 1, beatCubeSize - 2, beatCubeSize - 2);
           }
         }
       }
     }
 
-  //  this.redLine(g, 0);
+    this.redLine(g, this.currentBeat);
   }
 
-  public void redLine(Graphics g, int time){
-    this.getGraphics().setColor(Color.RED);
-    this.getGraphics().drawLine(gridAllign + time, gridAllign,
-            gridAllign + time, gridAllign + notes.getAllPitchIds().size() * beatCubeSize);
+  public void redLine(Graphics g, int beat) {
+    g.setColor(Color.RED);
+    g.drawLine(gridAllign + (beat * beatCubeSize), gridAllign,
+        gridAllign + (beat * beatCubeSize),
+        gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
   }
 
 

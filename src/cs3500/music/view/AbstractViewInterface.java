@@ -33,7 +33,7 @@ public class AbstractViewInterface {
     } else if (viewType.equals("console")){
       mp.render();
     } else if (viewType.equals("combo")){
-      ComboView view = new ComboView(new GuiViewImpl(mp), new MidiViewImpl(mp));
+      ComboView view = new ComboView(new GuiViewImpl(mp), new MidiViewImpl(mp), mp);
       MusicController musicController = new MusicController(mp, view);
       view.initialize();
     }

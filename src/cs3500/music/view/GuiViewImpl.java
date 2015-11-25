@@ -16,7 +16,7 @@ import cs3500.music.model.MusicPieceInterface;
  */
 public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
 
-  private JPanel displayPanel; // You may want to refine this to a subtype of JPanel
+  private ConcreteGuiViewPanel displayPanel; // You may want to refine this to a subtype of JPanel
   JFrame frame = new JFrame();
   private MusicPieceInterface piece;
   private int startBeat;
@@ -28,6 +28,8 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
   public MusicPieceInterface getPiece(){
     return this.piece;
   }
+
+  public void setCurrentBeat(int beat) {this.displayPanel.setCurrentBeat(beat);}
 
   public GuiViewImpl() {
     this.displayPanel = new ConcreteGuiViewPanel();
@@ -74,7 +76,7 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
     this.pack();
   }
 
-  public void reDraw() {
+  public void redraw() {
     this.displayPanel.revalidate();
     this.displayPanel.repaint();
   }
