@@ -31,6 +31,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     this.notes = null;
   }
 
+
   @Override
   public void paint(Graphics g) {
     //TODO: Check if notes are not null

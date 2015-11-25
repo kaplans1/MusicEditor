@@ -24,6 +24,11 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
   /**
    * Creates new GuiView
    */
+
+  public MusicPieceInterface getPiece(){
+    return this.piece;
+  }
+
   public GuiViewImpl() {
     this.displayPanel = new ConcreteGuiViewPanel();
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);

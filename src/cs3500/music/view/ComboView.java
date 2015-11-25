@@ -37,9 +37,10 @@ public class ComboView implements ViewInterface{
     }else {
       this.gui.updateStartDisplayBeat(midi.currentBeat - midi.SCROLL_SPEED);
     }
-   // this.midi.scroll(b);
+    this.midi.scroll(b);
     this.gui.reDraw();
   }
+
 
   public void addGUIKeyListener(KeyboardHandler keyboardHandler) {
     this.gui.addKeyListener(keyboardHandler);
@@ -62,7 +63,14 @@ public class ComboView implements ViewInterface{
   }
 
   public void goTo(String loc) {
+    if(loc.equals("start")) {
+      this.gui.updateStartDisplayBeat(0);
+    }else if (loc.equals("end")) {
+      this.gui.updateStartDisplayBeat(this.gui.getPiece().getLastBeat()-80);
+    }
     midi.goTo(loc);
+    this.gui.reDraw();
+
   }
 
   public void repaint() {
