@@ -64,10 +64,10 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
   }
 
   public void updateStartDisplayBeat(int beat){
-    this.displayPanel.invalidate();
-    this.displayPanel.getGraphics().dispose();
-    this.displayPanel.updateUI();
-    this.displayPanel.setVisible(false);
+//    this.displayPanel.invalidate();
+//    this.displayPanel.getGraphics().dispose();
+//    this.displayPanel.updateUI();
+//    this.displayPanel.setVisible(false);
 
 
     this.displayPanel = new ConcreteGuiViewPanel(piece, beat);

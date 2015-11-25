@@ -18,7 +18,7 @@ public class MouseHandler implements MouseListener {
   //variable to store where a click happened
   int x;
 
-  public MouseHandler(MusicPieceInterface musicPiece, ComboView comboView){
+  public MouseHandler(){
     this.released = new TreeMap<Integer, Runnable>();
   }
 

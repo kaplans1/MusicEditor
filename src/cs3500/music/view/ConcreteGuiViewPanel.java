@@ -23,7 +23,7 @@ public class ConcreteGuiViewPanel extends JPanel {
   MusicPieceInterface notes;
   int startBeat;
   int currentBeat;
-
+  public static final int width = 80;
   public ConcreteGuiViewPanel(MusicPieceInterface notes, int startBeat) {
     this.notes = notes;
     this.startBeat = startBeat;
@@ -43,8 +43,9 @@ public class ConcreteGuiViewPanel extends JPanel {
     //TODO: Check if notes are not null
     //each beat 20 px wide
     //code to check that width of board is correct
-    int width = 80;
+
     //this.notes.getLastBeat();
+
     System.out.println(width);
     int height = this.notes.getAllPitchIds().size();
     //draws all necessary rows
@@ -53,19 +54,22 @@ public class ConcreteGuiViewPanel extends JPanel {
           gridAllign + width * (beatCubeSize + 1),
           gridAllign + i * beatCubeSize);
     }
-
+    //draws pitches
     for (int i = 0; i < this.notes.getAllPitches().size(); i++) {
       g.drawString(this.notes.getAllPitches().get(i), gridAllign - 2 * beatCubeSize,
           gridAllign + i * beatCubeSize + 2 * beatCubeSize / 3);
     }
-    //draws all columns based on tempo and adds beat labels
+    //draws all columns based on tempo
     for (int i = 0; i <= width / 4; i++) {
+      g.setColor(Color.black);
       g.drawLine(gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign,
-          gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
-      g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * this.notes.getBPM(),
-          gridAllign - beatCubeSize / 2);
+              gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
     }
-
+    //beat labels
+    for (int i = startBeat; i <= startBeat+width / 4; i++) {
+    g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * this.notes.getBPM(),
+            gridAllign - beatCubeSize / 2);
+    }
     //draws notes from start beat to selected width
     for (int i = startBeat; i <= startBeat + width; i++) {
       if (this.notes.getAllNotes().get(i) != null) {
@@ -91,10 +95,16 @@ public class ConcreteGuiViewPanel extends JPanel {
   }
 
   public void redLine(Graphics g, int beat) {
+    this.revalidate();
+    this.repaint();
+    int x = beat;
     g.setColor(Color.RED);
-    g.drawLine(gridAllign + (beat * beatCubeSize), gridAllign,
-        gridAllign + (beat * beatCubeSize),
-        gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
+    if (beat>=this.width){
+       x = beat/this.width;
+    }
+    g.drawLine(gridAllign + (x * beatCubeSize), gridAllign,
+            gridAllign + (x * beatCubeSize),
+            gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
   }
 
 

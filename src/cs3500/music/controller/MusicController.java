@@ -51,6 +51,7 @@ public class MusicController {
     this.comboView = comboView;
     this.keyListener = new KeyboardHandler();
     this.keySequence = new ArrayList<>();
+    this.mouseHandler = new MouseHandler();
 
 
     // add callbacks to keyboard handler
@@ -78,11 +79,10 @@ public class MusicController {
 
     this.comboView.addGUIKeyListener(this.keyListener);
 
+    this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED, new MouseClickRunnable(this));
 
     this.comboView.addGUIMouseListener(this.mouseHandler);
-//    this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED, new MouseClickRunnable(this));
 
-    //this.comboView.initialize();
   }
 
   /**
@@ -382,7 +382,7 @@ public class MusicController {
   public class MouseClickRunnable implements Runnable {
     MusicController musicController;
 
-    MouseClickRunnable(MouseHandler mouseHandler) {
+    MouseClickRunnable(MusicController musicController) {
       this.musicController = musicController;
     }
 
@@ -390,7 +390,7 @@ public class MusicController {
     @Override
     public void run() {
       try {
-        this.musicController.clicked();
+        this.musicController.pausePlayback();
       } catch (InterruptedException e) {
         e.printStackTrace();
       } catch (MidiUnavailableException e) {
