@@ -63,13 +63,14 @@ public class ComboView implements ViewInterface {
   }
 
   public void scroll(boolean b) throws MidiUnavailableException, InterruptedException {
+    this.midi.scroll(b);
     if (b) {
       this.gui.updateStartDisplayBeat(midi.currentBeat + midi.SCROLL_SPEED);
+      this.gui.redraw();
     } else {
       this.gui.updateStartDisplayBeat(midi.currentBeat - midi.SCROLL_SPEED);
+      this.gui.redraw();
     }
-    this.midi.scroll(b);
-    this.gui.redraw();
   }
 
 
@@ -80,10 +81,11 @@ public class ComboView implements ViewInterface {
 
   public void addGUIMouseListener(MouseListener mouseListener) {
     this.gui.addMouseListener(mouseListener);
+    this.gui.redraw();
   }
 
   public void scrollTo(int x) throws MidiUnavailableException, InterruptedException {
-
+    this.gui.updateStartDisplayBeat(x);
     try {
       this.midi.scrollTo(x);
     } catch (InterruptedException e) {
@@ -91,6 +93,7 @@ public class ComboView implements ViewInterface {
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
+    this.gui.redraw();
   }
 
   public void goTo(String loc) {
