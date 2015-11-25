@@ -32,7 +32,13 @@ public class ComboView implements ViewInterface{
   }
 
   public void scroll(boolean b) throws MidiUnavailableException, InterruptedException {
-    this.midi.scroll(b);
+    if(b) {
+      this.gui.updateStartDisplayBeat(midi.currentBeat + midi.SCROLL_SPEED);
+    }else {
+      this.gui.updateStartDisplayBeat(midi.currentBeat - midi.SCROLL_SPEED);
+    }
+   // this.midi.scroll(b);
+    this.gui.reDraw();
   }
 
   public void addGUIKeyListener(KeyboardHandler keyboardHandler) {
@@ -45,6 +51,7 @@ public class ComboView implements ViewInterface{
   }
 
   public void scrollTo(int x) throws MidiUnavailableException, InterruptedException {
+
     try {
       this.midi.scrollTo(x);
     } catch (InterruptedException e) {

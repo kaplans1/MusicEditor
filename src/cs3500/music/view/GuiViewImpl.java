@@ -16,7 +16,7 @@ import cs3500.music.model.MusicPieceInterface;
  */
 public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
 
-  private final JPanel displayPanel; // You may want to refine this to a subtype of JPanel
+  private JPanel displayPanel; // You may want to refine this to a subtype of JPanel
   JFrame frame = new JFrame();
   private MusicPieceInterface piece;
   private int startBeat;
@@ -54,6 +54,19 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
     return new Dimension(piece.getLastBeat() * 22 + ConcreteGuiViewPanel.gridAllign,
             piece.getAllPitches().size() * 22 + 100);
 
+  }
+
+  public void updateStartDisplayBeat(int beat){
+    this.displayPanel.invalidate();
+    this.displayPanel.getGraphics().dispose();
+    this.displayPanel.updateUI();
+    this.displayPanel.setVisible(false);
+
+
+    this.displayPanel = new ConcreteGuiViewPanel(piece, beat);
+    this.displayPanel.setVisible(true);
+    this.getContentPane().add(displayPanel);
+    this.pack();
   }
 
   public void reDraw() {
