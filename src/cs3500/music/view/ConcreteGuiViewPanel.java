@@ -93,12 +93,13 @@ public class ConcreteGuiViewPanel extends JPanel {
   }
 
   public void redLine(Graphics g, int beat) {
+    this.invalidate();
     this.revalidate();
     this.repaint();
     int x = beat;
     g.setColor(Color.RED);
     if (beat >= this.width) {
-      x = beat / this.width;
+      x = beat % this.width;
     }
     g.drawLine(gridAllign + (x * beatCubeSize), gridAllign,
         gridAllign + (x * beatCubeSize),
