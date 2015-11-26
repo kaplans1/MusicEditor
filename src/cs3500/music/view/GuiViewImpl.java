@@ -80,6 +80,8 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
   }
 
   public void redraw() {
+    BlankSquare blank = new BlankSquare();
+    this.displayPanel.add(blank);
     this.displayPanel.revalidate();
     this.displayPanel.repaint();
   }

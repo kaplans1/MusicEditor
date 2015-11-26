@@ -39,7 +39,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     //code to check that width of board is correct
 
     //this.notes.getLastBeat();
-
+    g.fillRect(0, 0, 1000, 5000);
     if(this.currentBeat-this.startBeat>80) {
       this.startBeat = this.currentBeat;
     }
@@ -48,6 +48,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     int height = this.notes.getAllPitchIds().size();
     //draws all necessary rows
     for (int i = 0; i <= height; i++) {
+      g.setColor(Color.white);
       g.drawLine(gridAllign, gridAllign + i * beatCubeSize,
           gridAllign + width * (beatCubeSize + 1),
           gridAllign + i * beatCubeSize);
@@ -59,7 +60,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     }
     //draws all columns based on tempo
     for (int i = 0; i <= width / 4; i++) {
-      g.setColor(Color.black);
+      g.setColor(Color.white);
       g.drawLine(gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign,
           gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
     }
