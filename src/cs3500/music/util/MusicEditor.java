@@ -19,7 +19,7 @@ public class MusicEditor {
        //     String argView = args[1];
 
             Builder b = new Builder();
-         FileReader argFile = new FileReader("C:/Users/Alex/IdeaProjects/MusicEditor/mystery-2.txt");
+         FileReader argFile = new FileReader("C:/Users/Alex/IdeaProjects/MusicEditor/mystery-1.txt");
       // FileReader argFile = new FileReader("/Users/natdempk/Classwork/cs3500/MusicEditor/mary-little-lamb.txt");
           //  FileReader argFile = new FileReader(fileName);
             MusicPieceInterface r = MusicReader.parseFile(argFile, b);

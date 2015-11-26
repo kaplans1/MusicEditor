@@ -39,7 +39,7 @@ public class ConcreteGuiViewPanel extends JPanel {
     //code to check that width of board is correct
 
     //this.notes.getLastBeat();
-    g.fillRect(0, 0, 1000, 5000);
+    g.fillRect(0, 0, 5000, 5000);
     if(this.currentBeat-this.startBeat>80) {
       this.startBeat = this.currentBeat;
     }
@@ -78,7 +78,7 @@ public class ConcreteGuiViewPanel extends JPanel {
           int row = this.notes.getAllPitches().indexOf(n.noteName());
           for (int j = 0; j <= noteLength; j++) {
             if (j == 0) {
-              g.setColor(Color.BLACK);
+              g.setColor(Color.GREEN);
             } else {
               g.setColor(Color.RED);
             }
@@ -89,7 +89,6 @@ public class ConcreteGuiViewPanel extends JPanel {
         }
       }
     }
-
     this.redLine(g, this.currentBeat);
   }
 

@@ -15,7 +15,7 @@ public class BlankSquare extends JLabel {
 
   @Override
   public void paint(Graphics g){
-    g.fillRect(0, 0, 1000, 1000);
+    g.fillRect(0, 0, 5000, 5000);
   }
 
 }
