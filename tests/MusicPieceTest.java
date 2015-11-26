@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -108,8 +109,10 @@ public class MusicPieceTest {
     x.keyListener.addRunnable(KeyEvent.VK_END, new EndKeyRunnableTest(x));
     x.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnableTest(x));
     x.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnableTest(x));
-
-
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyTyped(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("Skipped left.", outContent);
   }
 
   //old tests
