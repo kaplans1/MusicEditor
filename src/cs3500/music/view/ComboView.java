@@ -99,14 +99,16 @@ public class ComboView implements ViewInterface {
 
   public void goTo(String loc) {
     if (loc.equals("start")) {
-      this.midi.stopPlaying();
       this.gui.updateStartDisplayBeat(0);
+      this.gui.redraw();
     } else if (loc.equals("end")) {
-      this.midi.stopPlaying();
       this.gui.updateStartDisplayBeat(this.gui.getPiece().getLastBeat() - 80);
+      this.midi.stopPlaying();
     }
-    midi.goTo(loc);
+
     this.gui.redraw();
+    midi.goTo(loc);
+
 
   }
 
