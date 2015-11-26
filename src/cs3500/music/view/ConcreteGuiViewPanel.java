@@ -41,7 +41,11 @@ public class ConcreteGuiViewPanel extends JPanel {
     //this.notes.getLastBeat();
     g.fillRect(0, 0, 5000, 5000);
     if(this.currentBeat-this.startBeat>80) {
-      this.startBeat = this.currentBeat;
+      if(this.startBeat%2 !=0){
+        this.startBeat = this.currentBeat;
+      } else {
+        this.startBeat = this.currentBeat-1;
+      }
     }
 
 
@@ -65,9 +69,12 @@ public class ConcreteGuiViewPanel extends JPanel {
           gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
     }
     //beat labels
-    for (int i = startBeat; i <= startBeat + width / 4; i++) {
-      g.drawString(((i % 80) * 4) + "", gridAllign + (i % 80) * beatCubeSize * this.notes.getBPM(),
+    int k = 0;
+    for (int i = startBeat; i <= startBeat + width; i++) {
+      g.drawString(startBeat+ k +  "",
+          gridAllign + (k/4) * beatCubeSize * this.notes.getBPM(),
           gridAllign - beatCubeSize / 2);
+      k+=4;
     }
     //draws notes from start beat to selected width
     for (int i = startBeat; i <= startBeat + width; i++) {
