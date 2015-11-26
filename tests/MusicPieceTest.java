@@ -2,6 +2,7 @@
  * Created by natdempk on 11/3/15.
  */
 
+import cs3500.music.controller.MouseHandler;
 import cs3500.music.controller.MusicController;
 import cs3500.music.model.MusicPieceInterface;
 import cs3500.music.view.AbstractViewInterface;
@@ -10,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.awt.event.KeyEvent;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -32,14 +34,14 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
 
 public class MusicPieceTest {
-
-
   //Testing console output - stackoverflow 1119559
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+
   @Before
   public void setUpStreams() {
     System.setOut(new PrintStream(outContent));
   }
+
   @After
   public void cleanUpStreams() {
     System.setOut(null);
@@ -47,9 +49,6 @@ public class MusicPieceTest {
 
   MusicPiece mp = new MusicPiece();
   MusicPieceInterface mp1 = new MusicPiece();
-
-
-
   MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 1, 1);
   MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 1, 1);
   MusicNote a2 = new MusicNote(Notes.A, 2, 2, 2, false, false, 1, 1);
@@ -66,17 +65,17 @@ public class MusicPieceTest {
   //the one used to add, move, and delete notes
 
   @Test
-  public void testGuiAdd() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException{
-   mp.addNote(f);
+  public void testGuiAdd() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(f);
     AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
-    mp.deleteNote(f.getPitchID(),2 );
+    mp.deleteNote(f.getPitchID(), 2);
     x.processKeySequenceTest("a2n2l2");
     assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(a2));
   }
 
   @Test
-  public void testGuiDel() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException{
+  public void testGuiDel() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(f);
     mp.addNote(a2);
     AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
@@ -86,7 +85,7 @@ public class MusicPieceTest {
   }
 
   @Test //test fails, but key sequences work in GUI - visual check. Not sure why they fail.
-  public void testGuiMov() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException{
+  public void testGuiMov() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
     AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
@@ -95,105 +94,137 @@ public class MusicPieceTest {
   }
 
 
+  @Test //test fails, but key sequences work in GUI - visual check. Not sure why they fail.
+  public void testRunnables() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+
+    //mocks - used to test, but can't exist concurrently with existing runnables
+    x.keyListener.addRunnable(KeyEvent.VK_ESCAPE, new ClearKeyRunnableTest(x));
+    x.keyListener.addRunnable(KeyEvent.VK_ENTER, new EnterKeyRunnableTest(x));
+    x.keyListener.addRunnable(KeyEvent.VK_SPACE, new PauseKeyRunnableTest(x));
+    x.keyListener.addRunnable(KeyEvent.VK_HOME, new HomeKeyRunnableTest(x));
+    x.keyListener.addRunnable(KeyEvent.VK_END, new EndKeyRunnableTest(x));
+    x.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnableTest(x));
+    x.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnableTest(x));
+
+
+  }
 
   //old tests
-  @Test (expected = IllegalArgumentException.class)
-  public void testStartBeat(){
+  @Test(expected = IllegalArgumentException.class)
+  public void testStartBeat() {
     MusicNote f = new MusicNote(Notes.F, -2, 2, 2, true, false, 1, 1);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testBeats(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testBeats() {
     MusicNote f = new MusicNote(Notes.F, 2, -2, 2, true, false, 1, 1);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testInstrument(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testInstrument() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, -1, 1);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testVolume(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testVolume() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, -1, 1);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testVolume2(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testVolume2() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 3, 128);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testOctave(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testOctave() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, -2, true, false, 2, 1);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void testOctave2(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void testOctave2() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 10, true, false, 2, 1);
   }
-  @Test (expected = IllegalArgumentException.class)
-  public void sharpAndFlat(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void sharpAndFlat() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 10, true, true, 2, 1);
   }
+
   @Test
-  public void absolutePitch(){
+  public void absolutePitch() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, false, 2, 1);
     assertEquals(125, f.getPitchID());
   }
+
   @Test
-  public void absolutePitch1(){
+  public void absolutePitch1() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, true, false, 2, 1);
     assertEquals(126, f.getPitchID());
   }
+
   @Test
-  public void absolutePitch2(){
+  public void absolutePitch2() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     assertEquals(124, f.getPitchID());
   }
+
   @Test
-  public void pitchToString(){
+  public void pitchToString() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     assertEquals("D1", f.pitchToString(14));
   }
+
   @Test
-  public void pitchToString1(){
+  public void pitchToString1() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     assertEquals("C0", f.pitchToString(0));
   }
-  @Test (expected = IllegalArgumentException.class)
-     public void pitchToString2(){
+
+  @Test(expected = IllegalArgumentException.class)
+  public void pitchToString2() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     assertEquals("C0", f.pitchToString(-1));
   }
+
   @Test
-  public void noteEquals(){
+  public void noteEquals() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     MusicNote f1 = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     assertTrue(f.equals(f1));
   }
+
   @Test
-  public void noteEquals2(){
+  public void noteEquals2() {
     MusicNote f = new MusicNote(Notes.F, 2, 2, 9, false, true, 2, 1);
     MusicNote f1 = new MusicNote(Notes.G, 2, 2, 9, false, true, 2, 1);
     assertFalse(f.equals(f1));
   }
 
   @Test
-  public void musicConstruct(){
+  public void musicConstruct() {
     MusicPiece mp = new MusicPiece();
     assertEquals(4, mp.getBPM());
     assertEquals(200000, mp.getTempo());
   }
 
-  @Test  (expected = IllegalArgumentException.class)
-  public void setTempo(){
+  @Test(expected = IllegalArgumentException.class)
+  public void setTempo() {
     MusicPiece mp = new MusicPiece();
     mp.setTempo(-1);
   }
 
   @Test
-  public void setTempo2(){
+  public void setTempo2() {
     MusicPiece mp = new MusicPiece();
     mp.setTempo(5);
     assertEquals(5, mp.getTempo());
   }
 
   @Test
-  public void getNotesStartingOnBeat(){
+  public void getNotesStartingOnBeat() {
     startNotes.add(f);
     startNotes.add(a);
     startNotes.add(b);
@@ -202,7 +233,7 @@ public class MusicPieceTest {
   }
 
   @Test
-  public void addNote(){
+  public void addNote() {
     mp.addNote(f);
     mp.addNote(a);
     mp.addNote(c);
@@ -212,15 +243,15 @@ public class MusicPieceTest {
     assertEquals("C4", f.pitchToString(mp.getNotesStartingOnBeat(2).get(2).getPitchID()));
   }
 
-  @Test  (expected = IllegalArgumentException.class)
-  public void delNote(){
+  @Test(expected = IllegalArgumentException.class)
+  public void delNote() {
     mp.addNote(f);
     mp.addNote(c);
     mp.deleteNote(a);
   }
 
   @Test
-  public void delNote2(){
+  public void delNote2() {
     mp.addNote(f);
     mp.addNote(a);
     mp.addNote(c);
@@ -228,25 +259,25 @@ public class MusicPieceTest {
     assertEquals(mp.getNotesStartingOnBeat(2), new ArrayList<MusicNote>(Arrays.asList(f, c)));
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void lastBeat(){
+  @Test(expected = IllegalArgumentException.class)
+  public void lastBeat() {
     mp.getLastBeat();
   }
 
-  @Test (expected = IllegalArgumentException.class)
-  public void lastBeat2(){
+  @Test(expected = IllegalArgumentException.class)
+  public void lastBeat2() {
     mp.addNote(f);
     mp.deleteNote(f);
     mp.getLastBeat();
   }
 
   @Test
-  public void render1(){
+  public void render1() {
     assertEquals("", mp.render());
   }
 
   @Test
-  public void render2(){
+  public void render2() {
     mp.addNote(g);
     mp.addNote(g2);
     mp.addNote(f);
@@ -254,46 +285,46 @@ public class MusicPieceTest {
     mp.addNote(b);
     mp.addNote(d);
     assertEquals("   D#3  F#3  A#3  C4   G4   \n" +
-            "0                           \n" +
-            "1                           \n" +
-            "2       X    X    X         \n" +
-            "3       |    |    |         \n" +
-            "4                      X    \n" +
-            "5                      |    \n" +
-            "6                      |    \n" +
-            "7                      |    \n" +
-            "8                           \n" +
-            "9                      X    \n" +
-            "10                     |    \n" +
-            "11                     |    \n" +
-            "12                     |    \n" +
-            "13                          \n" +
-            "14                          \n" +
-            "15                          \n" +
-            "16                          \n" +
-            "17                          \n" +
-            "18                          \n" +
-            "19                          \n" +
-            "20                          \n" +
-            "21                          \n" +
-            "22                          \n" +
-            "23                          \n" +
-            "24                          \n" +
-            "25                          \n" +
-            "26                          \n" +
-            "27                          \n" +
-            "28                          \n" +
-            "29                          \n" +
-            "30                          \n" +
-            "31                          \n" +
-            "32 X                        \n" +
-            "33 |                        \n" +
-            "34 |                        \n" +
-            "35 |                        \n", mp.render());
+        "0                           \n" +
+        "1                           \n" +
+        "2       X    X    X         \n" +
+        "3       |    |    |         \n" +
+        "4                      X    \n" +
+        "5                      |    \n" +
+        "6                      |    \n" +
+        "7                      |    \n" +
+        "8                           \n" +
+        "9                      X    \n" +
+        "10                     |    \n" +
+        "11                     |    \n" +
+        "12                     |    \n" +
+        "13                          \n" +
+        "14                          \n" +
+        "15                          \n" +
+        "16                          \n" +
+        "17                          \n" +
+        "18                          \n" +
+        "19                          \n" +
+        "20                          \n" +
+        "21                          \n" +
+        "22                          \n" +
+        "23                          \n" +
+        "24                          \n" +
+        "25                          \n" +
+        "26                          \n" +
+        "27                          \n" +
+        "28                          \n" +
+        "29                          \n" +
+        "30                          \n" +
+        "31                          \n" +
+        "32 X                        \n" +
+        "33 |                        \n" +
+        "34 |                        \n" +
+        "35 |                        \n", mp.render());
   }
 
-  @Test ()
-  public void render3(){
+  @Test()
+  public void render3() {
     mp.addNote(f);
     mp.addNote(a);
     mp.addNote(c);
@@ -302,7 +333,6 @@ public class MusicPieceTest {
     mp.deleteNote(c);
     assertEquals("", mp.render());
   }
-
 
 
   @Test
@@ -324,7 +354,7 @@ public class MusicPieceTest {
   }
 
   @Test
-  public void getAllnotes(){
+  public void getAllnotes() {
     //can I get all the notes
     mp.addNote(g2);
     startNotes.add(g2);
@@ -333,14 +363,14 @@ public class MusicPieceTest {
   }
 
   @Test
-  public void getLastBeat(){
+  public void getLastBeat() {
     //what's the last beat
     mp.addNote(g2);
     assertEquals(13, mp.getLastBeat());
   }
 
   @Test
-  public void getPitchID(){
+  public void getPitchID() {
     //what's the last beat
     mp.addNote(g2);
     assertEquals(1, mp.getAllPitchIds().size());
@@ -380,5 +410,132 @@ public class MusicPieceTest {
         "Opened MockMidiSynthesizer\n" +
         "Channel received noteOn: 55 1\n" +
         "Channel received noteOff: 55 1\n", logger.getLog());
+  }
+
+  //mock runnables
+  public class AddKeyRunnableTest implements Runnable {
+    MusicController musicController;
+    int keyCode;
+
+    AddKeyRunnableTest(MusicController musicController, int keyCode) {
+      this.musicController = musicController;
+      this.keyCode = keyCode;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Key added:" + this.keyCode);
+    }
+  }
+
+  public class ClearKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    ClearKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Input cleared.");
+    }
+  }
+
+  public class EnterKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    EnterKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Run!");
+    }
+  }
+
+  public class PauseKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    PauseKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Paused or played.");
+    }
+  }
+
+  public class HomeKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    HomeKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Moved to beginning.");
+    }
+  }
+
+  public class EndKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    EndKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Moved to end.");
+    }
+  }
+
+  public class LeftKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    LeftKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Skipped left.");
+    }
+  }
+
+  public class RightKeyRunnableTest implements Runnable {
+    MusicController musicController;
+
+    RightKeyRunnableTest(MusicController musicController) {
+      this.musicController = musicController;
+    }
+
+    @Override
+    public void run() {
+      System.out.println("Skipped right.");
+    }
+  }
+
+  public class MouseClickRunnableTest implements Runnable {
+    MusicController musicController;
+
+    MouseClickRunnableTest(MouseHandler mouseHandler) {
+      this.musicController = musicController;
+    }
+
+
+    @Override
+    public void run() {
+      try {
+        this.musicController.clicked();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (MidiUnavailableException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

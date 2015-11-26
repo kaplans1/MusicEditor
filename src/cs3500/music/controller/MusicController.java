@@ -37,11 +37,12 @@ public class MusicController {
           KeyEvent.VK_M,
           KeyEvent.VK_L,
           KeyEvent.VK_O,
+          KeyEvent.VK_P,
           KeyEvent.VK_NUMBER_SIGN,
   };
   MusicPieceInterface musicPiece;
   ComboView comboView;
-  KeyboardHandler keyListener;
+  public KeyboardHandler keyListener;
   ArrayList<Integer> keySequence;
   int x;
   MouseHandler mouseHandler;
@@ -66,16 +67,6 @@ public class MusicController {
     this.keyListener.addRunnable(KeyEvent.VK_END, new EndKeyRunnable(this));
     this.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnable(this));
     this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnable(this));
-
-    //mocks - used to test, but can't exist concurrently with existing runnables
-//    this.keyListener.addRunnable(KeyEvent.VK_ESCAPE, new ClearKeyRunnableTest(this));
-//    this.keyListener.addRunnable(KeyEvent.VK_ENTER, new EnterKeyRunnableTest(this));
-//    this.keyListener.addRunnable(KeyEvent.VK_SPACE, new PauseKeyRunnableTest(this));
-//    this.keyListener.addRunnable(KeyEvent.VK_HOME, new HomeKeyRunnableTest(this));
-//    this.keyListener.addRunnable(KeyEvent.VK_END, new EndKeyRunnableTest(this));
-//    this.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnableTest(this));
-//    this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnableTest(this));
-
 
     this.comboView.addGUIKeyListener(this.keyListener);
 
@@ -399,132 +390,7 @@ public class MusicController {
     }
   }
 
-  //mock runnables
-  public class AddKeyRunnableTest implements Runnable {
-    MusicController musicController;
-    int keyCode;
 
-    AddKeyRunnableTest(MusicController musicController, int keyCode) {
-      this.musicController = musicController;
-      this.keyCode = keyCode;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Key added:" + this.keyCode);
-    }
-  }
-
-  public class ClearKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    ClearKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Input cleared.");
-    }
-  }
-
-  public class EnterKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    EnterKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Run!");
-    }
-  }
-
-  public class PauseKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    PauseKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Paused or played.");
-    }
-  }
-
-  public class HomeKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    HomeKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Moved to beginning.");
-    }
-  }
-
-  public class EndKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    EndKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Moved to end.");
-    }
-  }
-
-  public class LeftKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    LeftKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Skipped left.");
-    }
-  }
-
-  public class RightKeyRunnableTest implements Runnable {
-    MusicController musicController;
-
-    RightKeyRunnableTest(MusicController musicController) {
-      this.musicController = musicController;
-    }
-
-    @Override
-    public void run() {
-      System.out.println("Skipped right.");
-    }
-  }
-
-  public class MouseClickRunnableTest implements Runnable {
-    MusicController musicController;
-
-    MouseClickRunnableTest(MouseHandler mouseHandler) {
-      this.musicController = musicController;
-    }
-
-
-    @Override
-    public void run() {
-      try {
-        this.musicController.clicked();
-      } catch (InterruptedException e) {
-        e.printStackTrace();
-      } catch (MidiUnavailableException e) {
-        e.printStackTrace();
-      }
-    }
-  }
 
   public void processKeySequenceTest(String input) {
     // parse sequence of keys to either add, delete, or move a note
