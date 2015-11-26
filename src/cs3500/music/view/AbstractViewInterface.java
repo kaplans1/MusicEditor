@@ -11,7 +11,7 @@ import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
 
 public class AbstractViewInterface {
-
+  ComboView view;
   public AbstractViewInterface(String viewType, MusicPieceInterface mp)
           throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
     if(viewType.equals("midi")){
@@ -34,6 +34,7 @@ public class AbstractViewInterface {
       mp.render();
     } else if (viewType.equals("combo")){
       ComboView view = new ComboView(new GuiViewImpl(mp), new MidiViewImpl(mp), mp);
+      this.view=view;
       MusicController musicController = new MusicController(mp, view);
       view.initialize();
     }
@@ -41,5 +42,8 @@ public class AbstractViewInterface {
 
   public void playPause(Boolean b, int x) {
 
+  }
+  public ComboView getComboView(){
+    return this.view;
   }
 }

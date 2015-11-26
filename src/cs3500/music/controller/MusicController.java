@@ -67,7 +67,7 @@ public class MusicController {
     this.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnable(this));
     this.keyListener.addRunnable(KeyEvent.VK_RIGHT, new RightKeyRunnable(this));
 
-    //mocks
+    //mocks - used to test, but can't exist concurrently with existing runnables
 //    this.keyListener.addRunnable(KeyEvent.VK_ESCAPE, new ClearKeyRunnableTest(this));
 //    this.keyListener.addRunnable(KeyEvent.VK_ENTER, new EnterKeyRunnableTest(this));
 //    this.keyListener.addRunnable(KeyEvent.VK_SPACE, new PauseKeyRunnableTest(this));
@@ -505,24 +505,137 @@ public class MusicController {
       System.out.println("Skipped right.");
     }
   }
+
+  public class MouseClickRunnableTest implements Runnable {
+    MusicController musicController;
+
+    MouseClickRunnableTest(MouseHandler mouseHandler) {
+      this.musicController = musicController;
+    }
+
+
+    @Override
+    public void run() {
+      try {
+        this.musicController.clicked();
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      } catch (MidiUnavailableException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  public void processKeySequenceTest(String input) {
+    // parse sequence of keys to either add, delete, or move a note
+
+    // build string sequence from arraylist
+    String keySequence = "";
 //
-//  public class MouseClickRunnableTest implements Runnable {
-//    MusicController musicController;
-//
-//    MouseClickRunnableTest(MouseHandler mouseHandler) {
-//      this.musicController = musicController;
+//    for (int keyCode : this.keySequence) {
+//      keySequence += (char) keyCode;
 //    }
-//
-//
-//    @Override
-//    public void run() {
-//      try {
-//        this.musicController.clicked();
-//      } catch (InterruptedException e) {
-//        e.printStackTrace();
-//      } catch (MidiUnavailableException e) {
-//        e.printStackTrace();
-//      }
-//    }
-//  }
+
+    keySequence = input.toLowerCase();
+
+    System.out.println(keySequence);
+
+
+    Pattern addNotePattern = Pattern.compile("([abcdefg]#?)([0-9])n([0-9]+)l([0-9]+)");
+    Pattern deleteNotePattern = Pattern.compile("([abcdefg]#?)([0-9])x([0-9]+)");
+    Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
+
+    Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])p([0-9]+)");
+
+
+    Matcher addMatcher = addNotePattern.matcher(keySequence);
+    Matcher deleteMatcher = deleteNotePattern.matcher(keySequence);
+    Matcher moveMatcher = moveNotePattern.matcher(keySequence);
+
+    Matcher thirdMatcher = addThirdPattern.matcher(keySequence);
+
+    boolean addMatch = addMatcher.matches();
+    boolean deleteMatch = deleteMatcher.matches();
+    boolean moveMatch = moveMatcher.matches();
+
+    boolean thirdMatch = thirdMatcher.matches();
+
+    System.out.println(addMatch);
+    System.out.println(deleteMatch);
+    System.out.println(moveMatch);
+
+    System.out.println(thirdMatch);
+
+    if (addMatch) {
+      System.out.println("add match");
+      String addNote = addMatcher.group(1);
+      String addOctave = addMatcher.group(2);
+      int addBeat = Integer.parseInt(addMatcher.group(3));
+      int addLength = Integer.parseInt(addMatcher.group(4));
+
+      System.out.println(addNote);
+      System.out.println(addOctave);
+      System.out.println(addBeat);
+      System.out.println(addLength);
+
+      int addNoteID = MusicNote.pitchIDFromString(addNote, addOctave)+12;
+
+      // TODO: volume and instrument?
+      this.musicPiece.addNote(new MusicNote(addNoteID, addBeat, addLength, 0, 100));
+    } else if (deleteMatch) {
+      System.out.println("delete match");
+      String deleteNote = deleteMatcher.group(1);
+      String deleteOctave = deleteMatcher.group(2);
+      int deleteBeat = Integer.parseInt(deleteMatcher.group(3));
+      int deleteNoteID = MusicNote.pitchIDFromString(deleteNote, deleteOctave);
+
+      this.musicPiece.deleteNote(deleteNoteID, deleteBeat);
+    } else if (moveMatch) {
+      System.out.println("move match");
+      String moveFromNote = moveMatcher.group(1);
+      String moveFromOctave = moveMatcher.group(2);
+      int moveFromBeat = Integer.parseInt(moveMatcher.group(3));
+      int moveFromNoteID = MusicNote.pitchIDFromString(moveFromNote, moveFromOctave);
+      MusicNote note = this.musicPiece.getNote(moveFromNoteID, moveFromBeat);
+      int moveFromLength = note.getLength();
+      int moveFromInstrument = note.getInstrument();
+      int moveFromVolume = note.getVolume();
+      String moveToNote = moveMatcher.group(4);
+      String moveToOctave = moveMatcher.group(5);
+      int moveToNoteID = MusicNote.pitchIDFromString(moveToNote, moveToOctave);
+      int moveToBeat = Integer.parseInt(moveMatcher.group(6));
+
+      this.musicPiece.deleteNote(moveFromNoteID, moveFromBeat);
+      this.musicPiece.addNote(new MusicNote(moveToNoteID, moveToBeat, moveFromLength,
+          moveFromInstrument, moveFromVolume));
+    } else if (thirdMatch) {
+      System.out.println("third match");
+      String addNote = thirdMatcher.group(1);
+      String addOctave = thirdMatcher.group(2);
+      int addBeat = Integer.parseInt(thirdMatcher.group(3));
+
+      int moveFromBeat = Integer.parseInt(thirdMatcher.group(3));
+      int moveFromNoteID = MusicNote.pitchIDFromString(addNote, addOctave);
+      MusicNote note = this.musicPiece.getNote(moveFromNoteID, moveFromBeat);
+      int addLength = note.getLength();
+
+      System.out.println(addNote);
+      System.out.println(addOctave);
+      System.out.println(addBeat);
+      System.out.println(addLength);
+
+      int addNoteID = MusicNote.pitchIDFromString(addNote, addOctave) + 2;
+
+      // TODO: volume and instrument?
+      this.musicPiece.addNote(new MusicNote(addNoteID, addBeat, addLength, 0, 100));
+    }
+
+
+    this.clearKeys();
+    this.comboView.redraw();
+  }
+
+  public MusicPieceInterface getMusicPiece(){
+    return this.musicPiece;
+  }
 }

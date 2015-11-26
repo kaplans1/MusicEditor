@@ -2,6 +2,10 @@
  * Created by natdempk on 11/3/15.
  */
 
+import cs3500.music.controller.MusicController;
+import cs3500.music.model.MusicPieceInterface;
+import cs3500.music.view.AbstractViewInterface;
+import cs3500.music.view.ComboView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.TreeMap;
 
+import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.mocks.MockLogger;
@@ -28,6 +33,7 @@ import static org.junit.Assert.assertFalse;
 
 public class MusicPieceTest {
 
+
   //Testing console output - stackoverflow 1119559
   private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
   @Before
@@ -40,8 +46,13 @@ public class MusicPieceTest {
   }
 
   MusicPiece mp = new MusicPiece();
+  MusicPieceInterface mp1 = new MusicPiece();
+
+
+
   MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 1, 1);
   MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 1, 1);
+  MusicNote a2 = new MusicNote(Notes.A, 2, 2, 2, false, false, 1, 1);
   MusicNote c = new MusicNote(Notes.B, 2, 2, 2, true, false, 1, 1);
   MusicNote b = new MusicNote(Notes.B, 2, 2, 2, true, false, 1, 1);
   MusicNote g = new MusicNote(Notes.G, 4, 4, 3, false, false, 1, 1);
@@ -49,7 +60,25 @@ public class MusicPieceTest {
   MusicNote d = new MusicNote(Notes.D, 32, 4, 2, true, false, 0, 80);
   TreeMap currPiece = new TreeMap<>();
   ArrayList<MusicNote> startNotes = new ArrayList<MusicNote>();
+  //Testing controller
+  //As key input has already been tested, string input can be used on a mock method that is a duplicate of
+  //the one used to add, move, and delete notes
 
+  @Test
+  public void testGuiAdd() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException{
+   mp.addNote(f);
+    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    mp.deleteNote(f.getPitchID(),2 );
+    x.processKeySequenceTest("a2n2l2");
+    assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(a2));
+  }
+
+
+
+
+
+  //old tests
   @Test (expected = IllegalArgumentException.class)
   public void testStartBeat(){
     MusicNote f = new MusicNote(Notes.F, -2, 2, 2, true, false, 1, 1);
@@ -319,20 +348,19 @@ public class MusicPieceTest {
       e.printStackTrace();
     }
     assertEquals("Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiChannel\n" +
-            "Created MockMidiSynthesizer\n" +
-            "Opened MockMidiSynthesizer\n" +
-            "Opened MockMidiSynthesizer\n" +
-            "Channel received noteOn: 55 1\n" +
-            "Channel received noteOff: 55 1\n" +
-            "Closed MockMidiSynthesizer\n", logger.getLog());
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiChannel\n" +
+        "Created MockMidiSynthesizer\n" +
+        "Opened MockMidiSynthesizer\n" +
+        "Opened MockMidiSynthesizer\n" +
+        "Channel received noteOn: 55 1\n" +
+        "Channel received noteOff: 55 1\n", logger.getLog());
   }
 }
