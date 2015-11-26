@@ -587,7 +587,7 @@ public class MusicController {
       String deleteNote = deleteMatcher.group(1);
       String deleteOctave = deleteMatcher.group(2);
       int deleteBeat = Integer.parseInt(deleteMatcher.group(3));
-      int deleteNoteID = MusicNote.pitchIDFromString(deleteNote, deleteOctave);
+      int deleteNoteID = MusicNote.pitchIDFromString(deleteNote, deleteOctave)+3;
 
       this.musicPiece.deleteNote(deleteNoteID, deleteBeat);
     } else if (moveMatch) {
@@ -595,7 +595,7 @@ public class MusicController {
       String moveFromNote = moveMatcher.group(1);
       String moveFromOctave = moveMatcher.group(2);
       int moveFromBeat = Integer.parseInt(moveMatcher.group(3));
-      int moveFromNoteID = MusicNote.pitchIDFromString(moveFromNote, moveFromOctave);
+      int moveFromNoteID = MusicNote.pitchIDFromString(moveFromNote, moveFromOctave)+13;
       MusicNote note = this.musicPiece.getNote(moveFromNoteID, moveFromBeat);
       int moveFromLength = note.getLength();
       int moveFromInstrument = note.getInstrument();

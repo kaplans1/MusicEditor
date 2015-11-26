@@ -53,6 +53,7 @@ public class MusicPieceTest {
   MusicNote f = new MusicNote(Notes.F, 2, 2, 2, true, false, 1, 1);
   MusicNote a = new MusicNote(Notes.A, 2, 2, 2, true, false, 1, 1);
   MusicNote a2 = new MusicNote(Notes.A, 2, 2, 2, false, false, 1, 1);
+  MusicNote b2 = new MusicNote(Notes.B, 2, 2, 2, false, true, 1, 1);
   MusicNote c = new MusicNote(Notes.B, 2, 2, 2, true, false, 1, 1);
   MusicNote b = new MusicNote(Notes.B, 2, 2, 2, true, false, 1, 1);
   MusicNote g = new MusicNote(Notes.G, 4, 4, 3, false, false, 1, 1);
@@ -74,7 +75,24 @@ public class MusicPieceTest {
     assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(a2));
   }
 
+  @Test
+  public void testGuiDel() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException{
+    mp.addNote(f);
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.processKeySequenceTest("a2x2");
+    assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(f));
+  }
 
+  @Test //test fails, but key sequences work in GUI - visual check. Not sure why they fail.
+  public void testGuiMov() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException{
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.processKeySequenceTest("a2#m2b2o2");
+    assertFalse(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(b2));
+  }
 
 
 
