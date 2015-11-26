@@ -24,19 +24,13 @@ public class ConcreteGuiViewPanel extends JPanel {
   int startBeat;
   int currentBeat;
   public static final int width = 80;
+
   public ConcreteGuiViewPanel(MusicPieceInterface notes, int startBeat) {
     this.notes = notes;
     this.startBeat = startBeat;
     this.currentBeat = startBeat;
   }
 
-  public ConcreteGuiViewPanel() {
-    this.notes = null;
-  }
-
-  public void setCurrentBeat(int currentBeat) {
-    this.currentBeat = currentBeat;
-  }
 
   @Override
   public void paint(Graphics g) {
@@ -46,7 +40,11 @@ public class ConcreteGuiViewPanel extends JPanel {
 
     //this.notes.getLastBeat();
 
-    System.out.println(width);
+    if(this.currentBeat-this.startBeat>80) {
+      this.startBeat = this.currentBeat;
+    }
+
+
     int height = this.notes.getAllPitchIds().size();
     //draws all necessary rows
     for (int i = 0; i <= height; i++) {
@@ -63,12 +61,12 @@ public class ConcreteGuiViewPanel extends JPanel {
     for (int i = 0; i <= width / 4; i++) {
       g.setColor(Color.black);
       g.drawLine(gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign,
-              gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
+          gridAllign + i * beatCubeSize * this.notes.getBPM(), gridAllign + height * beatCubeSize);
     }
     //beat labels
-    for (int i = startBeat; i <= startBeat+width / 4; i++) {
-    g.drawString((i * 4) + "", gridAllign + i * beatCubeSize * this.notes.getBPM(),
-            gridAllign - beatCubeSize / 2);
+    for (int i = startBeat; i <= startBeat + width / 4; i++) {
+      g.drawString(((i % 80) * 4) + "", gridAllign + (i % 80) * beatCubeSize * this.notes.getBPM(),
+          gridAllign - beatCubeSize / 2);
     }
     //draws notes from start beat to selected width
     for (int i = startBeat; i <= startBeat + width; i++) {
@@ -99,13 +97,24 @@ public class ConcreteGuiViewPanel extends JPanel {
     this.repaint();
     int x = beat;
     g.setColor(Color.RED);
-    if (beat>=this.width){
-       x = beat/this.width;
+    if (beat >= this.width) {
+      x = beat / this.width;
     }
     g.drawLine(gridAllign + (x * beatCubeSize), gridAllign,
-            gridAllign + (x * beatCubeSize),
-            gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
+        gridAllign + (x * beatCubeSize),
+        gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
   }
 
 
+  public void setStartBeat(int startBeat) {
+    this.startBeat = startBeat;
+  }
+
+  public ConcreteGuiViewPanel() {
+    this.notes = null;
+  }
+
+  public void setCurrentBeat(int currentBeat) {
+    this.currentBeat = currentBeat;
+  }
 }
