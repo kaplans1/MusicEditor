@@ -80,6 +80,10 @@ public class MidiViewImpl implements ViewInterface {
 
   public void stopPlaying() {
     this.playing = false;
+    while(!this.playing){
+      this.currentBeat++;
+      this.currentBeat--;
+    }
     //this.synth.close();
     System.out.println("STOPPED PLAYING");
   }
@@ -119,7 +123,7 @@ public class MidiViewImpl implements ViewInterface {
    * @throws InterruptedException
    */
   public void playFromBeat(int beat) throws MidiUnavailableException, InterruptedException {
-    this.synth.open();
+ //   this.synth.open();
     System.out.println("STARTED PLAYING");
     this.playing = true;
 

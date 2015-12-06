@@ -42,15 +42,16 @@ public class ComboView implements ViewInterface {
       }
       this.midi.playNotesOnBeat(this.currentBeat);
       this.gui.setCurrentBeat(this.currentBeat);
-      this.gui.redraw();
+
 
       Thread.sleep(this.musicPiece.getTempo() / 1000); // convert beat length to milliseconds
       this.currentBeat++;
+      this.gui.redraw();
     }
   }
 
   public void playPause() throws MidiUnavailableException, InterruptedException {
-    //this.midi.playPause();
+
     if (this.midi.getPlaying()) {
       System.out.println("stopping playing");
       this.midi.stopPlaying();
@@ -59,7 +60,7 @@ public class ComboView implements ViewInterface {
       System.out.println("starting playing");
       this.playMidiFromBeat(this.currentBeat);
     }
-    //this.gui.playPause();
+    this.gui.redraw();
   }
 
   public void scroll(boolean b) throws MidiUnavailableException, InterruptedException {
@@ -99,11 +100,15 @@ public class ComboView implements ViewInterface {
   public void goTo(String loc) {
     if (loc.equals("start")) {
       this.gui.updateStartDisplayBeat(0);
+      this.gui.redraw();
     } else if (loc.equals("end")) {
       this.gui.updateStartDisplayBeat(this.gui.getPiece().getLastBeat() - 80);
+      this.midi.stopPlaying();
     }
-    midi.goTo(loc);
+
     this.gui.redraw();
+    midi.goTo(loc);
+
 
   }
 
