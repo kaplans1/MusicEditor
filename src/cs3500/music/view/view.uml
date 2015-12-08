@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>cs3500.music.view</OriginalElement>
+  <nodes>
+    <node x="0.0" y="498.0">cs3500.music.view.GuiViewImpl</node>
+    <node x="247.5" y="98.0">cs3500.music.view.MidiViewImpl</node>
+    <node x="0.0" y="753.0">cs3500.music.view.ConcreteGuiViewPanel</node>
+    <node x="712.5" y="128.5">cs3500.music.view.ComboView</node>
+    <node x="408.5" y="0.0">cs3500.music.view.ViewInterface</node>
+    <node x="156.5" y="259.0">cs3500.music.view.GuiView</node>
+    <node x="321.0" y="753.0">cs3500.music.view.AbstractViewInterface</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="cs3500.music.view.MidiViewImpl" target="cs3500.music.view.ViewInterface">
+      <point x="0.0" y="-175.0" />
+      <point x="0.0" y="24.0" />
+    </edge>
+    <edge source="cs3500.music.view.ComboView" target="cs3500.music.view.ViewInterface">
+      <point x="0.0" y="-144.5" />
+      <point x="897.0" y="73.0" />
+      <point x="511.0" y="73.0" />
+      <point x="41.0" y="24.0" />
+    </edge>
+    <edge source="cs3500.music.view.GuiView" target="cs3500.music.view.ViewInterface">
+      <point x="0.0" y="-14.0" />
+      <point x="192.0" y="73.0" />
+      <point x="429.0" y="73.0" />
+      <point x="-41.0" y="24.0" />
+    </edge>
+    <edge source="cs3500.music.view.GuiViewImpl" target="cs3500.music.view.GuiView">
+      <point x="0.0" y="-105.0" />
+      <point x="0.0" y="14.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="416.5" y="395.0" />
+  <SelectedNodes>
+    <node>cs3500.music.view.GuiView</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Methods</Category>
+    <Category>Fields</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

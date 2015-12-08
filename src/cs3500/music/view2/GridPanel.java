@@ -35,7 +35,7 @@ public class GridPanel extends JPanel {
 //    MouseListener m = new MouseHandler();
 //    this.addMouseHandler(m);
   }
-
+  //MEOW
   public void cats() {
     this.numOctaves = c.getOctaveInterval().size();
     this.numBeats = c.getNumBeats();
