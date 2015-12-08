@@ -1,0 +1,19 @@
+The 'View' interface we were given requires a specific 'Model' as defined by their code.
+Aside from that inconvenience, everything else about the interface is good.
+The interface alows creating multiple views (createView(Model, int))
+by simply passing in a 'Model' and a time to start the playback at.
+At this point, 3 different views can be created.
+
+A Gui view object requires a 'Model' to be passed in to be created.
+However, a Midi view object can be created without a 'Model'.
+The 'Model' can subsequently be added using createView(Model, int).
+A Combo view takes a Gui and Midi view to be created, and the 'Model'
+ to be viewed is subsequently assigned using the createView method,
+ by calling createView on both view types.
+
+The views are capable, and allow playing and pausing, as well as
+handling mouse and keyboard input. Moving forwards and backwards
+in the piece is abstracted within the interface. The code was
+convenient to use and well documented, albeit dependent on the
+specific Model implementation requiring us to remake our Model
+into their Model to user their views.
