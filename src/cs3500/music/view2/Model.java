@@ -64,6 +64,8 @@ public interface Model {
    */
   int getTempo();
 
+  void setTempo(int tempo);
+
   /**
    *
    */

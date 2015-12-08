@@ -8,7 +8,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.controller.MouseHandler;
 import cs3500.music.view2.Model;
-import cs3500.music.model.Playable;
+import cs3500.music.view2.Playable;
 
 /**
  * Represents a view that can be printed in the console

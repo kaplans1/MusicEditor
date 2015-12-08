@@ -4,7 +4,7 @@ import javax.sound.midi.InvalidMidiDataException;
 
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.controller.MouseHandler;
-import cs3500.music.model.Model;
+import cs3500.music.view2.Model;
 
 /**
  * Represents an audio-visual composite view

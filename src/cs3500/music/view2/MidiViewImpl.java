@@ -6,9 +6,9 @@ import javax.sound.midi.*;
 
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.controller.MouseHandler;
-import cs3500.music.model.Composition;
-import cs3500.music.model.Model;
-import cs3500.music.model.Playable;
+import cs3500.music.view2.Composition;
+import cs3500.music.view2.Model;
+import cs3500.music.view2.Playable;
 
 /**
  * A skeleton for MIDI playback
