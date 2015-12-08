@@ -2,6 +2,8 @@ package cs3500.music.model;
 
 
 import com.sun.javaws.exceptions.InvalidArgumentException;
+import cs3500.music.view2.Note;
+import cs3500.music.view2.Playable;
 
 public class MusicNote {
   private int startBeat;
@@ -257,5 +259,10 @@ public class MusicNote {
     return o instanceof MusicNote && this.getPitchID() == ((MusicNote) o).getPitchID();
   }
 
+  //Converts a note to a Playable object - might be wrong, but should be ok for now?
+  //TODO: Double checking.
+  public Playable toPlayable(){
+    return new Note(this.pitchID, true, 200, this.instrument, this.volume);
+  }
 
 }

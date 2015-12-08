@@ -9,11 +9,14 @@ import cs3500.music.mocks.MockLogger;
 import cs3500.music.mocks.MockMidiSynthesizer;
 import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
+import cs3500.music.view2.Composition;
+import cs3500.music.view2.Model;
 
 public class AbstractViewInterface {
   ComboView view;
   public AbstractViewInterface(String viewType, MusicPieceInterface mp)
           throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+    
     if(viewType.equals("midi")){
       MidiViewImpl midiView = new MidiViewImpl(mp);
       midiView.initialize();
