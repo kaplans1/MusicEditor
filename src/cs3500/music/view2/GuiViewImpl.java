@@ -80,6 +80,14 @@ public class GuiViewImpl extends JFrame implements GuiView {
 
   int stepRate = 10;
 
+  public int getScrollPosition() {
+    return this.scrollPane.getHorizontalScrollBar().getValue();
+  }
+
+  public int getScrollMaximum() {
+    return this.scrollPane.getHorizontalScrollBar().getMaximum();
+  }
+
   public void stepRight(int howMany) {
     int val = scrollPane.getHorizontalScrollBar().getValue();
     int max = scrollPane.getHorizontalScrollBar().getMaximum();
@@ -99,7 +107,6 @@ public class GuiViewImpl extends JFrame implements GuiView {
       scrollPane.getHorizontalScrollBar().setValue(min);
     }
   }
-
 
   public void addKeyHandler(KeyboardHandler kbh) {
     this.addKeyListener(kbh);

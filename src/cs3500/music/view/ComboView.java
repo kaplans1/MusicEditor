@@ -6,13 +6,14 @@ import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.controller.KeyboardHandler;
+import cs3500.music.controller.MouseHandler;
 import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
 
 /**
  * Created by AviSion on 11/22/2015.
  */
-public class ComboView implements ViewInterface {
+public class ComboView implements ComboInterface {
   GuiViewImpl gui;
   MidiViewImpl midi;
   MusicPieceInterface musicPiece;
@@ -80,7 +81,8 @@ public class ComboView implements ViewInterface {
     this.gui.redraw();
   }
 
-  public void addGUIMouseListener(MouseListener mouseListener) {
+  @Override
+  public void addGUIMouseListener(MouseHandler mouseListener) {
     this.gui.addMouseListener(mouseListener);
     this.gui.redraw();
   }

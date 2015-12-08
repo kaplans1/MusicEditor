@@ -11,7 +11,7 @@ import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPieceInterface;
-import cs3500.music.view.ComboView;
+import cs3500.music.view.ComboInterface;
 
 public class MusicController {
   protected static int[] addKeys = {
@@ -41,13 +41,13 @@ public class MusicController {
           KeyEvent.VK_NUMBER_SIGN,
   };
   MusicPieceInterface musicPiece;
-  ComboView comboView;
+  ComboInterface comboView;
   public KeyboardHandler keyListener;
   ArrayList<Integer> keySequence;
   int x;
   MouseHandler mouseHandler;
 
-  public MusicController(MusicPieceInterface musicPiece, ComboView comboView) throws InterruptedException, MidiUnavailableException {
+  public MusicController(MusicPieceInterface musicPiece, ComboInterface comboView) throws InterruptedException, MidiUnavailableException {
     this.musicPiece = musicPiece;
     this.comboView = comboView;
     this.keyListener = new KeyboardHandler();

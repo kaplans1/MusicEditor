@@ -51,4 +51,12 @@ public class CompositeImpl implements View {
   public void stepLeft(int howMany) {
     gui.stepLeft(howMany);
   }
+
+  public int getScrollPosition() {
+    return this.gui.getScrollPosition();
+  }
+
+  public int getScrollMaximum() {
+    return this.gui.getScrollMaximum();
+  }
 }
