@@ -17,6 +17,7 @@ public class MusicPieceModelAdapter implements Model {
     public MusicPieceModelAdapter(MusicPieceInterface m) {
         this.m = m;
         //converstion to new model type for midi playback
+        //TODO:Add silence
         ArrayList<ArrayList<Playable>> x = new ArrayList<ArrayList<Playable>>();
         for(int i = 0; i<m.getLastBeat(); i++) {
             if (m.getNotesStartingOnBeat(i) != null) {
@@ -25,6 +26,8 @@ public class MusicPieceModelAdapter implements Model {
                     y.add(n.toPlayable(true));
                 }
                 x.add(y);
+            } else {
+                //add some sort of silent notes here
             }
         }
         this.assembly = x;

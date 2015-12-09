@@ -136,7 +136,7 @@ public class MidiViewImpl implements View {
   @Override
   public void createView(Model c, int tick) throws InvalidMidiDataException, InterruptedException {
     composition = c;
-    this.isPaused = false;
+    //this.isPaused = false;
     if (!isPaused) {
       this.playNote(tick);
     }
