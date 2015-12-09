@@ -11,10 +11,10 @@ import java.util.TreeSet;
  * Created by AviSion on 12/8/2015.
  */
 public class MusicPieceModelAdapter implements Model {
-    MusicPiece m;
+    MusicPieceInterface m;
 
     //constructor that makes a Model, maybe...?
-    MusicPieceModelAdapter(MusicPiece m){
+    public MusicPieceModelAdapter(MusicPieceInterface m){
        this.m=m;
     }
 

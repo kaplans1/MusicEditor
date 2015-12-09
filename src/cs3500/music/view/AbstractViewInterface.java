@@ -9,15 +9,15 @@ import cs3500.music.mocks.MockLogger;
 import cs3500.music.mocks.MockMidiSynthesizer;
 import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
-import cs3500.music.view2.Composition;
-import cs3500.music.view2.Model;
+import cs3500.music.model.MusicPieceModelAdapter;
+import cs3500.music.view2.*;
 
 public class AbstractViewInterface {
-  ComboView view;
+  ComboInterface view;
+
   public AbstractViewInterface(String viewType, MusicPieceInterface mp)
-          throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
-    
-    if(viewType.equals("midi")){
+      throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+    if (viewType.equals("our-midi")) {
       MidiViewImpl midiView = new MidiViewImpl(mp);
       midiView.initialize();
       /*
@@ -28,25 +28,47 @@ public class AbstractViewInterface {
       String log = logger.getLog();
       System.out.println(log);
       */
-    } else if(viewType.equals("visual")){
+    } else if (viewType.equals("our-visual")) {
       GuiViewImpl view = new GuiViewImpl(mp);
       //view.addKeyListener(new KeyboardHandler());
       view.initialize();
       //MusicController controller = new MusicController(mp);
-    } else if (viewType.equals("console")){
+    } else if (viewType.equals("our-console")) {
       mp.render();
-    } else if (viewType.equals("combo")){
+    } else if (viewType.equals("our-combo")) {
       ComboView view = new ComboView(new GuiViewImpl(mp), new MidiViewImpl(mp), mp);
-      this.view=view;
+      this.view = view;
       MusicController musicController = new MusicController(mp, view);
       view.initialize();
+    } else if (viewType.equals("their-midi")) {
+      MusicPieceModelAdapter mpAdapter = new MusicPieceModelAdapter(mp);
+      cs3500.music.view2.MidiViewImpl view = new cs3500.music.view2.MidiViewImpl();
+      view.createView(mpAdapter, 0);
+    } else if (viewType.equals("their-visual")) {
+      MusicPieceModelAdapter mpAdapter = new MusicPieceModelAdapter(mp);
+      cs3500.music.view2.GuiViewImpl view = new cs3500.music.view2.GuiViewImpl(mpAdapter);
+      view.createView(mpAdapter, 0);
+    } else if (viewType.equals("their-console")) {
+      MusicPieceModelAdapter mpAdapter = new MusicPieceModelAdapter(mp);
+      ConsoleView view = new ConsoleView();
+      view.createView(mpAdapter, 0);
+    } else if (viewType.equals("their-combo")) {
+      MusicPieceModelAdapter mpAdapter = new MusicPieceModelAdapter(mp);
+      CompositeImpl view = new CompositeImpl(new cs3500.music.view2.GuiViewImpl(mpAdapter),
+          new cs3500.music.view2.MidiViewImpl());
+      CompositeImplAdapter compositeAdapter = new CompositeImplAdapter(view, mpAdapter);
+      this.view = compositeAdapter;
+      MusicController musicController = new MusicController(mp, compositeAdapter);
+      //view.createView(mpAdapter, 0);
+      compositeAdapter.initialize();
     }
   }
 
   public void playPause(Boolean b, int x) {
 
   }
-  public ComboView getComboView(){
+
+  public ComboInterface getComboView() {
     return this.view;
   }
 }
