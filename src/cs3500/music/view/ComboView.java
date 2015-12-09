@@ -27,7 +27,8 @@ public class ComboView implements ComboInterface {
   }
 
   @Override
-  public void initialize() throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+  public void initialize() throws MidiUnavailableException, InterruptedException,
+          InvalidMidiDataException {
     this.gui.initialize();
     //this.midi.initialize();
     this.midi.openSynth();

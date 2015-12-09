@@ -262,7 +262,7 @@ public class MusicNote {
   //Converts a note to a Playable object - might be wrong, but should be ok for now?
   //TODO: Double checking.
   public Playable toPlayable(){
-    return new Note(this.pitchID, true, 200, this.instrument, this.volume);
+    return new Note(this.pitchID, true, 2000, this.instrument, this.volume);
   }
 
 }

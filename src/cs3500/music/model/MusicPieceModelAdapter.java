@@ -37,12 +37,22 @@ public class MusicPieceModelAdapter implements Model {
 
     @Override
     public ArrayList<Playable> notesAtBeat(int beat) {
-        ArrayList<MusicNote> n = m.getNotesStartingOnBeat(beat);
+        ArrayList<MusicNote> n=  m.getNotesStartingOnBeat(beat);
+
+
         ArrayList<Playable> x = new ArrayList<>();
-        for(MusicNote a : n){
-            x.add(a.toPlayable());
+        if(n!=null) {
+            for (MusicNote a : n) {
+
+                    x.add(a.toPlayable());
+
+            }
         }
-        return x;
+        if( n == null) {
+            return new ArrayList<Playable>();
+        } else {
+            return x;
+        }
     }
 
     @Override

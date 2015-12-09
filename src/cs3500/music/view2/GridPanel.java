@@ -185,7 +185,7 @@ public class GridPanel extends JPanel {
   private void drawANote(Graphics g, Note note, int beatNum) {
     int lowestOctave = octaves.get(0);
     int noteX = 40 + (beatNum * 10);
-    int noteY = this.getSize().height - 60 - ((note.getMidiIndex() - (lowestOctave * 12)) * 10);
+    int noteY = this.getSize().height - 60 - ((note.getMidiIndex() - (lowestOctave * 12))*10);
 
     boolean isAttack = note.getIsAttack();
     Color noteColor;

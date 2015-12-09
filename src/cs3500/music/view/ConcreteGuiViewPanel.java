@@ -90,7 +90,8 @@ public class ConcreteGuiViewPanel extends JPanel {
               g.setColor(Color.RED);
             }
 
-            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1 - startBeat * beatCubeSize,
+            g.fillRect(n.getStartBeat() * beatCubeSize + gridAllign + j * beatCubeSize + 1 -
+                            startBeat * beatCubeSize,
                 gridAllign + row * beatCubeSize + 1, beatCubeSize - 2, beatCubeSize - 2);
           }
         }
