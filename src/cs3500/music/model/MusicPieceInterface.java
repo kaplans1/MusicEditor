@@ -1,5 +1,7 @@
 package cs3500.music.model;
 
+import cs3500.music.view2.Playable;
+
 import java.util.ArrayList;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -94,4 +96,6 @@ public interface MusicPieceInterface {
    * @param tempo tempo to set music piece to be played at
    */
   void setTempo(int tempo);
+
+
 }

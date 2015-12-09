@@ -12,16 +12,28 @@ import java.util.TreeSet;
  */
 public class MusicPieceModelAdapter implements Model {
     MusicPieceInterface m;
-
+    ArrayList<ArrayList<Playable>> assembly;
     //constructor that makes a Model, maybe...?
-    public MusicPieceModelAdapter(MusicPieceInterface m){
-       this.m=m;
+    public MusicPieceModelAdapter(MusicPieceInterface m) {
+        this.m = m;
+        //converstion to new model type for midi playback
+        ArrayList<ArrayList<Playable>> x = new ArrayList<ArrayList<Playable>>();
+        for(int i = 0; i<m.getLastBeat(); i++) {
+            if (m.getNotesStartingOnBeat(i) != null) {
+                ArrayList<Playable> y = new ArrayList<Playable>();
+                for (MusicNote n : m.getNotesStartingOnBeat(i)) {
+                    y.add(n.toPlayable(true));
+                }
+                x.add(y);
+            }
+        }
+        this.assembly = x;
     }
 
 
     @Override
     public void addNote(int startBeat, int endBeat, int instrument, int pitch, int volume) {
-        MusicNote n = new MusicNote(pitch, startBeat, endBeat-startBeat,instrument, volume);
+        MusicNote n = new MusicNote(pitch, startBeat, endBeat - startBeat, instrument, volume);
         m.addNote(n);
     }
 
@@ -37,18 +49,15 @@ public class MusicPieceModelAdapter implements Model {
 
     @Override
     public ArrayList<Playable> notesAtBeat(int beat) {
-        ArrayList<MusicNote> n=  m.getNotesStartingOnBeat(beat);
-
-
+        ArrayList<MusicNote> n = m.getNotesStartingOnBeat(beat);
         ArrayList<Playable> x = new ArrayList<>();
-        if(n!=null) {
+        if (n != null) {
             for (MusicNote a : n) {
-
-                    x.add(a.toPlayable());
-
+                //all beats are onset beats
+                x.add(a.toPlayable(true));
             }
         }
-        if( n == null) {
+        if (n == null) {
             return new ArrayList<Playable>();
         } else {
             return x;
@@ -68,7 +77,9 @@ public class MusicPieceModelAdapter implements Model {
     //uncommented method - total length I think
     @Override
     public int getNumBeats() {
-        return m.getLastBeat();
+        int x =  assembly.size();
+
+        return x;
     }
 
     @Override
@@ -83,6 +94,8 @@ public class MusicPieceModelAdapter implements Model {
 
     @Override
     public ArrayList<ArrayList<Playable>> getNotes() {
-        return null;
+        return assembly;
     }
+
+
 }

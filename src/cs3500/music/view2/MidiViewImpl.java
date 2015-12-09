@@ -58,11 +58,11 @@ public class MidiViewImpl implements View {
       Sequence sequence = new Sequence(Sequence.PPQ, tempo);
       Track track = sequence.createTrack();
 
-      for (int i = 0; i < composition.getNumBeats(); i = i + 1) {
+      for (int i = 0; i < composition.getNumBeats()-1; i = i + 1) {
         ArrayList<Playable> playAtBeat = composition.getNotes().get(i);
 
         for (int j = 0; j < playAtBeat.size(); j = j + 1) {
-          int instrument = playAtBeat.get(j).getInstrument() - 1;
+          int instrument = playAtBeat.get(j).getInstrument();
 
           ShortMessage message1 = new ShortMessage();
           message1.setMessage(ShortMessage.NOTE_ON, instrument, playAtBeat.get(j).getMidiIndex(),
@@ -136,6 +136,7 @@ public class MidiViewImpl implements View {
   @Override
   public void createView(Model c, int tick) throws InvalidMidiDataException, InterruptedException {
     composition = c;
+    this.isPaused = false;
     if (!isPaused) {
       this.playNote(tick);
     }

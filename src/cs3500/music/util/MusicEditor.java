@@ -26,7 +26,7 @@ public class MusicEditor {
             MusicPieceInterface r = MusicReader.parseFile(argFile, b);
 
             // combo, visual, midi, or console
-            AbstractViewInterface concreteView = new AbstractViewInterface("their-visual", r);
+            AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", r);
 //        } else {
 //            // display an error
 //            System.out.println("Wrong number command line arguments");
