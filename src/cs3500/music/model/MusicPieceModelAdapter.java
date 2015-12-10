@@ -2,7 +2,7 @@ package cs3500.music.model;
 
 import cs3500.music.view2.Model;
 import cs3500.music.view2.Playable;
-import sun.jvm.hotspot.runtime.solaris_amd64.SolarisAMD64JavaThreadPDAccess;
+//import sun.jvm.hotspot.runtime.solaris_amd64.SolarisAMD64JavaThreadPDAccess;
 
 import java.util.ArrayList;
 import java.util.TreeSet;

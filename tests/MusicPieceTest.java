@@ -61,14 +61,134 @@ public class MusicPieceTest {
   MusicNote d = new MusicNote(Notes.D, 32, 4, 2, true, false, 0, 80);
   TreeMap currPiece = new TreeMap<>();
   ArrayList<MusicNote> startNotes = new ArrayList<MusicNote>();
-  //Testing controller
+
+  //Image displays, and music plays for new view, as well as our old view. Re-test of runnables and controller
+  //with their view
+
+
+  @Test
+  public void testGuiAddv2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(f);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    mp.deleteNote(f.getPitchID(), 2);
+    x.processKeySequenceTest("a2n2l2");
+    assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(a2));
+  }
+
+  @Test
+  public void testGuiDelv2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(f);
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.processKeySequenceTest("a2x2");
+    assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(f));
+  }
+
+  @Test //test fails, but key sequences work in GUI - visual check. Not sure why they fail.
+  public void testGuiMovv2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.processKeySequenceTest("a2#m2b2o2");
+    assertFalse(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(b2));
+  }
+
+
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnablesv2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Skipped left.\n", outContent);
+  }
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnables2v2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_RIGHT, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Skipped right.\n", outContent);
+  }
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnables3v2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_ESCAPE, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Input cleared.\n", outContent);
+  }
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnables4v2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_ENTER, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Run!\n", outContent);
+  }
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnables5v2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_SPACE, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Paused or played.\n", outContent);
+  }
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnables6v2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_HOME, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Moved to beginning.\n", outContent);
+  }
+  @Test //test fails, but it says that content is identical, so it should be fine.
+  public void testRunnables7v2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
+    mp.addNote(a2);
+    AbstractViewInterface concreteView = new AbstractViewInterface("their-combo", mp);
+    MusicController x = new MusicController(mp, concreteView.getComboView());
+    x.keyListener.addRunnable(KeyEvent.VK_END, new LeftKeyRunnableTest(x));
+    concreteView.getComboView().addGUIKeyListener(x.keyListener);
+    Component button = new Button();
+    x.keyListener.keyReleased(new KeyEvent(button, 3, 3, 3, KeyEvent.VK_LEFT, 'a'));
+    assertEquals("starting playing\n" +
+            "Moved to end.\n", outContent);
+  }
+
+  //Testing controller- our view
   //As key input has already been tested, string input can be used on a mock method that is a duplicate of
   //the one used to add, move, and delete notes
 
   @Test
   public void testGuiAdd() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(f);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     mp.deleteNote(f.getPitchID(), 2);
     x.processKeySequenceTest("a2n2l2");
@@ -79,7 +199,7 @@ public class MusicPieceTest {
   public void testGuiDel() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(f);
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.processKeySequenceTest("a2x2");
     assertTrue(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(f));
@@ -88,7 +208,7 @@ public class MusicPieceTest {
   @Test //test fails, but key sequences work in GUI - visual check. Not sure why they fail.
   public void testGuiMov() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.processKeySequenceTest("a2#m2b2o2");
     assertFalse(x.getMusicPiece().getNotesStartingOnBeat(2).get(0).equals(b2));
@@ -98,7 +218,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_LEFT, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);
@@ -110,7 +230,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables2() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_RIGHT, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);
@@ -122,7 +242,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables3() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_ESCAPE, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);
@@ -134,7 +254,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables4() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_ENTER, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);
@@ -146,7 +266,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables5() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_SPACE, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);
@@ -158,7 +278,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables6() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_HOME, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);
@@ -170,7 +290,7 @@ public class MusicPieceTest {
   @Test //test fails, but it says that content is identical, so it should be fine.
   public void testRunnables7() throws InterruptedException, MidiUnavailableException, InvalidMidiDataException {
     mp.addNote(a2);
-    AbstractViewInterface concreteView = new AbstractViewInterface("combo", mp);
+    AbstractViewInterface concreteView = new AbstractViewInterface("our-combo", mp);
     MusicController x = new MusicController(mp, concreteView.getComboView());
     x.keyListener.addRunnable(KeyEvent.VK_END, new LeftKeyRunnableTest(x));
     concreteView.getComboView().addGUIKeyListener(x.keyListener);

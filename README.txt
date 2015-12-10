@@ -1,3 +1,19 @@
+Additional view notes:
+More views can be created with code given by other group. Views created by our code
+have different string commands as well. Views can be generated as follows:
+
+Our Views:
+"our-visual"
+"our-consol"
+"our-combo"
+Their Views:
+"their-midi"
+"their-visual"
+"their-console"
+"their-combo"
+
+
+From Homework 7:
 Controller Notes:
 
 Notes can be added, deleted, and moved through keyboard input.
