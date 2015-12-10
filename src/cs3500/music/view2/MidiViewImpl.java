@@ -52,8 +52,8 @@ public class MidiViewImpl implements View {
       sequencer.open();
 
       tempo = 600000 / composition.getTempo();
-      System.out.println("tempo comp:  " + composition.getTempo());
-      System.out.println("tempo tempo: " + tempo);
+      //System.out.println("tempo comp:  " + composition.getTempo());
+      //System.out.println("tempo tempo: " + tempo);
 
       Sequence sequence = new Sequence(Sequence.PPQ, tempo);
       Track track = sequence.createTrack();
