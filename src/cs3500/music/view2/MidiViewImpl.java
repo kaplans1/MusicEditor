@@ -67,15 +67,12 @@ public class MidiViewImpl implements View {
           ShortMessage message1 = new ShortMessage();
           message1.setMessage(ShortMessage.NOTE_ON, instrument, playAtBeat.get(j).getMidiIndex(),
                   playAtBeat.get(j).getVolume());
-          // why is the first note weird
-          MidiEvent noteOn = new MidiEvent(message1, (i * playAtBeat.get(j).attackInt()));
-          track.add(noteOn);
-
-//          System.out.println("note "
-//                  + Integer.toString(i) + " "
-//                  + (instrument + 1) + " "
-//                  + Integer.toString(message1.getData1()) + " "
-//                  + Integer.toString(message1.getData2()));
+          // added this if statement so that only notes that are starting play
+          // rather than playing every continuation note on the first beat
+          if (playAtBeat.get(j).getIsAttack()) {
+            MidiEvent noteOn = new MidiEvent(message1, (i * playAtBeat.get(j).attackInt()));
+            track.add(noteOn);
+          }
         }
 
         for (int j = 0; j < playAtBeat.size(); j = j + 1) {
@@ -88,7 +85,7 @@ public class MidiViewImpl implements View {
       }
 
       sequencer.setSequence(sequence);
-      sequencer.setTickPosition(tick); // tick = 1 will skip first weird beat... :(
+      sequencer.setTickPosition(tick);
       sequencer.start();
     } catch (Exception e) {
       e.printStackTrace();
