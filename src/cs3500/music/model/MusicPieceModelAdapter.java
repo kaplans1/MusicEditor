@@ -2,103 +2,105 @@ package cs3500.music.model;
 
 import cs3500.music.view2.Model;
 import cs3500.music.view2.Playable;
+import sun.jvm.hotspot.runtime.solaris_amd64.SolarisAMD64JavaThreadPDAccess;
 
 import java.util.ArrayList;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
- * Created by AviSion on 12/8/2015.
+ * Adapter to use a MusicPieceInterface as if it is a Model
  */
 public class MusicPieceModelAdapter implements Model {
-    MusicPieceInterface m;
-    ArrayList<ArrayList<Playable>> assembly;
-    //constructor that makes a Model, maybe...?
-    public MusicPieceModelAdapter(MusicPieceInterface m) {
-        this.m = m;
-        //converstion to new model type for midi playback
-        //TODO:Add silence
-        ArrayList<ArrayList<Playable>> x = new ArrayList<ArrayList<Playable>>();
-        for(int i = 0; i<m.getLastBeat(); i++) {
-            if (m.getNotesStartingOnBeat(i) != null) {
-                ArrayList<Playable> y = new ArrayList<Playable>();
-                for (MusicNote n : m.getNotesStartingOnBeat(i)) {
-                    y.add(n.toPlayable(true));
-                }
-                x.add(y);
-            } else {
-                //add some sort of silent notes here
-            }
+  MusicPieceInterface m;
+  ArrayList<ArrayList<Playable>> assembly;
+
+  /**
+   * Creates an adapter to act as a Model given a MusicPieceInterface
+   *
+   * @param m MusicPieceInteface to adapt as model
+   */
+  public MusicPieceModelAdapter(MusicPieceInterface m) {
+    this.m = m;
+    // convert to new model type for midi playback
+    ArrayList<ArrayList<Playable>> x = new ArrayList<>();
+
+    for (int i = 0; i < m.getLastBeat(); i++) {
+      x.add(new ArrayList<>());
+    }
+
+    for (int i = 0; i < m.getLastBeat(); i++) {
+      ArrayList<Playable> y = x.get(i);
+      if (m.getNotesStartingOnBeat(i) != null) {
+        for (MusicNote n : m.getNotesStartingOnBeat(i)) {
+          y.add(n.toPlayable(true));
+          for (int b = i + 1; b <= n.getEndBeat(); b++) {
+            x.get(b).add(n.toPlayable(false));
+          }
         }
-        this.assembly = x;
+      }
     }
 
+    this.assembly = x;
+  }
 
-    @Override
-    public void addNote(int startBeat, int endBeat, int instrument, int pitch, int volume) {
-        MusicNote n = new MusicNote(pitch, startBeat, endBeat - startBeat, instrument, volume);
-        m.addNote(n);
+
+  @Override
+  public void addNote(int startBeat, int endBeat, int instrument, int pitch, int volume) {
+    MusicNote n = new MusicNote(pitch, startBeat, endBeat - startBeat, instrument, volume);
+    this.m.addNote(n);
+  }
+
+  @Override
+  public void removeNote(int startBeat, Playable note) {
+    this.m.deleteNote(note.getPitch(), startBeat);
+  }
+
+  @Override
+  public boolean doesNoteExist(Playable note, int beat) {
+    return !(this.m.getNote(note.getPitch(), beat) == null);
+  }
+
+  @Override
+  public ArrayList<Playable> notesAtBeat(int beat) {
+    return this.assembly.get(beat);
+  }
+
+  @Override
+  public ArrayList<Integer> getOctaveInterval() { // this is fine
+    TreeSet<Integer> octaves = new TreeSet<>();
+    for (Integer pitchID : this.m.getAllPitchIds()) {
+      octaves.add(pitchID / 12);
     }
+    ArrayList<Integer> octaveList = new ArrayList<>();
+    octaveList.addAll(octaves);
+    return octaveList;
+  }
 
-    @Override
-    public void removeNote(int startBeat, Playable note) {
-        m.deleteNote(note.getPitch(), startBeat);
-    }
+  @Override
+  public void addMeasures(int num) {
+    // intentionally left empty, not needed due to implementation differences
+  }
 
-    @Override
-    public boolean doesNoteExist(Playable note, int beat) {
-        return !(m.getNote(note.getPitch(), beat) == null);
-    }
+  /**
+   * @return length of composition in beats
+   */
+  @Override
+  public int getNumBeats() {
+    return this.m.getLastBeat();
+  }
 
-    @Override
-    public ArrayList<Playable> notesAtBeat(int beat) {
-        ArrayList<MusicNote> n = m.getNotesStartingOnBeat(beat);
-        ArrayList<Playable> x = new ArrayList<>();
-        if (n != null) {
-            for (MusicNote a : n) {
-                //all beats are onset beats
-                x.add(a.toPlayable(true));
-            }
-        }
-        if (n == null) {
-            return new ArrayList<Playable>();
-        } else {
-            return x;
-        }
-    }
+  @Override
+  public int getTempo() {
+    return this.m.getTempo();
+  }
 
-    @Override
-    public ArrayList<Integer> getOctaveInterval() {
-        return new ArrayList<>(m.getAllPitchIds());
-    }
+  @Override
+  public void setTempo(int tempo) {
+    this.m.setTempo(tempo);
+  }
 
-    @Override
-    public void addMeasures(int num) {
-        //not really needed?
-    }
-
-    //uncommented method - total length I think
-    @Override
-    public int getNumBeats() {
-        int x =  assembly.size();
-
-        return x;
-    }
-
-    @Override
-    public int getTempo() {
-        return m.getTempo();
-    }
-
-    @Override
-    public void setTempo(int tempo) {
-        m.setTempo(tempo);
-    }
-
-    @Override
-    public ArrayList<ArrayList<Playable>> getNotes() {
-        return assembly;
-    }
-
-
+  @Override
+  public ArrayList<ArrayList<Playable>> getNotes() {
+    return this.assembly;
+  }
 }

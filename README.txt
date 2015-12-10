@@ -42,7 +42,6 @@ the space bar will pause or play the music. The home and end keys bring the view
  the beginning, and end of the piece, respectively.
 
 
-
 From Homework 06:
 Changes:
 
@@ -59,8 +58,9 @@ Separate representations of pitches and pitch identifications were added to faci
 Main method can use a builder to make a music piece from a text file of 'notes' in the format:
 note start beat end beat instrument pitch volume
 
-User can choose among different views using 3 unique strings:
-"visual" - returns a gui view
-"console" - prints out a console view, returns string copy of view
-"midi" - plays music of music piece
+User can choose among different views using 8 unique strings:
+"our-visual" or "their-visual" - returns a gui view
+"our-console" or "their-console" - prints out a console view, returns string copy of view
+"our-midi" or "their-midi" - plays music of music piece
+"our-combo" or "their-combo" - displays a gui view and plays the piece of music simultaneously
 

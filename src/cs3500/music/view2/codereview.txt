@@ -17,3 +17,7 @@ in the piece is abstracted within the interface. The code was
 convenient to use and well documented, albeit dependent on the
 specific Model implementation requiring us to remake our Model
 into their Model to user their views.
+
+The Midi view provided does not implement the full functionality of being able to start playback at arbitrary points in time, so the adapter was unable to move playback position as the user moves the red line in the GUI.
+
+Their composition model relies on representing notes played for multiple beats as multiple copies of the note with different values for a boolean field isAttack. This is unnecessary, and they could have coded it so that each note in the composition is represented by exactly one Note object with a duration. The views could then use these pieces of information to determine when to start or continue playing notes rather than relying on the isAttack flag.

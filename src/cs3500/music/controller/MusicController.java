@@ -94,12 +94,6 @@ public class MusicController {
     this.keySequence.clear();
   }
 
-  /**
-   * TODO: delete a note c5 starting on beat 64 c5 x 64 add a note in c5 on beat 64 lasting 5 beats
-   * c5 n 64 l 5 move a note in c5 on beat c4 to d3 on beat 75 maintaining length c5 m 64 d3 o 75
-   * arrow keys to scroll through composition based on offset space bar to play/pause/restart
-   * composition home/end keys to move to the beginning/end of composition
-   */
 
   public void processKeySequence() {
     // parse sequence of keys to either add, delete, or move a note
@@ -155,7 +149,6 @@ public class MusicController {
 
       int addNoteID = MusicNote.pitchIDFromString(addNote, addOctave);
 
-      // TODO: volume and instrument?
       this.musicPiece.addNote(new MusicNote(addNoteID, addBeat, addLength, 0, 100));
     } else if (deleteMatch) {
       System.out.println("delete match");
@@ -201,7 +194,6 @@ public class MusicController {
 
       int addNoteID = MusicNote.pitchIDFromString(addNote, addOctave) + 2;
 
-      // TODO: volume and instrument?
       this.musicPiece.addNote(new MusicNote(addNoteID, addBeat, addLength, 0, 100));
     }
 
@@ -216,12 +208,10 @@ public class MusicController {
 
   public void moveToStart() throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
     this.comboView.goTo("start");
-    // TODO: move red line + position to start of music piece
   }
 
   public void moveToEnd() {
     this.comboView.goTo("end");
-    // TODO: move red line + position to end of music piece
   }
 
   public void moveLeft() throws InterruptedException, MidiUnavailableException {
@@ -233,11 +223,11 @@ public class MusicController {
   }
 
   public void clicked() throws InterruptedException, MidiUnavailableException {
-    //scroll to e.x();
     this.comboView.scrollTo(0);
   }
 
-  // like two billion runnables
+  // like two billion runnables below here
+
   public class AddKeyRunnable implements Runnable {
     MusicController musicController;
     int keyCode;
