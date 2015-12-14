@@ -21,6 +21,8 @@ public class MusicPiece implements MusicPieceInterface {
 
   // mapping starting beat -> List of MusicNote starting on that beat
   TreeMap<Integer, ArrayList<MusicNote>> notes;
+
+  TreeMap<Integer, Repeat> repeats;
   int beatsPerMeasure;
   int tempo; // microseconds per beat
 
@@ -47,6 +49,7 @@ public class MusicPiece implements MusicPieceInterface {
     this.pitchIds = new TreeSet<>();
     this.pitches = new ArrayList<>();
     this.notes = new TreeMap<>();
+    this.repeats = new TreeMap<>();
   }
 
   public MusicPiece() {
@@ -165,6 +168,16 @@ public class MusicPiece implements MusicPieceInterface {
     } else {
       throw new IllegalArgumentException("tempo must be > 0.");
     }
+  }
+
+  @Override
+  public TreeMap<Integer, Repeat> getAllRepeats() {
+    return repeats;
+  }
+
+  @Override
+  public void addRepeat(Repeat n) {
+    repeats.put(n.from, n);
   }
 
   //gets last beat of piece
@@ -310,6 +323,13 @@ public class MusicPiece implements MusicPieceInterface {
     public CompositionBuilder<MusicPieceInterface> addNote(int start, int end, int instrument,
                                                            int pitch, int volume) {
       this.musicPiece.addNote(new MusicNote(pitch, start, end - start, instrument - 1, volume));
+
+      return this;
+    }
+
+    public CompositionBuilder<MusicPieceInterface> addRepeat(int from, int to, int skipFrom) {
+      this.musicPiece.addRepeat(new Repeat(from, to, skipFrom));
+
       return this;
     }
   }

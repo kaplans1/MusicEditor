@@ -1,20 +1,15 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.awt.event.MouseListener; // Possibly of interest for handling mouse events
-import java.util.ArrayList;
-import java.util.TreeMap;
 
 import javax.swing.*;
 
-import cs3500.music.model.MusicNote;
-import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
 
 /**
  * A skeleton Frame (i.e., a window) in Swing
  */
-public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
+public class GuiViewOursImpl extends javax.swing.JFrame implements GuiViewOurs {
 
   private ConcreteGuiViewPanel displayPanel; // You may want to refine this to a subtype of JPanel
   JFrame frame = new JFrame();
@@ -22,7 +17,7 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
   private int startBeat;
 
   /**
-   * Creates new GuiView
+   * Creates new GuiViewOurs
    */
 
   public MusicPieceInterface getPiece(){
@@ -31,7 +26,7 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
 
   public void setCurrentBeat(int beat) {this.displayPanel.setCurrentBeat(beat);}
 
-  public GuiViewImpl() {
+  public GuiViewOursImpl() {
     this.displayPanel = new ConcreteGuiViewPanel();
     this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     this.getContentPane().add(displayPanel);
@@ -39,7 +34,7 @@ public class GuiViewImpl extends javax.swing.JFrame implements GuiView {
     this.piece = null;
   }
 
-  public GuiViewImpl(MusicPieceInterface n) {
+  public GuiViewOursImpl(MusicPieceInterface n) {
     this.piece = n;
     this.startBeat = 0;
     this.displayPanel = new ConcreteGuiViewPanel(piece, startBeat);

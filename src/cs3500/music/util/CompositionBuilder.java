@@ -32,4 +32,6 @@ public interface CompositionBuilder<T> {
    * @return This builder
    */
   CompositionBuilder<T> addNote(int start, int end, int instrument, int pitch, int volume);
+
+  CompositionBuilder<T> addRepeat(int from, int to, int skipfrom);
 }

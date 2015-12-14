@@ -16,6 +16,7 @@ public interface Model {
    * @param volume the volume of this note
    */
   void addNote(int startBeat, int endBeat, int instrument, int pitch, int volume);
+  void addRepeat(int from, int to, int skipFrom);
   int DEFAULT_TEMPO = 200000;
   /**
    * Removes the Note starting at the provided beat with the provided pitch

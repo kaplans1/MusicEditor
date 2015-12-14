@@ -81,6 +81,11 @@ public class Composition implements Model {
     this.notes.get(startBeat).add(new Note(pitch, true, endBeat - startBeat, instrument, volume));
   }
 
+  @Override
+  public void addRepeat(int from, int to, int skipFrom) {
+    //not our problem
+  }
+
 
   @Override
   public void removeNote(int startBeat, Playable note) {
@@ -185,6 +190,14 @@ public class Composition implements Model {
     public CompositionBuilder<Model> addNote(int start, int end,
                                                    int instrument, int pitch, int volume) {
       c.addNote(start, end, instrument, pitch, volume);
+
+      return this;
+    }
+
+    @Override
+    public CompositionBuilder<Model> addRepeat(int from, int to,
+                                             int skipFrom) {
+      c.addRepeat(from, to, skipFrom);
 
       return this;
     }

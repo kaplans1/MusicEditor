@@ -9,6 +9,6 @@ import cs3500.music.controller.KeyboardHandler;
 /**
  * Created by AviSion on 11/19/2015.
  */
-public interface GuiView extends ViewInterface {
+public interface GuiViewOurs extends ViewInterface {
 
 }

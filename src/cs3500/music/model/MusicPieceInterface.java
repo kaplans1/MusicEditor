@@ -97,5 +97,7 @@ public interface MusicPieceInterface {
    */
   void setTempo(int tempo);
 
+  TreeMap<Integer, Repeat> getAllRepeats();
 
+  void addRepeat(Repeat n);
 }

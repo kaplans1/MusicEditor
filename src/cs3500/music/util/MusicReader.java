@@ -48,7 +48,24 @@ public class MusicReader {
             int instrument = scanner.nextInt();
             int pitch = scanner.nextInt();
             int volume = scanner.nextInt();
+
             piece.addNote(startBeat, endBeat, instrument, pitch, volume);
+          } catch (NoSuchElementException e) {
+            throw new IllegalArgumentException("Malformed note line: " + scanner.nextLine());
+          }
+          break;
+        case "repeat":
+          try {
+            int repeatFrom = scanner.nextInt();
+            int repeatTo = -1;
+            int skipFrom = -1;
+            if(scanner.hasNextInt()){
+              repeatTo = scanner.nextInt();
+            }
+            if(scanner.hasNextInt()){
+              skipFrom = scanner.nextInt();
+            }
+            piece.addRepeat(repeatFrom, repeatTo, skipFrom);
           } catch (NoSuchElementException e) {
             throw new IllegalArgumentException("Malformed note line: " + scanner.nextLine());
           }

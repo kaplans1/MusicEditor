@@ -51,6 +51,12 @@ public class MusicPieceModelAdapter implements Model {
   }
 
   @Override
+  public void addRepeat(int from, int to, int skipFrom) {
+    Repeat r = new Repeat(from, to, skipFrom);
+    this.m.addRepeat(r);
+  }
+
+  @Override
   public void removeNote(int startBeat, Playable note) {
     this.m.deleteNote(note.getPitch(), startBeat);
   }

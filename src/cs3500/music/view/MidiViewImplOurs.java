@@ -11,7 +11,7 @@ import cs3500.music.model.MusicPieceInterface;
 /**
  * To play a music piece as MIDI
  */
-public class MidiViewImpl implements ViewInterface {
+public class MidiViewImplOurs implements ViewInterface {
   public final int SCROLL_SPEED = 10;
   MusicPieceInterface musicPiece;
   boolean playing;
@@ -24,7 +24,7 @@ public class MidiViewImpl implements ViewInterface {
    *
    * @param musicPiece piece of music to be played as midi
    */
-  public MidiViewImpl(MusicPieceInterface musicPiece) {
+  public MidiViewImplOurs(MusicPieceInterface musicPiece) {
     try {
       this.synth = MidiSystem.getSynthesizer();
       this.synth.open();
@@ -41,7 +41,7 @@ public class MidiViewImpl implements ViewInterface {
    * @param musicPiece piece of music to be "played" as midi
    * @param synth      synthesizer to use to "play" the piece of music
    */
-  public MidiViewImpl(MusicPieceInterface musicPiece, Synthesizer synth) {
+  public MidiViewImplOurs(MusicPieceInterface musicPiece, Synthesizer synth) {
     this.musicPiece = musicPiece;
     this.synth = synth;
     this.playing = false;

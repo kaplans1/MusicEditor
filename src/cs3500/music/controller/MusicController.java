@@ -47,7 +47,8 @@ public class MusicController {
   int x;
   MouseHandler mouseHandler;
 
-  public MusicController(MusicPieceInterface musicPiece, ComboInterface comboView) throws InterruptedException, MidiUnavailableException {
+  public MusicController(MusicPieceInterface musicPiece, ComboInterface comboView)
+          throws InterruptedException, MidiUnavailableException {
     this.musicPiece = musicPiece;
     this.comboView = comboView;
     this.keyListener = new KeyboardHandler();
@@ -70,7 +71,8 @@ public class MusicController {
 
     this.comboView.addGUIKeyListener(this.keyListener);
 
-    this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED, new MouseClickRunnable(this));
+    this.mouseHandler.addRunnable2(MouseEvent.MOUSE_CLICKED,
+            new MouseClickRunnable(this));
 
     this.comboView.addGUIMouseListener(this.mouseHandler);
 
@@ -110,9 +112,11 @@ public class MusicController {
     System.out.println(keySequence);
 
 
-    Pattern addNotePattern = Pattern.compile("([abcdefg]#?)([0-9])n([0-9]+)l([0-9]+)");
+    Pattern addNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
+            "n([0-9]+)l([0-9]+)");
     Pattern deleteNotePattern = Pattern.compile("([abcdefg]#?)([0-9])x([0-9]+)");
-    Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
+    Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
+            "m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
 
     Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])p([0-9]+)");
 
@@ -206,7 +210,8 @@ public class MusicController {
     this.comboView.playPause();
   }
 
-  public void moveToStart() throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+  public void moveToStart() throws MidiUnavailableException, InterruptedException,
+          InvalidMidiDataException {
     this.comboView.goTo("start");
   }
 
@@ -247,7 +252,8 @@ public class MusicController {
     MusicController musicController;
 
     ClearKeyRunnable(MusicController musicController) {
-      this.musicController = musicController;
+      this.musicController =
+              musicController;
     }
 
     @Override
@@ -260,7 +266,8 @@ public class MusicController {
     MusicController musicController;
 
     EnterKeyRunnable(MusicController musicController) {
-      this.musicController = musicController;
+      this.musicController =
+              musicController;
     }
 
     @Override
@@ -273,7 +280,8 @@ public class MusicController {
     MusicController musicController;
 
     PauseKeyRunnable(MusicController musicController) {
-      this.musicController = musicController;
+      this.musicController =
+              musicController;
     }
 
     @Override
@@ -313,7 +321,8 @@ public class MusicController {
     MusicController musicController;
 
     EndKeyRunnable(MusicController musicController) {
-      this.musicController = musicController;
+      this.musicController =
+              musicController;
     }
 
     @Override
@@ -326,7 +335,8 @@ public class MusicController {
     MusicController musicController;
 
     LeftKeyRunnable(MusicController musicController) {
-      this.musicController = musicController;
+      this.musicController =
+              musicController;
     }
 
     @Override
@@ -397,11 +407,15 @@ public class MusicController {
     System.out.println(keySequence);
 
 
-    Pattern addNotePattern = Pattern.compile("([abcdefg]#?)([0-9])n([0-9]+)l([0-9]+)");
-    Pattern deleteNotePattern = Pattern.compile("([abcdefg]#?)([0-9])x([0-9]+)");
-    Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
+    Pattern addNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
+            "n([0-9]+)l([0-9]+)");
+    Pattern deleteNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
+            "x([0-9]+)");
+    Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
+            "m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
 
-    Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])p([0-9]+)");
+    Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])" +
+            "p([0-9]+)");
 
 
     Matcher addMatcher = addNotePattern.matcher(keySequence);
@@ -451,7 +465,8 @@ public class MusicController {
       String moveFromNote = moveMatcher.group(1);
       String moveFromOctave = moveMatcher.group(2);
       int moveFromBeat = Integer.parseInt(moveMatcher.group(3));
-      int moveFromNoteID = MusicNote.pitchIDFromString(moveFromNote, moveFromOctave)+13;
+      int moveFromNoteID = MusicNote.pitchIDFromString(moveFromNote,
+              moveFromOctave)+13;
       MusicNote note = this.musicPiece.getNote(moveFromNoteID, moveFromBeat);
       int moveFromLength = note.getLength();
       int moveFromInstrument = note.getInstrument();

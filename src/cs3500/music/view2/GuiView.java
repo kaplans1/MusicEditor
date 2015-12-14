@@ -22,7 +22,7 @@ public interface GuiView extends View {
   public void addMouseListener(MouseListener l);
 
   /**
-   * Tell the GuiView to redraw itself
+   * Tell the GuiViewOurs to redraw itself
    */
   public void redraw();
 }

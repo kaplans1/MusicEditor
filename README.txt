@@ -2,6 +2,10 @@ Additional view notes:
 More views can be created with code given by other group. Views created by our code
 have different string commands as well. Views can be generated as follows:
 
+Adapters created, to adapt the models and composite views. Some functionality
+abstracted to interface (ComboViewInterface). Some methods added to facilitate
+adapter- MusicNote can now convert one of our notes to one of their Playables.
+
 Our Views:
 "our-visual"
 "our-consol"

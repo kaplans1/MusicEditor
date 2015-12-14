@@ -94,7 +94,8 @@ public class CompositeImplAdapter implements ComboInterface {
   }
 
   @Override
-  public void initialize() throws MidiUnavailableException, InterruptedException, InvalidMidiDataException {
+  public void initialize() throws MidiUnavailableException,
+          InterruptedException, InvalidMidiDataException {
     this.compositeImpl.createView(this.m, 0);
   }
 }

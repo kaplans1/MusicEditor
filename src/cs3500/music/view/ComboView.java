@@ -1,25 +1,22 @@
 package cs3500.music.view;
 
-import java.awt.event.MouseListener;
-
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.controller.KeyboardHandler;
 import cs3500.music.controller.MouseHandler;
-import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
 
 /**
  * Created by AviSion on 11/22/2015.
  */
 public class ComboView implements ComboInterface {
-  GuiViewImpl gui;
-  MidiViewImpl midi;
+  GuiViewOursImpl gui;
+  MidiViewImplOurs midi;
   MusicPieceInterface musicPiece;
   int currentBeat;
 
-  public ComboView(GuiViewImpl gui, MidiViewImpl midi, MusicPieceInterface musicPiece) {
+  public ComboView(GuiViewOursImpl gui, MidiViewImplOurs midi, MusicPieceInterface musicPiece) {
     this.gui = gui;
     this.midi = midi;
     this.musicPiece = musicPiece;
