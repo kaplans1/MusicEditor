@@ -42,4 +42,10 @@ public class Repeat {
             throw new IllegalArgumentException("Shouldn't be here");
         }
     }
+    public int getFrom(){
+        return this.from;
+    }
+    public int getTo(){
+        return this.to;
+    }
 }

@@ -1,9 +1,11 @@
 package cs3500.music.view2;
 
 import java.util.ArrayList;
+import java.util.TreeMap;
 
 import javax.xml.bind.annotation.XmlSchemaType;
 
+import cs3500.music.model.Repeat;
 import cs3500.music.util.CompositionBuilder;
 
 /**
@@ -25,6 +27,7 @@ public class Composition implements Model {
    * @param tempo the tempo of this Composition
    * @param notes the notes contained in this Composition
    */
+  TreeMap<Integer, Repeat> repeats;
   private Composition(int tempo, ArrayList<ArrayList<Playable>> notes) {
     this.tempo = tempo;
     this.notes = notes;
@@ -38,6 +41,7 @@ public class Composition implements Model {
   public Composition(int tempo) {
     this.tempo = tempo;
     this.notes = new ArrayList<>();
+    this.repeats = new TreeMap<>();
   }
 
   /**
@@ -83,7 +87,8 @@ public class Composition implements Model {
 
   @Override
   public void addRepeat(int from, int to, int skipFrom) {
-    //not our problem
+    Repeat r = new Repeat(from, to , skipFrom);
+    repeats.put(from, r);
   }
 
 

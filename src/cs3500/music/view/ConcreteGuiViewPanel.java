@@ -1,17 +1,15 @@
 package cs3500.music.view;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Objects;
-import java.util.TreeMap;
 
 import javax.swing.*;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPiece;
 import cs3500.music.model.MusicPieceInterface;
+import cs3500.music.model.Repeat;
 
 /**
  * A dummy view that simply draws a string
@@ -97,15 +95,39 @@ public class ConcreteGuiViewPanel extends JPanel {
         }
       }
     }
-    this.redLine(g, this.currentBeat);
+    TreeMap<Integer, Repeat> temp = notes.getAllRepeats();
+    for(int i = 0; i<=startBeat + width; i++){
+      if(temp.get(i)!=null){
+        int x = temp.get(i).getFrom();
+        int y = temp.get(i).getTo();
+        g.setColor(Color.BLUE);
+        if (x >= this.width) {
+          //out of range, do nothing
+        } else {
+          g.drawLine(gridAllign + (x * beatCubeSize), gridAllign,
+                  gridAllign + (x * beatCubeSize),
+                  gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
+        }
+
+        if (y >= this.width && y != -1) {
+          //out of range, do nothing
+        } else {
+          g.drawLine(gridAllign + (y * beatCubeSize), gridAllign,
+                  gridAllign + (y * beatCubeSize),
+                  gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
+        }
+
+      }
+    }
+    this.drawLine(g, this.currentBeat, Color.RED);
   }
 
-  public void redLine(Graphics g, int beat) {
+  public void drawLine(Graphics g, int beat, Color c) {
     this.invalidate();
     this.revalidate();
     this.repaint();
     int x = beat;
-    g.setColor(Color.RED);
+    g.setColor(c);
     if (beat >= this.width) {
       x = beat % this.width;
     }
