@@ -215,7 +215,7 @@ public class MusicController {
     this.comboView.goTo("start");
   }
 
-  public void moveToEnd() {
+  public void moveToEnd() throws MidiUnavailableException {
     this.comboView.goTo("end");
   }
 
@@ -327,7 +327,11 @@ public class MusicController {
 
     @Override
     public void run() {
-      this.musicController.moveToEnd();
+      try {
+        this.musicController.moveToEnd();
+      } catch (MidiUnavailableException e) {
+        e.printStackTrace();
+      }
     }
   }
 

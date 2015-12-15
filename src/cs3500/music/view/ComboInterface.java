@@ -15,7 +15,7 @@ public interface ComboInterface extends ViewInterface {
 
     void addGUIMouseListener(MouseHandler mouseListener);
 
-    void goTo(String loc);
+    void goTo(String loc) throws MidiUnavailableException;
 
     void scroll(boolean b) throws MidiUnavailableException, InterruptedException;
 

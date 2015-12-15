@@ -7,6 +7,7 @@ import javax.sound.midi.*;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPieceInterface;
+import cs3500.music.view2.Playable;
 
 /**
  * To play a music piece as MIDI
@@ -14,10 +15,31 @@ import cs3500.music.model.MusicPieceInterface;
 public class MidiViewImplOurs implements ViewInterface {
   public final int SCROLL_SPEED = 10;
   MusicPieceInterface musicPiece;
-  boolean playing;
+  boolean isPaused = true;
+  long pausedAt = 0;
   int currentBeat;
   private Synthesizer synth;
+  Sequencer sequencer;
   TreeMap<Integer, ArrayList<MusicNote>> turnOffOnBeats;
+  private int tempo;
+
+  public void stopPlaying() throws MidiUnavailableException {
+    if (this.isPaused) {
+      playNotesOnBeat((int) pausedAt);
+      this.isPaused = false;
+    }
+    else {
+      try {
+        sequencer.stop();
+        pausedAt = sequencer.getTickPosition();
+        this.isPaused = true;
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    System.out.println("STOPPED PLAYING");
+  }
+
 
   /**
    * legitmate constructor to play a piece of music as midi
@@ -27,6 +49,7 @@ public class MidiViewImplOurs implements ViewInterface {
   public MidiViewImplOurs(MusicPieceInterface musicPiece) {
     try {
       this.synth = MidiSystem.getSynthesizer();
+      this.sequencer= MidiSystem.getSequencer();
       this.synth.open();
       this.turnOffOnBeats = new TreeMap<>();
     } catch (MidiUnavailableException e) {
@@ -44,7 +67,7 @@ public class MidiViewImplOurs implements ViewInterface {
   public MidiViewImplOurs(MusicPieceInterface musicPiece, Synthesizer synth) {
     this.musicPiece = musicPiece;
     this.synth = synth;
-    this.playing = false;
+    this.isPaused = true;
     this.currentBeat = 0;
     this.turnOffOnBeats = new TreeMap<>();
     try {
@@ -55,93 +78,71 @@ public class MidiViewImplOurs implements ViewInterface {
   }
 
   public void initialize() throws MidiUnavailableException, InterruptedException {
-    this.playing = true;
-    this.playFromBeat(0);
-  }
-
-  public void playPause() throws InterruptedException, MidiUnavailableException {
-    if (this.playing) {
-      this.playing = false;
-      this.stopPlaying();
-    } else if (!this.playing) {
-      this.playing = true;
-      this.playFromBeat(this.currentBeat);
+    if (!isPaused) {
+      this.playNotesOnBeat(0);
     }
   }
+
+
 
   public void openSynth() throws MidiUnavailableException {
     this.synth.open();
   }
 
-
   public boolean getPlaying() {
-    return this.playing;
+    return this.isPaused;
   }
+//TODO: change comments
+  public void playNotesOnBeat(int tick) throws MidiUnavailableException {
+    try {
+      sequencer.open();
 
-  public void stopPlaying() {
-    this.playing = false;
-    while(!this.playing){
-      this.currentBeat++;
-      this.currentBeat--;
-    }
-    //this.synth.close();
-    System.out.println("STOPPED PLAYING");
-  }
+      tempo = 600000 / musicPiece.getTempo();
+      //System.out.println("tempo comp:  " + composition.getTempo());
+      //System.out.println("tempo tempo: " + tempo);
 
-  public void playNotesOnBeat(int beat) throws MidiUnavailableException {
-    MidiChannel[] channels = this.synth.getChannels();
-    ArrayList<MusicNote> currentBeatNotes = this.musicPiece.getNotesStartingOnBeat(beat);
+      Sequence sequence = new Sequence(Sequence.PPQ, tempo);
+      Track track = sequence.createTrack();
 
-    if (currentBeatNotes != null) {
-      for (MusicNote n : currentBeatNotes) {
-        // 0 is a piano, 9 is percussion, other channels are for other instruments
-        channels[n.getInstrument()].noteOn(n.getPitchID(), n.getVolume());
-        // record beats to turn off notes on
-        turnOffOnBeats.computeIfAbsent(n.getEndBeat(), v -> new ArrayList<>()).add(n);
+      for (int i = 0; i < musicPiece.getLastBeat()-1; i = i + 1) {
+        if(musicPiece.getNotesStartingOnBeat(i) != null) {
+          ArrayList<MusicNote> playAtBeat = musicPiece.getNotesStartingOnBeat(i);
+
+          for (int j = 0; j < playAtBeat.size(); j = j + 1) {
+            int instrument = playAtBeat.get(j).getInstrument();
+
+            ShortMessage message1 = new ShortMessage();
+            message1.setMessage(ShortMessage.NOTE_ON, instrument, playAtBeat.get(j).getPitchID(),
+                    playAtBeat.get(j).getVolume());
+            // added this if statement so that only notes that are starting play
+            // rather than playing every continuation note on the first beat
+            //'true' replaced playAtBeat.get(j).getIsAttack()
+            //'1' replaced playAtBeat.get(j).attackInt()
+            if (true) {
+              MidiEvent noteOn = new MidiEvent(message1, (i * 1));
+              track.add(noteOn);
+            }
+          }
+
+          for (int j = 0; j < playAtBeat.size(); j = j + 1) {
+            ShortMessage message2 = new ShortMessage();
+            message2.setMessage(ShortMessage.NOTE_OFF, playAtBeat.get(j).getPitchID(), 0);
+            MidiEvent noteOff = new MidiEvent(message2,
+                    playAtBeat.get(j).getLength() + (i * 1));
+            track.add(noteOff);
+          }
+        }
       }
-    }
-  }
 
-  public void stopNotesOnBeat(int beat) {
-    ArrayList<MusicNote> turnOffOnBeat = turnOffOnBeats.get(beat);
-    MidiChannel[] channels = this.synth.getChannels();
-
-    if (turnOffOnBeat != null) {
-      for (MusicNote n : turnOffOnBeat) {
-        channels[n.getInstrument()].noteOff(n.getPitchID(), n.getVolume());
-      }
+      sequencer.setSequence(sequence);
+      sequencer.setTickPosition(tick);
+      sequencer.start();
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
-    turnOffOnBeats.remove(beat);
-  }
+    synth.close();
 
-  /**
-   * used to play a piece of music via midi starting from a certain beat
-   *
-   * @param beat beat to start playing the music on
-   * @throws MidiUnavailableException
-   * @throws InterruptedException
-   */
-  public void playFromBeat(int beat) throws MidiUnavailableException, InterruptedException {
- //   this.synth.open();
-    System.out.println("STARTED PLAYING");
-    this.playing = true;
-
-    int lastBeat = this.musicPiece.getLastBeat();
-    for (int currentBeat = beat; currentBeat <= lastBeat; currentBeat++) {
-      this.stopNotesOnBeat(currentBeat);
-      if (!this.playing) {
-        this.stopPlaying();
-        break;
-      }
-      this.playNotesOnBeat(currentBeat);
-
-      Thread.sleep(this.musicPiece.getTempo() / 1000); // convert beat length to milliseconds
-    }
-
-//      this.synth.close();
-//      this.currentBeat = 0;
-    this.playing = false;
   }
 
   public void scroll(boolean b) throws InterruptedException, MidiUnavailableException {
@@ -151,13 +152,13 @@ public class MidiViewImplOurs implements ViewInterface {
     } else {
       if (b) {
         currentBeat = currentBeat + SCROLL_SPEED;
-        if (playing) {
-          this.playFromBeat(currentBeat);
+        if (!isPaused) {
+          this.playNotesOnBeat(currentBeat);
         }
       } else {
         currentBeat = currentBeat - SCROLL_SPEED;
-        if (playing) {
-          this.playFromBeat(currentBeat);
+        if (!isPaused) {
+          this.playNotesOnBeat(currentBeat);
         }
       }
     }
@@ -171,11 +172,11 @@ public class MidiViewImplOurs implements ViewInterface {
     //click to left of current beat
     if ((20 * currentBeat % 80) > x) {
       currentBeat = currentBeat - (currentBeat - y);
-      this.playFromBeat(currentBeat);
+      this.playNotesOnBeat(currentBeat);
     } else {
       //click to right of current beat
       currentBeat = currentBeat + (y - currentBeat);
-      this.playFromBeat(currentBeat);
+      this.playNotesOnBeat(currentBeat);
     }
   }
 

@@ -50,15 +50,11 @@ public class ComboView implements ComboInterface {
   }
 
   public void playPause() throws MidiUnavailableException, InterruptedException {
-
-    if (this.midi.getPlaying()) {
-      System.out.println("stopping playing");
-      this.midi.stopPlaying();
-    } else if (!this.midi.getPlaying()) {
-      this.midi.playing = true;
-      System.out.println("starting playing");
-      this.playMidiFromBeat(this.currentBeat);
-    }
+if(!this.midi.isPaused) {
+  this.midi.stopPlaying();
+}else {
+  this.midi.stopPlaying();
+}
     this.gui.redraw();
   }
 
@@ -97,7 +93,7 @@ public class ComboView implements ComboInterface {
     this.gui.redraw();
   }
 
-  public void goTo(String loc) {
+  public void goTo(String loc) throws MidiUnavailableException {
     if (loc.equals("start")) {
       this.gui.updateStartDisplayBeat(0);
       this.gui.redraw();
