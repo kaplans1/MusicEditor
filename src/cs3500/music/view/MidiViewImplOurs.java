@@ -27,6 +27,7 @@ public class MidiViewImplOurs implements ViewInterface {
     if (this.isPaused) {
       playNotesOnBeat((int) pausedAt);
       this.isPaused = false;
+      System.out.println("started playing");
     }
     else {
       try {
@@ -36,8 +37,9 @@ public class MidiViewImplOurs implements ViewInterface {
       } catch (Exception e) {
         e.printStackTrace();
       }
+      System.out.println("stopped playing");
     }
-    System.out.println("STOPPED PLAYING");
+
   }
 
 
@@ -153,12 +155,12 @@ public class MidiViewImplOurs implements ViewInterface {
       if (b) {
         currentBeat = currentBeat + SCROLL_SPEED;
         if (!isPaused) {
-          this.playNotesOnBeat(currentBeat);
+          this.playNotesOnBeat(currentBeat+10);
         }
       } else {
         currentBeat = currentBeat - SCROLL_SPEED;
         if (!isPaused) {
-          this.playNotesOnBeat(currentBeat);
+          this.playNotesOnBeat(currentBeat-10);
         }
       }
     }
@@ -167,17 +169,18 @@ public class MidiViewImplOurs implements ViewInterface {
   public void scrollTo(int x) throws InterruptedException, MidiUnavailableException {
     //synth.close();
     //synth.open();
-    x = x - 40; //account for shift
-    int y = x / 20; //number of beats into the current section
-    //click to left of current beat
-    if ((20 * currentBeat % 80) > x) {
-      currentBeat = currentBeat - (currentBeat - y);
-      this.playNotesOnBeat(currentBeat);
-    } else {
-      //click to right of current beat
-      currentBeat = currentBeat + (y - currentBeat);
-      this.playNotesOnBeat(currentBeat);
-    }
+    this.playNotesOnBeat(x);
+//    x = x - 40; //account for shift
+//    int y = x / 20; //number of beats into the current section
+//    //click to left of current beat
+//    if ((20 * currentBeat % 80) > x) {
+//      currentBeat = currentBeat - (currentBeat - y);
+//      this.playNotesOnBeat(currentBeat);
+//    } else {
+//      //click to right of current beat
+//      currentBeat = currentBeat + (y - currentBeat);
+//      this.playNotesOnBeat(currentBeat);
+//    }
   }
 
   public void goTo(String loc) {

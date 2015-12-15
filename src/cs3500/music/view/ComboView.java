@@ -32,29 +32,13 @@ public class ComboView implements ComboInterface {
     this.playPause();
   }
 
-  public void playMidiFromBeat(int beat) throws MidiUnavailableException, InterruptedException {
-    while (this.currentBeat <= this.musicPiece.getLastBeat()) {
-      this.midi.stopNotesOnBeat(this.currentBeat);
-      if (!this.midi.getPlaying()) {
-        //this.midi.stopPlaying();
-        break;
-      }
-      this.midi.playNotesOnBeat(this.currentBeat);
-      this.gui.setCurrentBeat(this.currentBeat);
-
-
-      Thread.sleep(this.musicPiece.getTempo() / 1000); // convert beat length to milliseconds
-      this.currentBeat++;
-      this.gui.redraw();
-    }
-  }
 
   public void playPause() throws MidiUnavailableException, InterruptedException {
-if(!this.midi.isPaused) {
-  this.midi.stopPlaying();
-}else {
-  this.midi.stopPlaying();
-}
+    if(!this.midi.isPaused) {
+      this.midi.stopPlaying();
+    }else {
+      this.midi.stopPlaying();
+    }
     this.gui.redraw();
   }
 
@@ -62,9 +46,11 @@ if(!this.midi.isPaused) {
     this.midi.scroll(b);
     if (b) {
       this.gui.updateStartDisplayBeat(midi.currentBeat + midi.SCROLL_SPEED);
+      this.midi.scroll(b);
       this.gui.redraw();
     } else {
       this.gui.updateStartDisplayBeat(midi.currentBeat - midi.SCROLL_SPEED);
+      this.midi.scroll(b);
       this.gui.redraw();
     }
   }
@@ -84,9 +70,7 @@ if(!this.midi.isPaused) {
   public void scrollTo(int x) throws MidiUnavailableException, InterruptedException {
     this.gui.updateStartDisplayBeat(x);
     try {
-      this.midi.scrollTo(x);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
+      this.midi.playNotesOnBeat(x);
     } catch (MidiUnavailableException e) {
       e.printStackTrace();
     }
@@ -97,15 +81,15 @@ if(!this.midi.isPaused) {
     if (loc.equals("start")) {
       this.gui.updateStartDisplayBeat(0);
       this.gui.redraw();
+      this.midi.playNotesOnBeat(0);
     } else if (loc.equals("end")) {
       this.gui.updateStartDisplayBeat(this.gui.getPiece().getLastBeat() - 80);
+      this.gui.redraw();
       this.midi.stopPlaying();
     }
-
     this.gui.redraw();
     midi.goTo(loc);
-
-
+    this.gui.redraw();
   }
 
   public void redraw() {
