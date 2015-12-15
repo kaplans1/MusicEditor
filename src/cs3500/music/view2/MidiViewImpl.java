@@ -97,7 +97,6 @@ public class MidiViewImpl implements View {
         e.printStackTrace();
       }
     }
-
   }
 
   @Override

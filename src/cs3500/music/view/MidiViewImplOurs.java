@@ -25,6 +25,7 @@ public class MidiViewImplOurs implements ViewInterface {
 
   public void stopPlaying() throws MidiUnavailableException {
     if (this.isPaused) {
+      this.currentBeat = (int) pausedAt;
       playNotesOnBeat((int) pausedAt);
       this.isPaused = false;
       System.out.println("started playing");
@@ -96,6 +97,7 @@ public class MidiViewImplOurs implements ViewInterface {
   }
 //TODO: change comments
   public void playNotesOnBeat(int tick) throws MidiUnavailableException {
+    System.out.println(currentBeat);
     try {
       sequencer.open();
 
@@ -107,6 +109,7 @@ public class MidiViewImplOurs implements ViewInterface {
       Track track = sequence.createTrack();
 
       for (int i = 0; i < musicPiece.getLastBeat()-1; i = i + 1) {
+        this.currentBeat = i;
         if(musicPiece.getNotesStartingOnBeat(i) != null) {
           ArrayList<MusicNote> playAtBeat = musicPiece.getNotesStartingOnBeat(i);
 
@@ -148,22 +151,15 @@ public class MidiViewImplOurs implements ViewInterface {
   }
 
   public void scroll(boolean b) throws InterruptedException, MidiUnavailableException {
-    if ((currentBeat + SCROLL_SPEED > musicPiece.getLastBeat()) ||
-        (currentBeat - SCROLL_SPEED < 0)) {
-      //do nothing
-    } else {
       if (b) {
-        currentBeat = currentBeat + SCROLL_SPEED;
-        if (!isPaused) {
-          this.playNotesOnBeat(currentBeat+10);
-        }
+          this.scrollTo(this.currentBeat+ SCROLL_SPEED);
+     //     this.currentBeat = this.currentBeat + SCROLL_SPEED;
+
       } else {
-        currentBeat = currentBeat - SCROLL_SPEED;
-        if (!isPaused) {
-          this.playNotesOnBeat(currentBeat-10);
-        }
+          this.scrollTo(this.currentBeat- SCROLL_SPEED);
+       //   this.currentBeat = this.currentBeat - SCROLL_SPEED;
+
       }
-    }
   }
 
   public void scrollTo(int x) throws InterruptedException, MidiUnavailableException {
@@ -185,7 +181,7 @@ public class MidiViewImplOurs implements ViewInterface {
 
   public void goTo(String loc) {
     if (loc.equals("end")) {
-      currentBeat = this.musicPiece.getLastBeat();
+      //currentBeat = this.musicPiece.getLastBeat();
     } else if (loc.equals("start")) {
       currentBeat = 0;
     }
