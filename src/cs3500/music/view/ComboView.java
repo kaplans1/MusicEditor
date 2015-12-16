@@ -33,6 +33,7 @@ public class ComboView implements ComboInterface {
   }
 
   public int getCurrentBeat() {
+    System.out.println(this.midi.getTickPosition());
     return this.midi.getTickPosition();
   }
 

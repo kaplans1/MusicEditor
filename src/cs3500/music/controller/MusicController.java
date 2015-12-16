@@ -11,6 +11,7 @@ import javax.sound.midi.MidiUnavailableException;
 
 import cs3500.music.model.MusicNote;
 import cs3500.music.model.MusicPieceInterface;
+import cs3500.music.model.Repeat;
 import cs3500.music.view.ComboInterface;
 
 public class MusicController {
@@ -119,7 +120,7 @@ public class MusicController {
     Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
             "m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
 
-    Pattern repeatNotesPattern = Pattern.compile(""); // TODO
+    Pattern repeatNotesPattern = Pattern.compile("([0-9]+)r([0-9]+)r([0-9]+)"); // TODO
 
     Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])p([0-9]+)");
 
@@ -168,6 +169,13 @@ public class MusicController {
       int deleteNoteID = MusicNote.pitchIDFromString(deleteNote, deleteOctave);
 
       this.musicPiece.deleteNote(deleteNoteID, deleteBeat);
+    } else if (repeatMatch) {
+      System.out.println("repeat match");
+      int repeatFrom = Integer.parseInt(repeatMatcher.group(1));
+      int repeatTo = Integer.parseInt(repeatMatcher.group(2));
+      int repeatSkipFrom = Integer.parseInt(repeatMatcher.group(3));
+
+      this.musicPiece.addRepeat(new Repeat(repeatFrom, repeatTo, repeatSkipFrom));
     } else if (moveMatch) {
       System.out.println("move match");
       String moveFromNote = moveMatcher.group(1);
