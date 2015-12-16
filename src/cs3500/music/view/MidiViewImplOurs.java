@@ -86,7 +86,9 @@ public class MidiViewImplOurs implements ViewInterface {
     }
   }
 
-
+  public int getTickPosition() {
+    return (int)this.sequencer.getTickPosition();
+  }
 
   public void openSynth() throws MidiUnavailableException {
     this.synth.open();
@@ -165,6 +167,7 @@ public class MidiViewImplOurs implements ViewInterface {
   public void scrollTo(int x) throws InterruptedException, MidiUnavailableException {
     //synth.close();
     //synth.open();
+    this.stopPlaying();
     this.playNotesOnBeat(x);
 //    x = x - 40; //account for shift
 //    int y = x / 20; //number of beats into the current section

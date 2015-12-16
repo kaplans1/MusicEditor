@@ -28,6 +28,11 @@ public class CompositeImplAdapter implements ComboInterface {
   }
 
   @Override
+  public int getCurrentBeat() {
+    return compositeImpl.getScrollPosition();
+  }
+
+  @Override
   public void addGUIKeyListener(KeyboardHandler keyboardHandler) {
     this.compositeImpl.addKeyHandler(keyboardHandler);
   }

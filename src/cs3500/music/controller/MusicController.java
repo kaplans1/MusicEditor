@@ -38,6 +38,7 @@ public class MusicController {
           KeyEvent.VK_L,
           KeyEvent.VK_O,
           KeyEvent.VK_P,
+          KeyEvent.VK_R,
           KeyEvent.VK_NUMBER_SIGN,
   };
   MusicPieceInterface musicPiece;
@@ -118,18 +119,23 @@ public class MusicController {
     Pattern moveNotePattern = Pattern.compile("([abcdefg]#?)([0-9])" +
             "m([0-9]+)([abcdefg]#?)([0-9])o([0-9]+)");
 
+    Pattern repeatNotesPattern = Pattern.compile(""); // TODO
+
     Pattern addThirdPattern = Pattern.compile("([abcdefg]#?)([0-9])p([0-9]+)");
 
 
     Matcher addMatcher = addNotePattern.matcher(keySequence);
     Matcher deleteMatcher = deleteNotePattern.matcher(keySequence);
     Matcher moveMatcher = moveNotePattern.matcher(keySequence);
+    Matcher repeatMatcher = repeatNotesPattern.matcher(keySequence);
+    // need from, to, and skipfrom
 
     Matcher thirdMatcher = addThirdPattern.matcher(keySequence);
 
     boolean addMatch = addMatcher.matches();
     boolean deleteMatch = deleteMatcher.matches();
     boolean moveMatch = moveMatcher.matches();
+    boolean repeatMatch = repeatMatcher.matches();
 
     boolean thirdMatch = thirdMatcher.matches();
 
@@ -220,11 +226,14 @@ public class MusicController {
   }
 
   public void moveLeft() throws InterruptedException, MidiUnavailableException {
-    this.comboView.scroll(false);
+    //this.comboView.scroll(false);
+    this.comboView.scrollTo(this.comboView.getCurrentBeat()-1);
   }
 
   public void moveRight() throws InterruptedException, MidiUnavailableException {
-    this.comboView.scroll(true);
+    this.comboView.scrollTo(this.comboView.getCurrentBeat()+1);
+
+    //this.comboView.scroll(true);
   }
 
   public void clicked() throws InterruptedException, MidiUnavailableException {

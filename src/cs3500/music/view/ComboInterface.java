@@ -11,6 +11,8 @@ import java.awt.event.MouseListener;
  */
 public interface ComboInterface extends ViewInterface {
 
+    int getCurrentBeat();
+
     void addGUIKeyListener(KeyboardHandler keyboardHandler);
 
     void addGUIMouseListener(MouseHandler mouseListener);

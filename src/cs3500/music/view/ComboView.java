@@ -14,7 +14,7 @@ public class ComboView implements ComboInterface {
   GuiViewOursImpl gui;
   MidiViewImplOurs midi;
   MusicPieceInterface musicPiece;
-  int currentBeat;
+  public int currentBeat;
 
   public ComboView(GuiViewOursImpl gui, MidiViewImplOurs midi, MusicPieceInterface musicPiece) {
     this.gui = gui;
@@ -30,6 +30,10 @@ public class ComboView implements ComboInterface {
     //this.midi.initialize();
     this.midi.openSynth();
     this.playPause();
+  }
+
+  public int getCurrentBeat() {
+    return this.midi.getTickPosition();
   }
 
 
