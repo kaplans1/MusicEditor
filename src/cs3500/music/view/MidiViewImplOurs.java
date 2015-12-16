@@ -112,6 +112,12 @@ public class MidiViewImplOurs implements ViewInterface {
 
       for (int i = 0; i < musicPiece.getLastBeat()-1; i = i + 1) {
         this.currentBeat = i;
+        //an attempt at basic looping when it hits repeats, but even that doesn't work
+        if(musicPiece.getAllRepeats().get(i) !=null){
+          this.currentBeat = 0;
+          this.playNotesOnBeat(0);
+
+        }
         if(musicPiece.getNotesStartingOnBeat(i) != null) {
           ArrayList<MusicNote> playAtBeat = musicPiece.getNotesStartingOnBeat(i);
 

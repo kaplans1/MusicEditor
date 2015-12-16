@@ -46,20 +46,6 @@ public class ComboView implements ComboInterface {
     this.gui.redraw();
   }
 
-  public void scroll(boolean b) throws MidiUnavailableException, InterruptedException {
-    this.midi.scroll(b);
-    if (b) {
-      this.gui.updateStartDisplayBeat(midi.currentBeat + midi.SCROLL_SPEED);
-      this.midi.scroll(b);
-      this.gui.redraw();
-    } else {
-      this.gui.updateStartDisplayBeat(midi.currentBeat - midi.SCROLL_SPEED);
-      this.midi.scroll(b);
-      this.gui.redraw();
-    }
-  }
-
-
   public void addGUIKeyListener(KeyboardHandler keyboardHandler) {
     this.gui.addKeyListener(keyboardHandler);
     this.gui.redraw();
@@ -81,7 +67,18 @@ public class ComboView implements ComboInterface {
     this.gui.redraw();
   }
 
-  public void goTo(String loc) throws MidiUnavailableException {
+    public void scroll(boolean b) throws MidiUnavailableException, InterruptedException {
+        this.midi.scroll(b);
+        if (b) {
+            this.gui.updateStartDisplayBeat(midi.currentBeat + midi.SCROLL_SPEED);
+            this.gui.redraw();
+        } else if (!b) {
+            this.gui.updateStartDisplayBeat(midi.currentBeat - midi.SCROLL_SPEED);
+            this.gui.redraw();
+        }
+    }
+
+    public void goTo(String loc) throws MidiUnavailableException {
     if (loc.equals("start")) {
       this.gui.updateStartDisplayBeat(0);
       this.gui.redraw();
