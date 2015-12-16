@@ -96,22 +96,28 @@ public class ConcreteGuiViewPanel extends JPanel {
       }
     }
     TreeMap<Integer, Repeat> temp = notes.getAllRepeats();
-    for(int i = 0; i<=startBeat + width; i++){
+    for(int i = startBeat; i<=startBeat + width; i++){
       if(temp.get(i)!=null){
         int x = temp.get(i).getFrom();
         int y = temp.get(i).getTo();
         g.setColor(Color.BLUE);
-        if (x >= this.width) {
+        if ((x >= startBeat + this.width) && (x <= startBeat - this.width))  {
           //out of range, do nothing
         } else {
+          if (x >= this.width) {
+            x = x % this.width;
+          }
           g.drawLine(gridAllign + (x * beatCubeSize), gridAllign,
                   gridAllign + (x * beatCubeSize),
                   gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);
         }
 
-        if (y >= this.width && y != -1) {
+        if (y >= startBeat+ this.width && y != -1) {
           //out of range, do nothing
         } else {
+          if (y >= this.width) {
+            y = y % this.width;
+          }
           g.drawLine(gridAllign + (y * beatCubeSize), gridAllign,
                   gridAllign + (y * beatCubeSize),
                   gridAllign + this.notes.getAllPitchIds().size() * beatCubeSize);

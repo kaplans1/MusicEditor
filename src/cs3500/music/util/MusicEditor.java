@@ -21,7 +21,7 @@ public class MusicEditor {
 //            String argView = args[1];
 
             Builder b = new Builder();
-            FileReader argFile = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mary-little-lamb-repeats.txt");
+            FileReader argFile = new FileReader("C:/Users/AviSion/IdeaProjects/MusicEditor/mystery-1-repeats.txt");
           //FileReader argFile = new FileReader("/Users/natdempk/Classwork/
           // cs3500/MusicEditor/mary-little-lamb.txt");
         //   FileReader argFile = new FileReader(fileName);
